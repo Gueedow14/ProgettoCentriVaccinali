@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 public class ServerCV implements ClientCV {
     public static void main(String[] args) {
