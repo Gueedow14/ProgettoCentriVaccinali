@@ -1,13 +1,14 @@
 package server;
 
-import centrivaccinali.*;
 import cittadini.*;
+
+import java.sql.SQLException;
 import java.util.*;
 
 public interface ClientCV {
     void visualizzaCentroVaccinale(CentroVaccinale cv);
     List<CentroVaccinale> cercaCentroVaccinale(String nomeCV);
-    boolean registraCittadino(Cittadino c);
+    void registraCittadino(Cittadino c) throws SQLException;
     boolean registraCentroVaccinale(CentroVaccinale cv);
     boolean registraVaccinato(Vaccinazione v);
     boolean prenotaVaccino(Prenotazione p);
