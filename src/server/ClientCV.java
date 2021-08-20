@@ -9,8 +9,8 @@ public interface ClientCV {
     void visualizzaCentroVaccinale(CentroVaccinale cv);
     List<CentroVaccinale> cercaCentroVaccinale(String nomeCV);
     void registraCittadino(Cittadino c) throws SQLException;
-    boolean registraCentroVaccinale(CentroVaccinale cv);
-    boolean registraVaccinato(Vaccinazione v);
-    boolean prenotaVaccino(Prenotazione p);
-    boolean loginCittadino(String userid, String pwd);
+    void registraCentroVaccinale(CentroVaccinale cv) throws SQLException;
+    void registraVaccinato(Vaccinazione v) throws SQLException;
+    void prenotaVaccino(Prenotazione p) throws SQLException;
+    void loginCittadino(String userid, String pwd) throws SQLException;
 }

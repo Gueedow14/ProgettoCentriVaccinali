@@ -2,8 +2,32 @@ package server;
 
 //Provvisorio
 public class CentroVaccinale {
-    public String nome = "vuoto";
-    public String tipologia = "vuoto";
-    public String indirizzo = "vuoto";
-    public CentroVaccinale(int i, boolean check) { nome = ""+i; tipologia = ""+check;}
+
+    private String nome;
+    private String tipologia;
+    private String indirizzo;
+
+    public CentroVaccinale(String nome, String tipologia, String indirizzo) {
+        this.nome = nome;
+        this.tipologia = tipologia;
+        this.indirizzo = indirizzo;
+    }
+
+    public CentroVaccinale() {
+        nome = "";
+        tipologia = "";
+        indirizzo = "";
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTipologia() {
+        return tipologia;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
 }
