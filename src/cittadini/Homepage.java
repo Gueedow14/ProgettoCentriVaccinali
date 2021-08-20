@@ -1,5 +1,7 @@
 package cittadini;
 
+import centrivaccinali.CentroVaccinale;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +19,7 @@ public class Homepage {
 
     static JFrame f = new JFrame("Finestra Account");
     JLabel nomeL = new JLabel("Nome Cognome", SwingConstants.CENTER);
-    List<CentroVaccinale> lista = new ArrayList<CentroVaccinale>();;
+    List<centrivaccinali.CentroVaccinale> lista = new ArrayList<centrivaccinali.CentroVaccinale>();;
 
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
@@ -25,12 +27,12 @@ public class Homepage {
     }
 
 
-    public static Object[][] PopolaTabella(List<CentroVaccinale> l) throws IOException
+    public static Object[][] PopolaTabella(List<centrivaccinali.CentroVaccinale> l) throws IOException
     {
         String[][] matrix = new String[5][3];
 
         int i = 0;
-        for(CentroVaccinale c1 : l)
+        for(centrivaccinali.CentroVaccinale c1 : l)
         {
             matrix[i][0] = c1.nome;
             matrix[i][1] = c1.tipologia;

@@ -18,7 +18,7 @@ public class CentriVaccinali {
 
     public CentriVaccinali() {
 
-        f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
+        f.getContentPane().setBackground(hex2Rgb("#7FFFD4"));
         f.setBounds(350,150,800,500);
         f.setLayout(null);
         f.setVisible(true);
