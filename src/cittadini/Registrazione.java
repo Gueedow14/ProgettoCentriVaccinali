@@ -217,8 +217,8 @@ public class Registrazione {
                     return false;
             return true;
         }
-
-        return false;
+        else
+            return false;
     }
 
     public static boolean CheckCodFisc(String codFisc)
@@ -276,12 +276,11 @@ public class Registrazione {
                 int sentinel = 0;
 
                 //Registrazione cittadino
-                if(CheckNome(nomeTF.getText()))
+                if(!CheckNome(nomeTF.getText()))
                 {
                     errorNome.setVisible(true);
                     errorCounter[0] = true;
                     sentinel++;
-                    System.out.print("ciao");
                 }
                 else
                 {
@@ -289,7 +288,7 @@ public class Registrazione {
                     errorCounter[0] = false;
                 }
 
-                if(CheckCognome(cognomeTF.getText()))
+                if(!CheckCognome(cognomeTF.getText()))
                 {
                     errorCognome.setVisible(true);
                     errorCounter[1] = true;
@@ -301,7 +300,7 @@ public class Registrazione {
                     errorCounter[1] = false;
                 }
 
-                if(CheckCodFisc(codiceFiscaleTF.getText()))
+                if(!CheckCodFisc(codiceFiscaleTF.getText()))
                 {
                     errorCodiceFiscale.setVisible(true);
                     errorCounter[2] = true;
@@ -313,7 +312,7 @@ public class Registrazione {
                     errorCounter[2] = false;
                 }
 
-                if(CheckEmail(mailTF.getText()))
+                if(!CheckEmail(mailTF.getText()))
                 {
                     errorMail.setVisible(true);
                     errorCounter[3] = true;
@@ -325,7 +324,7 @@ public class Registrazione {
                     errorCounter[3] = false;
                 }
 
-                if(CheckPwd(pwdTF.getText()))
+                if(!CheckPwd(pwdTF.getText()))
                 {
                     errorPwd.setVisible(true);
                     errorCounter[4] = true;
@@ -337,7 +336,7 @@ public class Registrazione {
                     errorCounter[4] = false;
                 }
 
-                if(CheckConfPwd(confermaPwdTF.getText(), pwdTF.getText()))
+                if(!CheckConfPwd(confermaPwdTF.getText(), pwdTF.getText()))
                 {
                     errorConfermaPwd.setVisible(true);
                     errorCounter[5] = true;
@@ -349,6 +348,13 @@ public class Registrazione {
                     errorCounter[5] = false;
                 }
 
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+
                 if(sentinel == 0)
                 {
                     try {
@@ -357,11 +363,13 @@ public class Registrazione {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
+
+                    f.setVisible(false);
+                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    f.dispose();
                 }
 
-                f.setVisible(false);
-                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                f.dispose();
+
             }
         });
 
@@ -374,23 +382,7 @@ public class Registrazione {
         f.setBounds(660, 50, 600, 770);
 
 
-        errorPwd.setBounds(70,350,25,25);
-        errorPwd.setForeground(Color.RED);
-        errorPwd.setBackground(hex2Rgb("#FFFFFF"));
-        errorPwd.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-        errorPwd.setFont(new Font("Comic Sans",Font.BOLD,25));
-        errorPwd.setVisible(false);
-
-
-        errorConfermaPwd.setBounds(60,400,25,25);
-        errorConfermaPwd.setForeground(Color.RED);
-        errorConfermaPwd.setBackground(hex2Rgb("#FFFFFF"));
-        errorConfermaPwd.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-        errorConfermaPwd.setFont(new Font("Comic Sans",Font.BOLD,25));
-        errorConfermaPwd.setVisible(false);
-
-
-        errorNome.setBounds(90,450,25,25);
+        errorNome.setBounds(60,350,25,25);
         errorNome.setForeground(Color.RED);
         errorNome.setBackground(hex2Rgb("#FFFFFF"));
         errorNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -398,7 +390,7 @@ public class Registrazione {
         errorNome.setVisible(false);
 
 
-        errorCognome.setBounds(80,500,25,25);
+        errorCognome.setBounds(60,400,25,25);
         errorCognome.setForeground(Color.RED);
         errorCognome.setBackground(hex2Rgb("#FFFFFF"));
         errorCognome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -406,7 +398,7 @@ public class Registrazione {
         errorCognome.setVisible(false);
 
 
-        errorCodiceFiscale.setBounds(85,550,25,25);
+        errorCodiceFiscale.setBounds(60,450,25,25);
         errorCodiceFiscale.setForeground(Color.RED);
         errorCodiceFiscale.setBackground(hex2Rgb("#FFFFFF"));
         errorCodiceFiscale.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -414,12 +406,27 @@ public class Registrazione {
         errorCodiceFiscale.setVisible(false);
 
 
-        errorMail.setBounds(90,650,25,25);
+        errorMail.setBounds(60,500,25,25);
         errorMail.setForeground(Color.RED);
         errorMail.setBackground(hex2Rgb("#FFFFFF"));
         errorMail.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         errorMail.setFont(new Font("Comic Sans",Font.BOLD,25));
         errorMail.setVisible(false);
+
+        errorPwd.setBounds(60,550,25,25);
+        errorPwd.setForeground(Color.RED);
+        errorPwd.setBackground(hex2Rgb("#FFFFFF"));
+        errorPwd.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorPwd.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorPwd.setVisible(false);
+
+
+        errorConfermaPwd.setBounds(60,600,25,25);
+        errorConfermaPwd.setForeground(Color.RED);
+        errorConfermaPwd.setBackground(hex2Rgb("#FFFFFF"));
+        errorConfermaPwd.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorConfermaPwd.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorConfermaPwd.setVisible(false);
 
 /*
         Image freccia = ImageIO.read(Cittadini.class.getResource("/frecciaBottone.jpeg"));

@@ -2,13 +2,11 @@ package cittadini;
 
 import centrivaccinali.CentroVaccinale;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -19,7 +17,7 @@ public class Homepage {
 
     static JFrame f = new JFrame("Finestra Account");
     JLabel nomeL = new JLabel("Nome Cognome", SwingConstants.CENTER);
-    List<centrivaccinali.CentroVaccinale> lista = new ArrayList<centrivaccinali.CentroVaccinale>();;
+    List<CentroVaccinale> lista = new ArrayList<CentroVaccinale>();;
 
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
@@ -27,12 +25,12 @@ public class Homepage {
     }
 
 
-    public static Object[][] PopolaTabella(List<centrivaccinali.CentroVaccinale> l) throws IOException
+    public static Object[][] PopolaTabella(List<CentroVaccinale> l) throws IOException
     {
         String[][] matrix = new String[5][3];
 
         int i = 0;
-        for(centrivaccinali.CentroVaccinale c1 : l)
+        for(CentroVaccinale c1 : l)
         {
             matrix[i][0] = c1.nome;
             matrix[i][1] = c1.tipologia;
@@ -53,7 +51,7 @@ public class Homepage {
 
 
         JButton exit = new JButton("Esci");
-        JButton ricerca = new JButton();
+        JButton ricerca = new JButton("Ricerca centro");
         JButton info = new JButton("Visualizza Informazioni Centro");
 
 
@@ -87,6 +85,31 @@ public class Homepage {
         //l1.setBounds(15,5,500,30);
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
+        info.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e)
+            {
+                if(!tab.getSelectionModel().isSelectionEmpty())
+                {
+                    new InfoCentro((String) tab.getValueAt(tab.getSelectedRow(), 0), check);
+                    f.setVisible(false);
+                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    f.dispose();
+                }
+                else
+                    JOptionPane.showMessageDialog(f, "Selezionare un centro vaccinale!", "Errore selezione centro vaccinale", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        ricerca.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                new CercaCentro();
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
 
         tmpFocus.setBounds(440,2,10,10);
         tmpFocus.setBackground(hex2Rgb("#FFFFFF"));
@@ -112,13 +135,21 @@ public class Homepage {
             }
         });
 
-        info.setBounds(100,450,250,50);
+        info.setBounds(550,450,250,50);
         info.setBackground(hex2Rgb("#FFFFFF"));
         info.setForeground(hex2Rgb("#1E90FF"));
 
         info.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
         info.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         info.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+
+        ricerca.setBounds(100,450,250,50);
+        ricerca.setBackground(hex2Rgb("#FFFFFF"));
+        ricerca.setForeground(hex2Rgb("#1E90FF"));
+        ricerca.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
+        ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
+        ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+
         panel.add(scrollPane,BorderLayout.CENTER);
 
         tab.setBounds(100,100,700,300);
