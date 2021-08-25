@@ -9,6 +9,8 @@ public class Vaccinazione {
     private String cf;
     private Date data;
     private String nomeCV;
+    private String tipo;
+    private static short idVaccinazione;
 
     public String getCf() {
         return cf;
@@ -30,10 +32,6 @@ public class Vaccinazione {
         this.tipo = tipo;
     }
 
-    public void setIdVaccinazione(String idVaccinazione) {
-        this.idVaccinazione = idVaccinazione;
-    }
-
     public Date getData() {
         return data;
     }
@@ -46,12 +44,10 @@ public class Vaccinazione {
         return tipo;
     }
 
-    public String getIdVaccinazione() {
+    public short getIdVaccinazione() {
         return idVaccinazione;
     }
 
-    private String tipo;
-    private String idVaccinazione;
 
     public boolean primaVaccinazione () {
 
@@ -66,20 +62,13 @@ public class Vaccinazione {
         cf = CF.toUpperCase();
         nomeCV = NOMECV;
         tipo = TIPO;
-
+        idVaccinazione++;
         SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
         try{
             Date date = DateFor.parse("08/07/2019");
             System.out.println("Date : "+date);
             data = date;
         }catch (ParseException e) {e.printStackTrace();}
-
-
-
-        if(primaVaccinazione())
-             idVaccinazione = NOME + COGNOME + CF + "1";
-        else
-            idVaccinazione = NOME + COGNOME + CF + "2";
     }
 
 

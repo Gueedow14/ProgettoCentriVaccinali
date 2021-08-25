@@ -1,8 +1,5 @@
 package server;
 
-import cittadini.Prenotazione;
-import cittadini.Vaccinazione;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -54,7 +51,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     private void queryRegistrazioneCV(Statement s, CentroVaccinale cv) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO centrovaccinale (nome, indirizzo, tipologia) " +
-                        "VALUES " + cv.getNome() + cv.getIndirizzo() + cv.getTipologia()
+                        "VALUES (" + cv.getNome() + ","  + cv.getIndirizzo() + ","  + cv.getTipologia() + ")"
         );
 
         String nome_tab = cv.getNome() + "_VACCINATI";
@@ -73,10 +70,31 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     private void queryRegistrazioneCittadino(Statement s, Cittadino c) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO cittadino (userid, pwd, nome, cognome, cf, idvaccinazione, mail, cv) " +
-                        "VALUES " + c.getUserid() + c.getPwd() + c.getNome() + c.getCognome() + c.getCf() + c.getIdvaccinazione() + c.getMail() + c.getCv()
+                        "VALUES (" + c.getUserid() + "," + c.getPwd() + ","  + c.getNome() + ","  + c.getCognome() + ","  + c.getCf() + ","  + c.getIdvaccinazione() + ","  + c.getMail() + ","  + c.getCv() + ")"
         );
     }
 
+    private void queryRicercaCV(Statement s, ArrayList<CentroVaccinale> l) throws SQLException {
+        ResultSet rst = s.executeQuery("SELECT * FROM centrovaccinale");
+        while(rst.next()) {
+            CentroVaccinale cv = new CentroVaccinale(rst.getString("nome"), rst.getString("tipologia"), rst.getString("indirizzo"));
+            l.add(cv);
+        }
+    }
+
+    private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException {
+        s.executeUpdate(
+                "INSERT INTO prenotazione (idprenotazione, userid, nomecv, dataprenotazione) " +
+                        "VALUES (" + p.getIdPrenotazione() + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
+        );
+    }
+
+    private void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException {
+        s.executeUpdate(
+                "INSERT INTO " + v.getNomeCV() + "_VACCINATI (nomevaccinato, cognomevaccinato, idvaccinazione, data, tipo) " +
+                        "VALUES (" + v.getNome() + "," + v.getCognome()  + "," + v.getIdVaccinazione() + "," + v.getData() + "," + v.getTipo() + ")"
+        );
+    }
 
     private void exec() {
 
@@ -85,14 +103,21 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     @Override
     public void visualizzaCentroVaccinale(CentroVaccinale cv) {
-
+        //PUO' ESSERE FATTO DA CLIENT CHIAMANDO LA CLASSE CHE CREA LA GRAFICA
     }
 
     @Override
-    public List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) {
-        List<CentroVaccinale> lista = new ArrayList<>();
+    public List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) throws SQLException {
+        ArrayList<CentroVaccinale> lista = new ArrayList<>();
 
-
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,lista);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,lista);
+        }
 
         return lista;
     }
@@ -123,16 +148,40 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     @Override
     public void registraVaccinato(Vaccinazione v)  throws SQLException {
-
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRegistrazioneVaccinato(s,v);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRegistrazioneVaccinato(s,v);
+        }
     }
 
     @Override
     public void prenotaVaccino(Prenotazione p)  throws SQLException {
-
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryPrenotazioneVaccino(s,p);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryPrenotazioneVaccino(s,p);
+        }
     }
 
     @Override
-    public void loginCittadino(String userid, String pwd)  throws SQLException {
-
+    public boolean loginCittadino(String userid, String password)  throws SQLException {
+        if(!conn.isValid(100))
+            connessioneDB();
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT * FROM cittadino");
+        while(rst.next()) {
+            String uid = rst.getString("userid");
+            String pwd = rst.getString("pwd");
+            if(uid.equals(userid) && pwd.equals(password))
+                return true;
+        }
+        return false;
     }
 }

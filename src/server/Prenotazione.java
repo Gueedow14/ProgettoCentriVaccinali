@@ -1,4 +1,4 @@
-package cittadini;
+package server;
 
 public class Prenotazione {
 
