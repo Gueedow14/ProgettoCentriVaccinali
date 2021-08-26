@@ -1,10 +1,11 @@
 package cittadini;
 
-import centrivaccinali.CentroVaccinale;
+import common.CentroVaccinale;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -32,9 +33,9 @@ public class Homepage {
         int i = 0;
         for(CentroVaccinale c1 : l)
         {
-            matrix[i][0] = c1.nome;
-            matrix[i][1] = c1.tipologia;
-            matrix[i][2] = c1.indirizzo;
+            matrix[i][0] = c1.getNome();
+            matrix[i][1] = c1.getTipologia();
+            matrix[i][2] = c1.getIndirizzo();
             i++;
         }
 
@@ -57,7 +58,7 @@ public class Homepage {
 
         for(int i = 0; i < 5; i++)
         {
-            lista.add(new CentroVaccinale(i,check));
+            //lista.add(new CentroVaccinale(i,check));
         }
 
         String[] colonneTab = {"Nome Centro Vaccinale", "Tipologia", "Indirizzo"};
@@ -90,7 +91,11 @@ public class Homepage {
             {
                 if(!tab.getSelectionModel().isSelectionEmpty())
                 {
-                    new InfoCentro((String) tab.getValueAt(tab.getSelectedRow(), 0), check);
+                    try {
+                        new InfoCentro((String) tab.getValueAt(tab.getSelectedRow(), 0), check);
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();

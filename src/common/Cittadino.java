@@ -1,6 +1,8 @@
-package server;
+package common;
 
-public class Cittadino {
+import java.io.Serializable;
+
+public class Cittadino implements Serializable {
     private String userid;
     private String pwd;
     private String nome;

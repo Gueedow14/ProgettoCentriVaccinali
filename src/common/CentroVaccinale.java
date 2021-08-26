@@ -1,7 +1,9 @@
-package server;
+package common;
+
+import java.io.Serializable;
 
 //Provvisorio
-public class CentroVaccinale {
+public class CentroVaccinale implements Serializable {
 
     private String nome;
     private String tipologia;

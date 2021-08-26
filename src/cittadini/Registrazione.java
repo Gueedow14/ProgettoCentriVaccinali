@@ -139,7 +139,7 @@ public class Registrazione {
     /**
      * Bottone per inviare i campi ed iscriversi
      */
-    JButton b = new JButton("ISCRIVITI");
+    JButton b = new JButton("SELEZIONA CV");
 
     /**
      * Label dove verrà inserita l'ImageIcon del simbolo dell'occhio
@@ -276,7 +276,7 @@ public class Registrazione {
                 int sentinel = 0;
 
                 //Registrazione cittadino
-                if(!CheckNome(nomeTF.getText()))
+                /*if(!CheckNome(nomeTF.getText()))
                 {
                     errorNome.setVisible(true);
                     errorCounter[0] = true;
@@ -354,9 +354,12 @@ public class Registrazione {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
                 }
-
+                */
                 if(sentinel == 0)
                 {
+                    //Cittadino c = new Cittadino(userid, pwdTF.getPassword(), nomeTF.getText(), cognomeTF.getText(), "CF", null, mailTF.getText(), null);
+
+
                     try {
                         new Homepage(true);
                     } catch (IOException e1) {

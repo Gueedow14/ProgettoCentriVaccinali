@@ -312,7 +312,7 @@ public class Cittadini {
             BTEventoAvverso.setEnabled(false);
         }
 
-
+        /*
         ImageIcon img = new ImageIcon(Cittadini.class.getResource("/immagine1.jpeg"));
         Image img1 = img.getImage();
         Image img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
@@ -320,12 +320,12 @@ public class Cittadini {
 
         tmpImage.setIcon(new ImageIcon(img2));
         tmpImage.setBounds(0, 0, 300, 300);
-
+        */
         panelLista.setBounds(100, 150, 300, 300);
         panelLista.setBackground(hex2Rgb("#FFFFFF"));
-        panelLista.add(tmpImage);
+        //panelLista.add(tmpImage);
 
-
+/*
         img = new ImageIcon(Cittadini.class.getResource("/immagine2.jpeg"));
         img1 = img.getImage();
         img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
@@ -333,13 +333,13 @@ public class Cittadini {
 
         tmpImage2.setIcon(new ImageIcon(img2));
         tmpImage2.setBounds(0, 0, 300, 300);
-
+*/
 
         panelRegistrazione.setBounds(400, 150, 300, 300);
         panelRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
-        panelRegistrazione.add(tmpImage2);
+        //panelRegistrazione.add(tmpImage2);
         panelRegistrazione.setEnabled(!checkLogin);
-
+/*
 
         img = new ImageIcon(Cittadini.class.getResource("/immagine3.jpeg"));
         img1 = img.getImage();
@@ -349,10 +349,10 @@ public class Cittadini {
         tmpImage3.setIcon(new ImageIcon(img2));
         tmpImage3.setBounds(0, 0, 300, 300);
 
-
+*/
         panelEventiAvversi.setBounds(700, 150, 300, 300);
         panelEventiAvversi.setBackground(hex2Rgb("#FFFFFF"));
-        panelEventiAvversi.add(tmpImage3);
+        //panelEventiAvversi.add(tmpImage3);
         panelEventiAvversi.setEnabled(checkLogin);
 
 

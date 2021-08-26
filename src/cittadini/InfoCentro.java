@@ -1,26 +1,33 @@
 package cittadini;
 
-import centrivaccinali.CentroVaccinale;
+import common.*;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
-public class InfoCentro {
+public class InfoCentro extends UnicastRemoteObject {
+
+    private static ClientCV stub;
 
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public InfoCentro(String valueAt, boolean check) {
+    public InfoCentro(String valueAt, boolean check) throws RemoteException {
+        super();
 
-        CentroVaccinale selezionato = new CentroVaccinale(1,true); //Prendere informazioni sul centro selezionato
+        CentroVaccinale selezionato = new CentroVaccinale(); //Prendere informazioni sul centro selezionato
 
         ArrayList<EventoAvverso> eventi = null; //Prendere lista eventi avversi registrati per il centro selezionato
 
@@ -50,10 +57,17 @@ public class InfoCentro {
         {
             public void mouseClicked(MouseEvent e)
             {
+
+
                 try {
+
+                    //CentroVaccinale cv = new CentroVaccinale("Centro_1", "Hub","via Marconi ,8, Varese");
+                    //stub.registraCentroVaccinale(cv);
+                    Cittadino c = new Cittadino("gueedow", "ciao", "Guido", "Bernasconi", "gdobgi0011", (short)1, "g.b@gb.it", "Centro_1");
+                    stub.registraCittadino(c);
                     //registraCittadino();
                     new Cittadini(true);
-                } catch (IOException e1) {
+                } catch (Exception e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
@@ -248,19 +262,19 @@ public class InfoCentro {
 			noCommenti.setVisible(true);
 		}
 		*/
-        JLabel nomeCentro = new JLabel("Nome: " + selezionato.nome);
+        JLabel nomeCentro = new JLabel("Nome: " + selezionato.getNome());
         nomeCentro.setBounds(110, 50, 500, 30);
         nomeCentro.setBackground(hex2Rgb("#FFFFFF"));
         nomeCentro.setForeground(hex2Rgb("#1E90FF"));
         nomeCentro.setFont(new Font("Arial", Font.ITALIC, 25));
 
-        JLabel indirizzoCentro = new JLabel("Indirizzo: " + selezionato.indirizzo);
+        JLabel indirizzoCentro = new JLabel("Indirizzo: " + selezionato.getIndirizzo());
         indirizzoCentro.setBounds(110, 100, 500, 30);
         indirizzoCentro.setBackground(hex2Rgb("#FFFFFF"));
         indirizzoCentro.setForeground(hex2Rgb("#1E90FF"));
         indirizzoCentro.setFont(new Font("Arial", Font.ITALIC, 25));
 
-        JLabel tipologiaCentro = new JLabel("Tipologia: " + selezionato.tipologia);
+        JLabel tipologiaCentro = new JLabel("Tipologia: " + selezionato.getTipologia());
         tipologiaCentro.setBounds(110, 150, 500, 30);
         tipologiaCentro.setBackground(hex2Rgb("#FFFFFF"));
         tipologiaCentro.setForeground(hex2Rgb("#1E90FF"));
@@ -296,7 +310,11 @@ public class InfoCentro {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         new InfoCentro("ciao",true);
 
     }

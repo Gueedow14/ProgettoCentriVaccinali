@@ -1,5 +1,7 @@
 package server;
 
+import common.*;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -35,9 +37,6 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         registro.rebind("SERVERCV", obj);
         System.out.println("Server registrato correttamente");
         obj.exec();
-
-
-
     }
 
     private static void connessioneDB() throws SQLException {
@@ -69,8 +68,8 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     private void queryRegistrazioneCittadino(Statement s, Cittadino c) throws SQLException {
         s.executeUpdate(
-                "INSERT INTO cittadino (userid, pwd, nome, cognome, cf, idvaccinazione, mail, cv) " +
-                        "VALUES (" + c.getUserid() + "," + c.getPwd() + ","  + c.getNome() + ","  + c.getCognome() + ","  + c.getCf() + ","  + c.getIdvaccinazione() + ","  + c.getMail() + ","  + c.getCv() + ")"
+                "INSERT INTO cittadino " +
+                        "VALUES ('" + c.getUserid() + "','" + c.getPwd() + "','"  + c.getNome() + "','"  + c.getCognome() + "','"  + c.getCf() + "',"  + c.getIdvaccinazione() + ",'"  + c.getMail() + "','"  + c.getCv() + "')"
         );
     }
 
@@ -103,7 +102,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     @Override
     public void visualizzaCentroVaccinale(CentroVaccinale cv) {
-        //PUO' ESSERE FATTO DA CLIENT CHIAMANDO LA CLASSE CHE CREA LA GRAFICA
+        //PRENDERE LISTA EVENTI AVVERSI DI UN CV E INFO CV
     }
 
     @Override

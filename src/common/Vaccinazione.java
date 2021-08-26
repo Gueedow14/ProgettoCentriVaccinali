@@ -1,4 +1,4 @@
-package server;
+package common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.Date;
 public class Vaccinazione {
 
     private String cf;
-    private Date data;
+    private String data;
     private String nomeCV;
     private String nome;
     private String cognome;
@@ -28,7 +28,7 @@ public class Vaccinazione {
         this.cf = cf;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -50,7 +50,7 @@ public class Vaccinazione {
         return cognome;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
@@ -70,7 +70,7 @@ public class Vaccinazione {
         return idVaccinazione;
     }
 
-    public Vaccinazione(String nomeCV, String nome, String cognome, String cf, Date data, String tipo){
+    public Vaccinazione(String nomeCV, String nome, String cognome, String cf, String data, String tipo){
         idVaccinazione++;
         this.nomeCV = nomeCV;
         this.nome = nome;
@@ -78,13 +78,6 @@ public class Vaccinazione {
         this.cf = cf.toUpperCase();
         this.data = data;
         this.tipo = tipo;
-
-        SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = DateFor.parse("08/07/2019");
-            System.out.println("Date : " + date);
-            data = date;
-        }catch (ParseException e) { e.printStackTrace(); }
     }
 
 
