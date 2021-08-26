@@ -150,6 +150,11 @@ public class Cittadini {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(checkLogin) {
+                    try {
+                        new RegistraEvento();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     //chiusura finestra login
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -162,6 +167,11 @@ public class Cittadini {
         {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    new RegistraEvento();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 //chiusura finestra login
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
