@@ -61,9 +61,9 @@ public class InfoCentro extends UnicastRemoteObject {
 
                 try {
 
-                    //CentroVaccinale cv = new CentroVaccinale("Centro_1", "Hub","via Marconi ,8, Varese");
-                    //stub.registraCentroVaccinale(cv);
-                    Cittadino c = new Cittadino("gueedow", "ciao", "Guido", "Bernasconi", "gdobgi0011", (short)1, "g.b@gb.it", "Centro_1");
+                    CentroVaccinale cv = new CentroVaccinale("Centro_2", "Aziendale","via Manzoni, 34, Pescara");
+                    stub.registraCentroVaccinale(cv);
+                    Cittadino c = new Cittadino("abcd", "1234", "Amilcare", "Rossi", "amlrsi0011", "a.b@gb.it", "Centro_2");
                     stub.registraCittadino(c);
                     //registraCittadino();
                     new Cittadini(true);

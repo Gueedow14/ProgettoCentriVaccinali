@@ -49,8 +49,8 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     private void queryRegistrazioneCV(Statement s, CentroVaccinale cv) throws SQLException {
         s.executeUpdate(
-                "INSERT INTO centrovaccinale (nome, indirizzo, tipologia) " +
-                        "VALUES (" + cv.getNome() + ","  + cv.getIndirizzo() + ","  + cv.getTipologia() + ")"
+                "INSERT INTO centrovaccinale " +
+                        "VALUES ('" + cv.getNome() + "','"  + cv.getIndirizzo() + "','"  + cv.getTipologia() + "')"
         );
 
         String nome_tab = cv.getNome() + "_VACCINATI";
@@ -182,5 +182,39 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public int contaCittadini() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM cittadino");
+        rst.next();
+        return rst.getInt(1);
+    }
+
+    @Override
+    public int getVaccinati() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        List<String> nomicv = new ArrayList<>();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT * FROM centrovaccinale");
+        while(rst.next()) {
+            nomicv.add(rst.getString("nome"));
+        }
+
+        int i = 0, count = 0;
+        while(i < nomicv.size()) {
+            String nome_tab = nomicv.get(i++) + "_vaccinati";
+            rst = s.executeQuery("SELECT COUNT(*) FROM " + nome_tab);
+            rst.next();
+            count += rst.getInt(1);
+        }
+
+        return count;
     }
 }

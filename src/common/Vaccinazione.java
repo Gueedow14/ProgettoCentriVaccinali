@@ -1,10 +1,12 @@
 package common;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Vaccinazione {
+public class Vaccinazione implements Serializable {
 
     private String cf;
     private String data;

@@ -2,7 +2,6 @@ package common;
 
 import java.io.Serializable;
 
-//Provvisorio
 public class CentroVaccinale implements Serializable {
 
     private String nome;

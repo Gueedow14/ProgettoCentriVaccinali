@@ -1,6 +1,8 @@
 package common;
 
-public class Prenotazione {
+import java.io.Serializable;
+
+public class Prenotazione implements Serializable {
 
     private static int idprenotazione = 0;
     private String userid;

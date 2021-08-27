@@ -13,4 +13,6 @@ public interface ClientCV extends Remote {
     void registraVaccinato(Vaccinazione v) throws SQLException, RemoteException;
     void prenotaVaccino(Prenotazione p) throws SQLException, RemoteException;
     boolean loginCittadino(String userid, String pwd) throws SQLException, RemoteException;
+    int contaCittadini() throws SQLException, RemoteException;
+    int getVaccinati() throws SQLException, RemoteException;
 }

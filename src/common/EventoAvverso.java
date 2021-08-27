@@ -1,6 +1,9 @@
 package common;
 
-public class EventoAvverso {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class EventoAvverso implements Serializable {
 
     private String evento;
     private int severita;
