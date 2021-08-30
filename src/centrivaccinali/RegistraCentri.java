@@ -1,11 +1,19 @@
 package centrivaccinali;
 
+import common.CentroVaccinale;
+import common.ClientCV;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -14,6 +22,8 @@ import javax.swing.*;
 import static jdk.xml.internal.SecuritySupport.getResourceAsStream;
 
 public class RegistraCentri {
+
+    private static ClientCV stub;
 
     public static Color hex2Rgb(String colorStr)
     {
@@ -340,12 +350,15 @@ public class RegistraCentri {
 
         b.addMouseListener(new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent e)
-            {
-                checkCampiCentri();
-
-            }
-        });
+            public void mouseClicked(MouseEvent e) {
+                if (checkCampiCentri()) {
+                    try {
+                        stub.registraCentroVaccinale(new CentroVaccinale(nomeCentroTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), vieTF.getSelectedIndex() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText()));
+                    } catch (SQLException | RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }});
 
 
             b.setBounds(200,525,200,40);
@@ -449,8 +462,11 @@ public class RegistraCentri {
         return checkCAP(CAPTF.getText()) & checkCiv(numeroCivicoTF.getText()) & checkComune(comuneTF.getText()) & checkProvincia(provinciaTF.getText()) & checkNomeCentro(nomeCentroTF.getText()) & checkVia(nomeViaTF.getText());
     }
 
-    public static void main (String[]args)
-    {
+    public static void main (String[]args) throws RemoteException, NotBoundException {
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         SwingUtilities.invokeLater(() -> {
             try {
                 new RegistraCentri();
