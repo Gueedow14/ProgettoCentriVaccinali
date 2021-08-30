@@ -1,11 +1,12 @@
 package centrivaccinali;
 
-import cittadini.Vaccinazione;
+import common.Vaccinazione;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 import javax.swing.*;
 
@@ -296,10 +297,7 @@ public class RegistraCittadini {
             {
 
                 if(controlloCampi()) {
-
-                    Vaccinazione nuovo;
-
-                    Vaccinazione.registraVaccinato( nuovo = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), tipoTF.getSelectedItem().toString()));
+                    Vaccinazione nuovo = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
                     System.out.println(nuovo.getCf() +" "+ nuovo.getIdVaccinazione() +" "+ nuovo.getNomeCV() +" "+ nuovo.getTipo() +" "+ nuovo.getData());
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

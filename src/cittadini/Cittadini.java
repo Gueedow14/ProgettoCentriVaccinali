@@ -39,12 +39,15 @@ public class Cittadini {
      */
     JButton BTLogin = new JButton("Accedi");
 
+    JButton BTPrenota = new JButton("Prenota vaccino");
+
     /**
      * Panel dove viene inserito il logo dell'applicazione
      */
     JPanel panelLista = new JPanel();
     JPanel panelRegistrazione = new JPanel();
     JPanel panelEventiAvversi = new JPanel();
+    JPanel panelPrenotazione = new JPanel();
     JLabel tmpImage = new JLabel();
     JLabel tmpImage2 = new JLabel();
     JLabel tmpImage3 = new JLabel();
@@ -150,6 +153,11 @@ public class Cittadini {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(checkLogin) {
+                    try {
+                        new RegistraEvento();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     //chiusura finestra login
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -162,6 +170,38 @@ public class Cittadini {
         {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    new RegistraEvento();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                //chiusura finestra login
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
+        //CLICK BOTTONE E PANEL 4
+        panelPrenotazione.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if(checkLogin) {
+                    new PrenotazioneVaccino();
+                    //chiusura finestra login
+                    f.setVisible(false);
+                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    f.dispose();
+                }
+            }
+        });
+
+        BTPrenota.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new PrenotazioneVaccino();
                 //chiusura finestra login
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -284,16 +324,34 @@ public class Cittadini {
         BTRegistrazione.setBounds(400,450,300,60);
         BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
         BTRegistrazione.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
+        BTRegistrazione.setForeground(hex2Rgb("#1E90FF"));
+        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
         if(!checkLogin) {
-            BTRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
-            BTRegistrazione.setForeground(hex2Rgb("#1E90FF"));
-            BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
             BTRegistrazione.setEnabled(true);
+            BTRegistrazione.setVisible(true);
         }
         else
         {
-            BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#999999")));
+            BTRegistrazione.setVisible(false);
             BTRegistrazione.setEnabled(false);
+        }
+
+        //bottone prenotazione
+        BTPrenota.setBounds(400,450,300,60);
+        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTPrenota.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTPrenota.setBackground(hex2Rgb("#FFFFFF"));
+        BTPrenota.setForeground(hex2Rgb("#1E90FF"));
+        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        if(checkLogin) {
+            BTPrenota.setEnabled(true);
+            BTPrenota.setVisible(true);
+        }
+        else
+        {
+            BTPrenota.setVisible(false);
+            BTPrenota.setEnabled(false);
         }
 
         //bottone registra evento avverso
@@ -312,7 +370,7 @@ public class Cittadini {
             BTEventoAvverso.setEnabled(false);
         }
 
-
+        /*
         ImageIcon img = new ImageIcon(Cittadini.class.getResource("/immagine1.jpeg"));
         Image img1 = img.getImage();
         Image img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
@@ -320,12 +378,12 @@ public class Cittadini {
 
         tmpImage.setIcon(new ImageIcon(img2));
         tmpImage.setBounds(0, 0, 300, 300);
-
+        */
         panelLista.setBounds(100, 150, 300, 300);
         panelLista.setBackground(hex2Rgb("#FFFFFF"));
-        panelLista.add(tmpImage);
+        //panelLista.add(tmpImage);
 
-
+/*
         img = new ImageIcon(Cittadini.class.getResource("/immagine2.jpeg"));
         img1 = img.getImage();
         img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
@@ -333,13 +391,31 @@ public class Cittadini {
 
         tmpImage2.setIcon(new ImageIcon(img2));
         tmpImage2.setBounds(0, 0, 300, 300);
-
+*/
 
         panelRegistrazione.setBounds(400, 150, 300, 300);
         panelRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
-        panelRegistrazione.add(tmpImage2);
+        //panelRegistrazione.add(tmpImage2);
         panelRegistrazione.setEnabled(!checkLogin);
+        panelRegistrazione.setVisible(!checkLogin);
 
+/*
+        img = new ImageIcon(Cittadini.class.getResource("/immagine4.jpeg"));
+        img1 = img.getImage();
+        img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+
+
+        tmpImage2.setIcon(new ImageIcon(img2));
+        tmpImage2.setBounds(0, 0, 300, 300);
+*/
+
+        panelPrenotazione.setBounds(400, 150, 300, 300);
+        panelPrenotazione.setBackground(hex2Rgb("#FFFFFF"));
+        //panelRegistrazione.add(tmpImage2);
+        panelPrenotazione.setEnabled(checkLogin);
+        panelPrenotazione.setVisible(checkLogin);
+
+/*
 
         img = new ImageIcon(Cittadini.class.getResource("/immagine3.jpeg"));
         img1 = img.getImage();
@@ -349,10 +425,10 @@ public class Cittadini {
         tmpImage3.setIcon(new ImageIcon(img2));
         tmpImage3.setBounds(0, 0, 300, 300);
 
-
+*/
         panelEventiAvversi.setBounds(700, 150, 300, 300);
         panelEventiAvversi.setBackground(hex2Rgb("#FFFFFF"));
-        panelEventiAvversi.add(tmpImage3);
+        //panelEventiAvversi.add(tmpImage3);
         panelEventiAvversi.setEnabled(checkLogin);
 
 
@@ -366,15 +442,14 @@ public class Cittadini {
         f.add(BTLista);
         f.add(BTRegistrazione);
         f.add(BTEventoAvverso);
+        f.add(BTPrenota);
         f.add(panelLista);
         f.add(panelRegistrazione);
         f.add(panelEventiAvversi);
+        f.add(panelPrenotazione);
         f.add(BTLogin);
         f.add(focus);
     }
-
-
-
 
 
     public static void main(String[] args) {
