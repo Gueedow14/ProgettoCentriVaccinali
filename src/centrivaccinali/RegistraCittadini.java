@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
+import static jdk.xml.internal.SecuritySupport.getResourceAsStream;
 
 public class RegistraCittadini {
 
@@ -266,7 +267,7 @@ public class RegistraCittadini {
         cfTF.setCaretColor(hex2Rgb("#1E90FF"));
         cfTF.setFocusTraversalKeysEnabled(false);
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCittadini.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -332,7 +333,7 @@ public class RegistraCittadini {
         f.add(b);
         f.add(indietro);
 
-        f.getContentPane().setBackground(hex2Rgb("#7FFFD4"));
+        f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -5,10 +5,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import static jdk.xml.internal.SecuritySupport.getResourceAsStream;
 
 public class RegistraCentri {
 
