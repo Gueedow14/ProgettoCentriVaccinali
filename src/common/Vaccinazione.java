@@ -77,7 +77,7 @@ public class Vaccinazione implements Serializable {
         this.nomeCV = nomeCV;
         this.nome = nome;
         this.cognome = cognome;
-        this.cf = cf.toUpperCase();
+        this.cf = cf;
         this.data = data;
         this.tipo = tipo;
     }

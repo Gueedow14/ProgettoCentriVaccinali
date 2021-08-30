@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 
 public class CentriVaccinali {
 
@@ -64,7 +65,7 @@ public class CentriVaccinali {
                 f.dispose();
                 try {
                     RegistraCittadini b = new RegistraCittadini();
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
             }

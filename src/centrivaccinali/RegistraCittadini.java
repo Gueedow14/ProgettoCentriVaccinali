@@ -1,20 +1,27 @@
 package centrivaccinali;
 
-import common.Vaccinazione;
+import common.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
-import static jdk.xml.internal.SecuritySupport.getResourceAsStream;
 
-public class RegistraCittadini {
+public class RegistraCittadini extends UnicastRemoteObject {
+
+    private static ClientCV stub;
 
     JFrame f = new JFrame("Registrazione Cittadino");
 
@@ -77,7 +84,7 @@ public class RegistraCittadini {
      * Label che indica il campo dove l'utente deve inserire il tipo di vaccino
      */
 
-    String[] tipi = {"Pfizer", "Moderna", "AstraZeneca", "J&J"};
+    String[] tipi = {"Pfizer", "Moderna", "Astrazeneca", "J&J"};
 
     JComboBox<String> tipoTF = new JComboBox<>(tipi);
 
@@ -123,7 +130,9 @@ public class RegistraCittadini {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public RegistraCittadini() throws IOException {
+    public RegistraCittadini() throws IOException, NotBoundException {
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         int sizeL = 17;
         int sizeTF = 17;
@@ -302,8 +311,13 @@ public class RegistraCittadini {
             {
 
                 if(controlloCampi()) {
-                    Vaccinazione nuovo = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
-                    System.out.println(nuovo.getCf() +" "+ nuovo.getIdVaccinazione() +" "+ nuovo.getNomeCV() +" "+ nuovo.getTipo() +" "+ nuovo.getData());
+                    Vaccinazione v = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
+                    try {
+                        stub.registraVaccinato(v);
+                    } catch (SQLException | RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                    //System.out.println(nuovo.getCf() +" "+ nuovo.getIdVaccinazione() +" "+ nuovo.getNomeCV() +" "+ nuovo.getTipo() +" "+ nuovo.getData());
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
@@ -403,7 +417,7 @@ public class RegistraCittadini {
     }
 
     public static boolean checkCF(String CF) {
-
+        /*
         if(CF.length() == 16) {
             String nome = CF.substring(0, 3);
             String cognome = CF.substring(3, 6);
@@ -420,8 +434,8 @@ public class RegistraCittadini {
                 return false;
             }
         }
-        errorCf.setVisible(true);
-        return false;
+        errorCf.setVisible(true);*/
+        return true;
     }
 
 
@@ -429,14 +443,7 @@ public class RegistraCittadini {
             return checkNome(nomeTF.getText()) & checkCognome(cognomeTF.getText()) & checkCF(cfTF.getText()) & checkData(dataTF.getText()) & checkCentro(centroTF.getText());
         }
 
-        public static void main (String[]args)
-        {
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    new RegistraCittadini();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+        public static void main (String[]args) throws Exception {
+            new RegistraCittadini();
         }
     }

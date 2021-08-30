@@ -1,27 +1,23 @@
 package centrivaccinali;
 
-import common.CentroVaccinale;
-import common.ClientCV;
+import common.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import static jdk.xml.internal.SecuritySupport.getResourceAsStream;
-
-public class RegistraCentri {
+public class RegistraCentri extends UnicastRemoteObject {
 
     private static ClientCV stub;
 
@@ -151,249 +147,249 @@ public class RegistraCentri {
 
 
     public RegistraCentri() throws IOException {
+        int sizeL = 17;
+        int sizeTF = 17;
 
-            int sizeL = 17;
-            int sizeTF = 17;
+        errorNomeVia.setBounds(95,205,25,25);
+        errorNomeVia.setForeground(Color.RED);
+        errorNomeVia.setBackground(hex2Rgb("#FF0000"));
+        errorNomeVia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorNomeVia.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorNomeVia.setVisible(false);
 
-            errorNomeVia.setBounds(95,205,25,25);
-            errorNomeVia.setForeground(Color.RED);
-            errorNomeVia.setBackground(hex2Rgb("#FF0000"));
-            errorNomeVia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorNomeVia.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorNomeVia.setVisible(false);
+        errorComune.setBounds(75,305,25,25);
+        errorComune.setForeground(Color.RED);
+        errorComune.setBackground(hex2Rgb("#FF0000"));
+        errorComune.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorComune.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorComune.setVisible(false);
 
-            errorComune.setBounds(75,305,25,25);
-            errorComune.setForeground(Color.RED);
-            errorComune.setBackground(hex2Rgb("#FF0000"));
-            errorComune.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorComune.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorComune.setVisible(false);
+        errorNome.setBounds(60,105,25,25);
+        errorNome.setForeground(Color.RED);
+        errorNome.setBackground(hex2Rgb("#FF0000"));
+        errorNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorNome.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorNome.setVisible(false);
 
-            errorNome.setBounds(60,105,25,25);
-            errorNome.setForeground(Color.RED);
-            errorNome.setBackground(hex2Rgb("#FF0000"));
-            errorNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorNome.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorNome.setVisible(false);
+        errorCAP.setBounds(90,405,25,25);
+        errorCAP.setForeground(Color.RED);
+        errorCAP.setBackground(hex2Rgb("#FF0000"));
+        errorCAP.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorCAP.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorCAP.setVisible(false);
 
-            errorCAP.setBounds(90,405,25,25);
-            errorCAP.setForeground(Color.RED);
-            errorCAP.setBackground(hex2Rgb("#FF0000"));
-            errorCAP.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorCAP.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorCAP.setVisible(false);
+        errorNumeroVia.setBounds(60,255,25,25);
+        errorNumeroVia.setForeground(Color.RED);
+        errorNumeroVia.setBackground(hex2Rgb("#FF0000"));
+        errorNumeroVia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorNumeroVia.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorNumeroVia.setVisible(false);
 
-            errorNumeroVia.setBounds(60,255,25,25);
-            errorNumeroVia.setForeground(Color.RED);
-            errorNumeroVia.setBackground(hex2Rgb("#FF0000"));
-            errorNumeroVia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorNumeroVia.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorNumeroVia.setVisible(false);
+        errorProvincia.setBounds(55,355,25,25);
+        errorProvincia.setForeground(Color.RED);
+        errorProvincia.setBackground(hex2Rgb("#FF0000"));
+        errorProvincia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorProvincia.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorProvincia.setVisible(false);
 
-            errorProvincia.setBounds(55,355,25,25);
-            errorProvincia.setForeground(Color.RED);
-            errorProvincia.setBackground(hex2Rgb("#FF0000"));
-            errorProvincia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            errorProvincia.setFont(new Font("Comic Sans",Font.BOLD,25));
-            errorProvincia.setVisible(false);
+        titolo.setBounds(60 ,30,500,50);
+        titolo.setForeground(hex2Rgb("#0000CD"));
+        titolo.setBackground(hex2Rgb("#F0F8FF"));
+        titolo.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        titolo.setFont(new Font("Comic Sans",Font.BOLD,25));
 
-            titolo.setBounds(60 ,30,500,50);
-            titolo.setForeground(hex2Rgb("#0000CD"));
-            titolo.setBackground(hex2Rgb("#F0F8FF"));
-            titolo.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            titolo.setFont(new Font("Comic Sans",Font.BOLD,25));
+        nomeCentroL.setBounds(70,100,110,25);
+        nomeCentroL.setForeground(hex2Rgb("#1E90FF"));
+        nomeCentroL.setBackground(hex2Rgb("#F0F8FF"));
+        nomeCentroL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        nomeCentroL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-            nomeCentroL.setBounds(70,100,110,25);
-            nomeCentroL.setForeground(hex2Rgb("#1E90FF"));
-            nomeCentroL.setBackground(hex2Rgb("#F0F8FF"));
-            nomeCentroL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            nomeCentroL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
-            nomeCentroTF.setBounds(200,100,300,25);
-            nomeCentroTF.setForeground(hex2Rgb("#1E90FF"));
-            nomeCentroTF.setBackground(hex2Rgb("#F0F8FF"));
-            nomeCentroTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            nomeCentroTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            nomeCentroTF.setHorizontalAlignment(JTextField.CENTER);
-            nomeCentroTF.setCaretColor(hex2Rgb("#1E90FF"));
-            nomeCentroTF.setFocusTraversalKeysEnabled(false);
-
-
-            nomeViaL.setBounds(70,200,110,25);
-            nomeViaL.setForeground(hex2Rgb("#1E90FF"));
-            nomeViaL.setBackground(hex2Rgb("#F0F8FF"));
-            nomeViaL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            nomeViaL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
-            nomeViaTF.setBounds(200,200,300,25);
-            nomeViaTF.setForeground(hex2Rgb("#1E90FF"));
-            nomeViaTF.setBackground(hex2Rgb("#F0F8FF"));
-            nomeViaTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            nomeViaTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            nomeViaTF.setHorizontalAlignment(JTextField.CENTER);
-            nomeViaTF.setCaretColor(hex2Rgb("#1E90FF"));
-            nomeViaTF.setFocusTraversalKeysEnabled(false);
+        nomeCentroTF.setBounds(200,100,300,25);
+        nomeCentroTF.setForeground(hex2Rgb("#1E90FF"));
+        nomeCentroTF.setBackground(hex2Rgb("#F0F8FF"));
+        nomeCentroTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        nomeCentroTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        nomeCentroTF.setHorizontalAlignment(JTextField.CENTER);
+        nomeCentroTF.setCaretColor(hex2Rgb("#1E90FF"));
+        nomeCentroTF.setFocusTraversalKeysEnabled(false);
 
 
-            tipoL.setBounds(70,450,110,25);
-            tipoL.setForeground(hex2Rgb("#1E90FF"));
-            tipoL.setBackground(hex2Rgb("#F0F8FF"));
-            tipoL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            tipoL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        nomeViaL.setBounds(70,200,110,25);
+        nomeViaL.setForeground(hex2Rgb("#1E90FF"));
+        nomeViaL.setBackground(hex2Rgb("#F0F8FF"));
+        nomeViaL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        nomeViaL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-            tipoTF.setBounds(200,450,300,25);
-            tipoTF.setForeground(hex2Rgb("#1E90FF"));
-            tipoTF.setBackground(hex2Rgb("#F0F8FF"));
-            tipoTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            tipoTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            tipoTF.setFocusTraversalKeysEnabled(false);
-            tipoTF.setFocusable(false);
-
-            vieL.setBounds(70,150,110,25);
-            vieL.setForeground(hex2Rgb("#1E90FF"));
-            vieL.setBackground(hex2Rgb("#F0F8FF"));
-            vieL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            vieL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
-            vieTF.setBounds(200,150,300,25);
-            vieTF.setForeground(hex2Rgb("#1E90FF"));
-            vieTF.setBackground(hex2Rgb("#F0F8FF"));
-            vieTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            vieTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            vieTF.setFocusTraversalKeysEnabled(false);
-            vieTF.setFocusable(false);
-
-            numeroCivicoL.setBounds(70,250,110,25);
-            numeroCivicoL.setForeground(hex2Rgb("#1E90FF"));
-            numeroCivicoL.setBackground(hex2Rgb("#F0F8FF"));
-            numeroCivicoL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            numeroCivicoL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        nomeViaTF.setBounds(200,200,300,25);
+        nomeViaTF.setForeground(hex2Rgb("#1E90FF"));
+        nomeViaTF.setBackground(hex2Rgb("#F0F8FF"));
+        nomeViaTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        nomeViaTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        nomeViaTF.setHorizontalAlignment(JTextField.CENTER);
+        nomeViaTF.setCaretColor(hex2Rgb("#1E90FF"));
+        nomeViaTF.setFocusTraversalKeysEnabled(false);
 
 
-            numeroCivicoTF.setBounds(200,250,300,25);
-            numeroCivicoTF.setForeground(hex2Rgb("#1E90FF"));
-            numeroCivicoTF.setBackground(hex2Rgb("#F0F8FF"));
-            numeroCivicoTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
-            numeroCivicoTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            numeroCivicoTF.setHorizontalAlignment(JTextField.CENTER);
-            numeroCivicoTF.setCaretColor(hex2Rgb("#1E90FF"));
-            numeroCivicoTF.setFocusTraversalKeysEnabled(false);
+        tipoL.setBounds(70,450,110,25);
+        tipoL.setForeground(hex2Rgb("#1E90FF"));
+        tipoL.setBackground(hex2Rgb("#F0F8FF"));
+        tipoL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        tipoL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+
+        tipoTF.setBounds(200,450,300,25);
+        tipoTF.setForeground(hex2Rgb("#1E90FF"));
+        tipoTF.setBackground(hex2Rgb("#F0F8FF"));
+        tipoTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        tipoTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        tipoTF.setFocusTraversalKeysEnabled(false);
+        tipoTF.setFocusable(false);
+
+        vieL.setBounds(70,150,110,25);
+        vieL.setForeground(hex2Rgb("#1E90FF"));
+        vieL.setBackground(hex2Rgb("#F0F8FF"));
+        vieL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        vieL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+
+        vieTF.setBounds(200,150,300,25);
+        vieTF.setForeground(hex2Rgb("#1E90FF"));
+        vieTF.setBackground(hex2Rgb("#F0F8FF"));
+        vieTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        vieTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        vieTF.setFocusTraversalKeysEnabled(false);
+        vieTF.setFocusable(false);
+
+        numeroCivicoL.setBounds(70,250,110,25);
+        numeroCivicoL.setForeground(hex2Rgb("#1E90FF"));
+        numeroCivicoL.setBackground(hex2Rgb("#F0F8FF"));
+        numeroCivicoL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        numeroCivicoL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
 
-            comuneL.setBounds(70,300,110,25);
-            comuneL.setForeground(hex2Rgb("#1E90FF"));
-            comuneL.setBackground(hex2Rgb("#F0F8FF"));
-            comuneL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            comuneL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        numeroCivicoTF.setBounds(200,250,300,25);
+        numeroCivicoTF.setForeground(hex2Rgb("#1E90FF"));
+        numeroCivicoTF.setBackground(hex2Rgb("#F0F8FF"));
+        numeroCivicoTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
+        numeroCivicoTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        numeroCivicoTF.setHorizontalAlignment(JTextField.CENTER);
+        numeroCivicoTF.setCaretColor(hex2Rgb("#1E90FF"));
+        numeroCivicoTF.setFocusTraversalKeysEnabled(false);
 
 
-            comuneTF.setBounds(200,300,300,25);
-            comuneTF.setForeground(hex2Rgb("#1E90FF"));
-            comuneTF.setBackground(hex2Rgb("#F0F8FF"));
-            comuneTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            comuneTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            comuneTF.setHorizontalAlignment(JTextField.CENTER);
-            comuneTF.setCaretColor(hex2Rgb("#1E90FF"));
-            comuneTF.setFocusTraversalKeysEnabled(false);
-
-            CAPL.setBounds(70,400,110,25);
-            CAPL.setForeground(hex2Rgb("#1E90FF"));
-            CAPL.setBackground(hex2Rgb("#F0F8FF"));
-            CAPL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            CAPL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        comuneL.setBounds(70,300,110,25);
+        comuneL.setForeground(hex2Rgb("#1E90FF"));
+        comuneL.setBackground(hex2Rgb("#F0F8FF"));
+        comuneL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        comuneL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
 
-            CAPTF.setBounds(200,400,300,25);
-            CAPTF.setForeground(hex2Rgb("#1E90FF"));
-            CAPTF.setBackground(hex2Rgb("#F0F8FF"));
-            CAPTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
-            CAPTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            CAPTF.setHorizontalAlignment(JTextField.CENTER);
-            CAPTF.setCaretColor(hex2Rgb("#1E90FF"));
-            CAPTF.setFocusTraversalKeysEnabled(false);
+        comuneTF.setBounds(200,300,300,25);
+        comuneTF.setForeground(hex2Rgb("#1E90FF"));
+        comuneTF.setBackground(hex2Rgb("#F0F8FF"));
+        comuneTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        comuneTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        comuneTF.setHorizontalAlignment(JTextField.CENTER);
+        comuneTF.setCaretColor(hex2Rgb("#1E90FF"));
+        comuneTF.setFocusTraversalKeysEnabled(false);
 
-            provinciaL.setBounds(70,350,110,25);
-            provinciaL.setForeground(hex2Rgb("#1E90FF"));
-            provinciaL.setBackground(hex2Rgb("#F0F8FF"));
-            provinciaL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            provinciaL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        CAPL.setBounds(70,400,110,25);
+        CAPL.setForeground(hex2Rgb("#1E90FF"));
+        CAPL.setBackground(hex2Rgb("#F0F8FF"));
+        CAPL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        CAPL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-            provinciaTF.setBounds(200,350,300,25);
-            provinciaTF.setForeground(hex2Rgb("#1E90FF"));
-            provinciaTF.setBackground(hex2Rgb("#F0F8FF"));
-            provinciaTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
-            provinciaTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
-            provinciaTF.setHorizontalAlignment(JTextField.CENTER);
-            provinciaTF.setCaretColor(hex2Rgb("#1E90FF"));
-            provinciaTF.setFocusTraversalKeysEnabled(false);
 
-            Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
-            imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
-            indietro.setIcon(new ImageIcon(imageBack));
-            indietro.setBounds(15,15,35,35);
-            indietro.setForeground(hex2Rgb("#1E90FF"));
-            indietro.setBackground(hex2Rgb("#F0F8FF"));
-            indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-            indietro.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-            indietro.setFocusable(false);
+        CAPTF.setBounds(200,400,300,25);
+        CAPTF.setForeground(hex2Rgb("#1E90FF"));
+        CAPTF.setBackground(hex2Rgb("#F0F8FF"));
+        CAPTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        CAPTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        CAPTF.setHorizontalAlignment(JTextField.CENTER);
+        CAPTF.setCaretColor(hex2Rgb("#1E90FF"));
+        CAPTF.setFocusTraversalKeysEnabled(false);
 
-            indietro.addMouseListener(new MouseAdapter()
-            {
-                public void mouseClicked(MouseEvent e)
-                {
-                    new CentriVaccinali();
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
-                }
-            });
+        provinciaL.setBounds(70,350,110,25);
+        provinciaL.setForeground(hex2Rgb("#1E90FF"));
+        provinciaL.setBackground(hex2Rgb("#F0F8FF"));
+        provinciaL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        provinciaL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-        b.addMouseListener(new MouseAdapter()
+        provinciaTF.setBounds(200,350,300,25);
+        provinciaTF.setForeground(hex2Rgb("#1E90FF"));
+        provinciaTF.setBackground(hex2Rgb("#F0F8FF"));
+        provinciaTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
+        provinciaTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
+        provinciaTF.setHorizontalAlignment(JTextField.CENTER);
+        provinciaTF.setCaretColor(hex2Rgb("#1E90FF"));
+        provinciaTF.setFocusTraversalKeysEnabled(false);
+
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
         {
+            public void mouseClicked(MouseEvent e)
+            {
+                new CentriVaccinali();
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
+        b.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (checkCampiCentri()) {
                     try {
-                        stub.registraCentroVaccinale(new CentroVaccinale(nomeCentroTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), vieTF.getSelectedIndex() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText()));
+                        String indirizzo = vieTF.getSelectedIndex() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText();
+                        CentroVaccinale cv = new CentroVaccinale(nomeCentroTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), indirizzo);
+                        stub.registraCentroVaccinale(cv);
                     } catch (SQLException | RemoteException ex) {
                         ex.printStackTrace();
                     }
                 }
-            }});
+            }
+        });
 
+        b.setBounds(200,525,200,40);
+        b.setBackground(hex2Rgb("#F0F8FF"));
+        b.setForeground(hex2Rgb("#1E90FF"));
+        b.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        b.setFont(new Font("Comic Sans",Font.BOLD,15));
+        b.setFocusTraversalKeysEnabled(false);
+        b.setFocusable(false);
 
-            b.setBounds(200,525,200,40);
-            b.setBackground(hex2Rgb("#F0F8FF"));
-            b.setForeground(hex2Rgb("#1E90FF"));
-            b.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
-            b.setFont(new Font("Comic Sans",Font.BOLD,15));
-            b.setFocusTraversalKeysEnabled(false);
-            b.setFocusable(false);
-
-            f.add(nomeCentroL);
-            f.add(nomeCentroTF);
-            f.add(nomeViaL);
-            f.add(nomeViaTF);
-            f.add(comuneL);
-            f.add(comuneTF);
-            f.add(numeroCivicoL);
-            f.add(numeroCivicoTF);
-            f.add(provinciaL);
-            f.add(provinciaTF);
-            f.add(tipoL);
-            f.add(tipoTF);
-            f.add(vieL);
-            f.add(vieTF);
-            f.add(CAPL);
-            f.add(CAPTF);
-            f.add(errorCAP);
-            f.add(errorComune);
-            f.add(errorNome);
-            f.add(errorNomeVia);
-            f.add(errorNumeroVia);
-            f.add(errorProvincia);
-            f.add(indietro);
-            f.add(b);
-            f.add(titolo);
+        f.add(nomeCentroL);
+        f.add(nomeCentroTF);
+        f.add(nomeViaL);
+        f.add(nomeViaTF);
+        f.add(comuneL);
+        f.add(comuneTF);
+        f.add(numeroCivicoL);
+        f.add(numeroCivicoTF);
+        f.add(provinciaL);
+        f.add(provinciaTF);
+        f.add(tipoL);
+        f.add(tipoTF);
+        f.add(vieL);
+        f.add(vieTF);
+        f.add(CAPL);
+        f.add(CAPTF);
+        f.add(errorCAP);
+        f.add(errorComune);
+        f.add(errorNome);
+        f.add(errorNomeVia);
+        f.add(errorNumeroVia);
+        f.add(errorProvincia);
+        f.add(indietro);
+        f.add(b);
+        f.add(titolo);
 
         f.getContentPane().setBackground(hex2Rgb("#F0FFFF"));
         f.setBounds(350,150,600,650);
@@ -462,17 +458,9 @@ public class RegistraCentri {
         return checkCAP(CAPTF.getText()) & checkCiv(numeroCivicoTF.getText()) & checkComune(comuneTF.getText()) & checkProvincia(provinciaTF.getText()) & checkNomeCentro(nomeCentroTF.getText()) & checkVia(nomeViaTF.getText());
     }
 
-    public static void main (String[]args) throws RemoteException, NotBoundException {
-
+    public static void main (String[]args) throws IOException, NotBoundException {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
-
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new RegistraCentri();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        new RegistraCentri();
     }
 }

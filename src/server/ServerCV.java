@@ -56,6 +56,8 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         String nome_tab = cv.getNome() + "_VACCINATI";
         s.executeUpdate(
                 "CREATE TABLE " + nome_tab + " (" +
+                        " nomecv VARCHAR(20) NOT NULL REFERENCES centrovaccinale(nome)," +
+                        " cf VARCHAR(20) NOT NULL REFERENCES cittadino(cf)," +
                         " nomevaccinato VARCHAR(20) NOT NULL," +
                         " cognomevaccinato VARCHAR(25) NOT NULL," +
                         " idvaccinazione SMALLINT PRIMARY KEY," +
@@ -83,15 +85,15 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException {
         s.executeUpdate(
-                "INSERT INTO prenotazione (idprenotazione, userid, nomecv, dataprenotazione) " +
+                "INSERT INTO prenotazione " +
                         "VALUES (" + p.getIdPrenotazione() + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
         );
     }
 
     private void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException {
         s.executeUpdate(
-                "INSERT INTO " + v.getNomeCV() + "_VACCINATI (nomevaccinato, cognomevaccinato, idvaccinazione, data, tipo) " +
-                        "VALUES (" + v.getNome() + "," + v.getCognome()  + "," + v.getIdVaccinazione() + "," + v.getData() + "," + v.getTipo() + ")"
+                "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
+                        "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome()  + "'," + v.getIdVaccinazione() + ",'" + v.getData() + "','" + v.getTipo() + "')"
         );
     }
 
