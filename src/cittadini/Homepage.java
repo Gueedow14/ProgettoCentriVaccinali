@@ -1,24 +1,32 @@
 package cittadini;
 
+import centrivaccinali.RegistraCentri;
 import common.CentroVaccinale;
+import common.Cittadino;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.JTableHeader;
+import javax.xml.validation.SchemaFactoryConfigurationError;
 
 
 public class Homepage {
 
     static JFrame f = new JFrame("Finestra Account");
-    JLabel nomeL = new JLabel("Nome Cognome", SwingConstants.CENTER);
     List<CentroVaccinale> lista = new ArrayList<CentroVaccinale>();;
+
+    JButton indietro = new JButton();
+    public static boolean check;
+    public static boolean checkReg;
 
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
@@ -43,11 +51,12 @@ public class Homepage {
     }
 
 
-    public Homepage(boolean check) throws IOException
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException
     {
         //JLabel l1 = new JLabel("Accesso effettuato correttamente!");
-
-
+        System.out.println("homepage "+checkLogin);
+        check = checkLogin;
+        checkReg = checkR;
         JTextField tmpFocus = new JTextField();
 
 
@@ -92,8 +101,8 @@ public class Homepage {
                 if(!tab.getSelectionModel().isSelectionEmpty())
                 {
                     try {
-                        new InfoCentro((String) tab.getValueAt(tab.getSelectedRow(), 0), check);
-                    } catch (RemoteException ex) {
+                        new InfoCentro((String) tab.getValueAt(tab.getSelectedRow(), 0), check, account, checkReg);
+                    } catch (IOException | NotBoundException ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
@@ -109,7 +118,11 @@ public class Homepage {
         {
             public void mouseClicked(MouseEvent e)
             {
-                new CercaCentro();
+                try {
+                    new CercaCentro(check, account, checkReg);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
@@ -164,6 +177,40 @@ public class Homepage {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                if(!checkReg) {
+                    try {
+                        new Cittadini(checkLogin, account);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else
+                {
+                    try {
+                        new Registrazione();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
         f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         f.setLayout(null);
         f.setVisible(true);
@@ -171,11 +218,9 @@ public class Homepage {
         f.setResizable(false);  //lock size finestra
         f.setBounds(410, 240, 900, 600);
 
-        nomeL.setBounds(50, 50, 150, 20);
-        nomeL.setForeground(hex2Rgb("#1E90FF"));
 
         f.add(ricerca);
-        //f.add(l1);
+        f.add(indietro);
         f.add(tmpFocus);
         f.add(info);
         f.add(exit);
@@ -184,7 +229,7 @@ public class Homepage {
 
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
-        new Homepage(false);
+        new Homepage(false, null, false);
     }
 
 }

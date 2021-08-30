@@ -1,13 +1,17 @@
 package cittadini;
 
 import centrivaccinali.CentriVaccinali;
+import centrivaccinali.RegistraCentri;
 import centrivaccinali.RegistraCittadini;
+import common.Cittadino;
 import common.Vaccinazione;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -18,7 +22,7 @@ public class PrenotazioneVaccino {
 
     JFrame f = new JFrame("Prenotazione Vaccino");
 
-    JButton indietro = new JButton("Indietro");
+    JButton indietro = new JButton();
 
     JLabel titolo = new JLabel("Prenotazione Vaccino");
 
@@ -38,11 +42,11 @@ public class PrenotazioneVaccino {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public PrenotazioneVaccino() {
+    public PrenotazioneVaccino(boolean checkLogin, Cittadino account) throws IOException {
 
         int sizeL = 17;
         int sizeTF = 17;
-
+        System.out.println(checkLogin);
 
 
         errorData.setBounds(90,155,25,25);
@@ -77,7 +81,7 @@ public class PrenotazioneVaccino {
         dataTF.setBounds(200,150,300,25);
         dataTF.setForeground(hex2Rgb("#1E90FF"));
         dataTF.setBackground(hex2Rgb("#FFFFFF"));
-        dataTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        dataTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
         dataTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
         dataTF.setHorizontalAlignment(JTextField.CENTER);
         dataTF.setCaretColor(hex2Rgb("#1E90FF"));
@@ -99,7 +103,7 @@ public class PrenotazioneVaccino {
         orarioTF.setBounds(200,200,300,25);
         orarioTF.setForeground(hex2Rgb("#1E90FF"));
         orarioTF.setBackground(hex2Rgb("#FFFFFF"));
-        orarioTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
+        orarioTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         orarioTF.setFont(new Font("Comic Sans",Font.ITALIC,sizeTF));
         orarioTF.setHorizontalAlignment(JTextField.CENTER);
         orarioTF.setCaretColor(hex2Rgb("#1E90FF"));
@@ -111,18 +115,24 @@ public class PrenotazioneVaccino {
 
 
 
-        indietro.setBounds(20,375,80,25);
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
         indietro.setForeground(hex2Rgb("#1E90FF"));
-        indietro.setBackground(hex2Rgb("#FFFFFF"));
-        indietro.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, hex2Rgb("#1E90FF")));
-        indietro.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         indietro.setFocusable(false);
 
         indietro.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
             {
-                new CentriVaccinali();
+                try {
+                    new Cittadini(checkLogin, account);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
@@ -144,6 +154,12 @@ public class PrenotazioneVaccino {
 
                 if(controlloCampi()) {
                     //Prenota vaccino
+
+                    try {
+                        new Cittadini(checkLogin, account);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
@@ -216,8 +232,7 @@ public class PrenotazioneVaccino {
         return checkOrario(orarioTF.getText()) & checkData(dataTF.getText());
     }
 
-    public static void main (String[]args)
-    {
-        SwingUtilities.invokeLater(PrenotazioneVaccino::new);
+    public static void main (String[]args) throws IOException {
+        new PrenotazioneVaccino(false,null);
     }
 }

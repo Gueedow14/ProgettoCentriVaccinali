@@ -1,10 +1,14 @@
 package cittadini;
 
+import common.Cittadino;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.*;
+import java.awt.font.TextAttribute;
 import java.io.IOException;
+import java.util.Map;
 import javax.swing.*;
 
 public class Cittadini {
@@ -27,12 +31,14 @@ public class Cittadini {
     /**
      * Bottone per registrarisi presso un centro vaccinale
      */
-    JButton BTRegistrazione = new JButton("Registrati presso un centro");
+    String twoLines = "Registrati presso\nun centro";
+    JButton BTRegistrazione = new JButton("<html>" + twoLines.replaceAll("\\n", "<br>") + "</html>");
 
     /**
      * Bottone per accedere alla schermata di creazione (registrazione) di un nuovo evento avverso
      */
-    JButton BTEventoAvverso = new JButton("Registra un evento avverso");
+    String twoLines2 = "Registra un\n evento avverso";
+    JButton BTEventoAvverso = new JButton("<html>" + twoLines2.replaceAll("\\n", "<br>") + "</html>");
 
     /**
      * Bottone per effettuare l'accesso al proprio account
@@ -41,18 +47,6 @@ public class Cittadini {
 
     JButton BTPrenota = new JButton("Prenota vaccino");
 
-    /**
-     * Panel dove viene inserito il logo dell'applicazione
-     */
-    JPanel panelLista = new JPanel();
-    JPanel panelRegistrazione = new JPanel();
-    JPanel panelEventiAvversi = new JPanel();
-    JPanel panelPrenotazione = new JPanel();
-    JLabel tmpImage = new JLabel();
-    JLabel tmpImage2 = new JLabel();
-    JLabel tmpImage3 = new JLabel();
-
-    boolean checkLogin = false;
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -65,35 +59,15 @@ public class Cittadini {
     }
 
 
-    public Cittadini(boolean login) throws IOException
+    public Cittadini(boolean checkLogin, Cittadino account) throws IOException
     {
-        checkLogin = login;
-        //CLICK BOTTONE E PANEL 1
-        panelLista.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                try {
-                    new Homepage(false);
-                }
-                catch(IOException er)
-                {
-                    er.printStackTrace();
-                }
-
-                //chiusura finestra login
-                f.setVisible(false);
-                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                f.dispose();
-            }
-        });
-
+        System.out.println("cittadini "+checkLogin);
         BTLista.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Homepage(false);
+                    new Homepage(checkLogin, account, false);
                 }
                 catch(IOException er)
                 {
@@ -104,27 +78,6 @@ public class Cittadini {
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
-            }
-        });
-
-        //CLICK BOTTONE E PANEL 2
-        panelRegistrazione.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if(!checkLogin) {
-                    try {
-                        new Registrazione();
-                    } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                    //chiusura finestra login
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
-                }
             }
         });
 
@@ -147,31 +100,12 @@ public class Cittadini {
             }
         });
 
-        //CLICK BOTTONE E PANEL 3
-        panelEventiAvversi.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if(checkLogin) {
-                    try {
-                        new RegistraEvento();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    //chiusura finestra login
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
-                }
-            }
-        });
-
         BTEventoAvverso.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new RegistraEvento();
+                    new RegistraEvento(checkLogin, account);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -182,26 +116,15 @@ public class Cittadini {
             }
         });
 
-        //CLICK BOTTONE E PANEL 4
-        panelPrenotazione.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if(checkLogin) {
-                    new PrenotazioneVaccino();
-                    //chiusura finestra login
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
-                }
-            }
-        });
-
         BTPrenota.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrenotazioneVaccino();
+                try {
+                    new PrenotazioneVaccino(checkLogin, account);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 //chiusura finestra login
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -213,7 +136,21 @@ public class Cittadini {
         {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Login();
+                if(BTLogin.getText().equals("Accedi")) {
+                    try {
+                        new Login();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                else
+                {
+                    try {
+                        new Cittadini(false,null);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 //chiusura finestra login
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -282,14 +219,12 @@ public class Cittadini {
             @Override
             public void focusLost(FocusEvent e)
             {
-                BTLogin.setBackground(hex2Rgb("#FFFFFF"));
                 BTLogin.setForeground(hex2Rgb("#1E90FF"));
             }
 
             @Override
             public void focusGained(FocusEvent e)
             {
-                BTLogin.setBackground(hex2Rgb("#1E90FF"));
                 BTLogin.setForeground(hex2Rgb("#FFFFFF"));
             }
         });
@@ -298,7 +233,7 @@ public class Cittadini {
         f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         //f.setLocation(dim.width/4-f.getSize().width/2, dim.height/4-f.getSize().height/2);
-        f.setBounds(350,100,1100,700);
+        f.setBounds(350,150,800,500);
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -313,20 +248,20 @@ public class Cittadini {
 
 
         //bottone lista centri
-        BTLista.setBounds(100,450,300,60);
+        BTLista.setBounds(50,350,200,60);
         BTLista.setBackground(hex2Rgb("#FFFFFF"));
         BTLista.setForeground(hex2Rgb("#1E90FF"));
-        BTLista.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTLista.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
         BTLista.setFont(new Font("Comic Sans",Font.ITALIC,20));
 
 
         //bottone registrazione
-        BTRegistrazione.setBounds(400,450,300,60);
-        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTRegistrazione.setBounds(300,350,200,60);
         BTRegistrazione.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTRegistrazione.setHorizontalAlignment(SwingConstants.CENTER);
         BTRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
         BTRegistrazione.setForeground(hex2Rgb("#1E90FF"));
-        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
         if(!checkLogin) {
             BTRegistrazione.setEnabled(true);
             BTRegistrazione.setVisible(true);
@@ -338,12 +273,11 @@ public class Cittadini {
         }
 
         //bottone prenotazione
-        BTPrenota.setBounds(400,450,300,60);
-        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTPrenota.setBounds(300,350,200,60);
         BTPrenota.setFont(new Font("Comic Sans",Font.ITALIC,20));
         BTPrenota.setBackground(hex2Rgb("#FFFFFF"));
         BTPrenota.setForeground(hex2Rgb("#1E90FF"));
-        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
         if(checkLogin) {
             BTPrenota.setEnabled(true);
             BTPrenota.setVisible(true);
@@ -355,98 +289,37 @@ public class Cittadini {
         }
 
         //bottone registra evento avverso
-        BTEventoAvverso.setBounds(700,450,300,60);
-        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTEventoAvverso.setBounds(550,350,200,60);
+        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
         BTEventoAvverso.setFont(new Font("Comic Sans",Font.ITALIC,20));
         if(checkLogin) {
             BTEventoAvverso.setBackground(hex2Rgb("#FFFFFF"));
             BTEventoAvverso.setForeground(hex2Rgb("#1E90FF"));
-            BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
             BTEventoAvverso.setEnabled(true);
         }
         else
         {
-            BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#999999")));
             BTEventoAvverso.setEnabled(false);
         }
 
-        /*
-        ImageIcon img = new ImageIcon(Cittadini.class.getResource("/immagine1.jpeg"));
-        Image img1 = img.getImage();
-        Image img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-
-
-        tmpImage.setIcon(new ImageIcon(img2));
-        tmpImage.setBounds(0, 0, 300, 300);
-        */
-        panelLista.setBounds(100, 150, 300, 300);
-        panelLista.setBackground(hex2Rgb("#FFFFFF"));
-        //panelLista.add(tmpImage);
-
-/*
-        img = new ImageIcon(Cittadini.class.getResource("/immagine2.jpeg"));
-        img1 = img.getImage();
-        img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-
-
-        tmpImage2.setIcon(new ImageIcon(img2));
-        tmpImage2.setBounds(0, 0, 300, 300);
-*/
-
-        panelRegistrazione.setBounds(400, 150, 300, 300);
-        panelRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
-        //panelRegistrazione.add(tmpImage2);
-        panelRegistrazione.setEnabled(!checkLogin);
-        panelRegistrazione.setVisible(!checkLogin);
-
-/*
-        img = new ImageIcon(Cittadini.class.getResource("/immagine4.jpeg"));
-        img1 = img.getImage();
-        img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-
-
-        tmpImage2.setIcon(new ImageIcon(img2));
-        tmpImage2.setBounds(0, 0, 300, 300);
-*/
-
-        panelPrenotazione.setBounds(400, 150, 300, 300);
-        panelPrenotazione.setBackground(hex2Rgb("#FFFFFF"));
-        //panelRegistrazione.add(tmpImage2);
-        panelPrenotazione.setEnabled(checkLogin);
-        panelPrenotazione.setVisible(checkLogin);
-
-/*
-
-        img = new ImageIcon(Cittadini.class.getResource("/immagine3.jpeg"));
-        img1 = img.getImage();
-        img2 = img1.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-
-
-        tmpImage3.setIcon(new ImageIcon(img2));
-        tmpImage3.setBounds(0, 0, 300, 300);
-
-*/
-        panelEventiAvversi.setBounds(700, 150, 300, 300);
-        panelEventiAvversi.setBackground(hex2Rgb("#FFFFFF"));
-        //panelEventiAvversi.add(tmpImage3);
-        panelEventiAvversi.setEnabled(checkLogin);
-
-
-        BTLogin.setBounds(800,0,300,60);
+        BTLogin.setBounds(630,0,150,60);
         BTLogin.setBackground(hex2Rgb("#FFFFFF"));
         BTLogin.setForeground(hex2Rgb("#1E90FF"));
-        BTLogin.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        BTLogin.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         BTLogin.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        Font btnFont = BTLogin.getFont();
+        Map attributes = btnFont.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        btnFont = btnFont.deriveFont(attributes);
+        BTLogin.setFont(btnFont);
+        if(checkLogin)
+            BTLogin.setText("Disconnettiti");
 
 
         f.add(BTLista);
         f.add(BTRegistrazione);
         f.add(BTEventoAvverso);
         f.add(BTPrenota);
-        f.add(panelLista);
-        f.add(panelRegistrazione);
-        f.add(panelEventiAvversi);
-        f.add(panelPrenotazione);
         f.add(BTLogin);
         f.add(focus);
     }
@@ -459,7 +332,7 @@ public class Cittadini {
             public void run()
             {
                 try {
-                    new Cittadini(false);
+                    new Cittadini(false, null);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -1,9 +1,13 @@
 package cittadini;
 
+import centrivaccinali.RegistraCentri;
+import common.Cittadino;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -18,6 +22,8 @@ public class RegistraEvento
      * Severita lasciata dall'utente nella recensione
      */
     static int severita = 0;
+
+    JButton indietro = new JButton();
 
     /**
      * Metodo che setta l'immagine con la stella vuota
@@ -132,9 +138,9 @@ public class RegistraEvento
      * Metodo con il codice per la creazione della finestra della recensione
      * @throws IOException  Il costruttore, agendo sul file EatAdvisor.dati, può creare un'IOException
      */
-    public RegistraEvento() throws IOException
+    public RegistraEvento(boolean checkLogin, Cittadino account) throws IOException
     {
-
+        System.out.println(checkLogin);
 
         JFrame f = new JFrame("Finestra Recensione");
         f.getContentPane().setBackground(Color.decode("#FFFFFF"));
@@ -335,12 +341,7 @@ public class RegistraEvento
         freccia = freccia.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
         */
 
-        JButton back = new JButton();
-        //back.setIcon(new ImageIcon(freccia));
-        back.setBounds(15,15,45,45);
-        back.setForeground(Color.decode("#1E90FF"));
-        back.setBackground(Color.decode("#FFFFFF"));
-        back.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#FFFFFF")));
+
 
 
         f.addMouseListener(new MouseAdapter()
@@ -1166,18 +1167,6 @@ public class RegistraEvento
         });
 
 
-        back.addMouseListener(new MouseAdapter()
-        {
-            public void mouseClicked(MouseEvent e)
-            {
-                f.setVisible(false);
-                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                f.dispose();
-            }
-        });
-
-
-
         invia.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
@@ -1199,14 +1188,37 @@ public class RegistraEvento
             }
         });
 
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                try {
+                    new Cittadini(checkLogin, account);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
 
         f.add(p1);
         f.add(p2);
         f.add(p3);
         f.add(p4);
         f.add(p5);
-        //f.add(panelRec);
-        f.add(back);
+        f.add(indietro);
         f.add(invia);
         f.add(panel);
         f.add(tipoEvento);
@@ -1223,7 +1235,7 @@ public class RegistraEvento
             {
                 try
                 {
-                    new RegistraEvento();
+                    new RegistraEvento(true,null);
                 }
                 catch (IOException e)
                 {

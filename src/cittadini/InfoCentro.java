@@ -1,7 +1,9 @@
 package cittadini;
 
+import centrivaccinali.RegistraCentri;
 import common.*;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -12,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
@@ -19,13 +22,19 @@ public class InfoCentro extends UnicastRemoteObject {
 
     private static ClientCV stub;
 
+    JButton indietro = new JButton();
+
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public InfoCentro(String valueAt, boolean check) throws RemoteException {
+    public InfoCentro(String valueAt, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException {
         super();
+        System.out.println("info "+checkLogin);
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         CentroVaccinale selezionato = new CentroVaccinale(); //Prendere informazioni sul centro selezionato
 
@@ -36,7 +45,7 @@ public class InfoCentro extends UnicastRemoteObject {
 
         JButton registra = new JButton("Registrati al centro");
 
-        JFrame info = new JFrame("Finestra Informazioni");
+        JFrame f = new JFrame("Finestra Informazioni");
 
 		/*
 		ImageIcon img = new ImageIcon(Clienti.class.getResource("/eventiUtenti.jpeg"));
@@ -66,15 +75,15 @@ public class InfoCentro extends UnicastRemoteObject {
                     Cittadino c = new Cittadino("abcd", "1234", "Amilcare", "Rossi", "amlrsi0011", "a.b@gb.it", "Centro_2");
                     stub.registraCittadino(c);
                     //registraCittadino();
-                    new Cittadini(true);
+                    new Cittadini(checkLogin, account);
                 } catch (Exception e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
-                info.setVisible(false);
-                info.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                info.dispose();
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
             }
         });
 
@@ -282,15 +291,15 @@ public class InfoCentro extends UnicastRemoteObject {
 
 
 
-        info.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
-        if(!check)
-            info.setBounds(560,100,750, 630);
+        f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
+        if(checkLogin)
+            f.setBounds(560,100,750, 730);
         else
-            info.setBounds(560,100,750, 730);
-        info.setLayout(null);
-        info.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        info.setResizable(false);  //lock size finestra
-        info.setVisible(true);
+            f.setBounds(560,100,750, 630);
+        f.setLayout(null);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setResizable(false);  //lock size finestra
+        f.setVisible(true);
 
         registra.setBounds(250,600,250,50);
         registra.setBackground(hex2Rgb("#FFFFFF"));
@@ -299,23 +308,48 @@ public class InfoCentro extends UnicastRemoteObject {
         registra.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         registra.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
 
-        info.add(noCommenti);
-        info.add(scroll);
-        info.add(nomeCentro);
-        info.add(indirizzoCentro);
-        info.add(tipologiaCentro);
-        if(check)
-            info.add(registra);
-        info.add(panel);
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                try {
+                    new Homepage(checkLogin, account, checkR);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
+        f.add(noCommenti);
+        f.add(scroll);
+        f.add(nomeCentro);
+        f.add(indirizzoCentro);
+        f.add(tipologiaCentro);
+        if(checkLogin)
+            f.add(registra);
+        f.add(panel);
+        f.add(indietro);
 
     }
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws IOException, NotBoundException {
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        new InfoCentro("ciao",true);
+        new InfoCentro("ciao",true, null, false);
 
     }
 

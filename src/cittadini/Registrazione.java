@@ -1,9 +1,14 @@
 package cittadini;
 
-import java.awt.Color;
-import java.awt.Font;
+import centrivaccinali.CentriVaccinali;
+import centrivaccinali.RegistraCentri;
+import common.Cittadino;
+
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Objects;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Registrazione {
@@ -136,6 +141,17 @@ public class Registrazione {
      */
     JTextField mailTF = new JTextField("");
 
+
+    /**
+     * Label che indica il campo dove l'utente deve inserire il comune di residenza
+     */
+    JLabel useridL = new JLabel("User ID: ", SwingConstants.CENTER);
+    /**
+     * TextField dove l'utente deve inserire il comune di residenza
+     */
+    JTextField useridTF = new JTextField("");
+
+
     /**
      * Bottone per inviare i campi ed iscriversi
      */
@@ -161,6 +177,7 @@ public class Registrazione {
      */
     JButton occhio1 = new JButton();
 
+    JButton indietro = new JButton();
 
     /**
      * Variabile integer per il controllo dell'echo char del JPasswordField 'password'
@@ -237,15 +254,17 @@ public class Registrazione {
     //Da sistemare
     public static boolean CheckEmail(String email)
     {
-        if(email.length() >= 3)
+        String s[] = email.split("@");
+        if(s.length == 2)
         {
-            for(char c : email.toCharArray())
-                if(!((c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
-                    return false;
-            return true;
+            String s2[] = s[1].split(".");
+            if(s2.length > 2)
+                return true;
+            else
+                return false;
         }
-
-        return false;
+        else
+            return false;
     }
 
     public static boolean CheckPwd(String pwd)
@@ -357,11 +376,11 @@ public class Registrazione {
                 */
                 if(sentinel == 0)
                 {
-                    //Cittadino c = new Cittadino(userid, pwdTF.getPassword(), nomeTF.getText(), cognomeTF.getText(), "CF", null, mailTF.getText(), null);
+                    Cittadino c = new Cittadino(useridTF.getText(), pwdTF.getPassword().toString(), nomeTF.getText(), cognomeTF.getText(), codiceFiscaleTF.getText(), mailTF.getText(), null);
 
 
                     try {
-                        new Homepage(true);
+                        new Homepage(true, c, true);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
@@ -451,16 +470,16 @@ public class Registrazione {
 		panel.add(imgReg);
 */
 
-        nomeL.setBounds(80,350,100,25);
+        nomeL.setBounds(80,300,100,25);
         nomeL.setForeground(hex2Rgb("#1E90FF"));
         nomeL.setBackground(hex2Rgb("#FFFFFF"));
         nomeL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         nomeL.setFont(new Font("Comic Sans",Font.ITALIC,15));
 
 
-        nomeTF.setBounds(200,350,300,25);
+        nomeTF.setBounds(200,300,300,25);
         nomeTF.setForeground(hex2Rgb("#1E90FF"));
-        nomeTF.setBackground(hex2Rgb("#FFFFFF"));
+        nomeTF.setBackground(hex2Rgb("#F0F8FF"));
         nomeTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         nomeTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         nomeTF.setHorizontalAlignment(JTextField.CENTER);
@@ -468,38 +487,55 @@ public class Registrazione {
         nomeTF.setFocusTraversalKeysEnabled(false);
 
 
-        cognomeL.setBounds(80,400,100,25);
+        cognomeL.setBounds(80,350,100,25);
         cognomeL.setForeground(hex2Rgb("#1E90FF"));
         cognomeL.setBackground(hex2Rgb("#FFFFFF"));
         cognomeL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         cognomeL.setFont(new Font("Comic Sans",Font.ITALIC,15));
 
 
-        cognomeTF.setBounds(200,400,300,25);
+        cognomeTF.setBounds(200,350,300,25);
         cognomeTF.setForeground(hex2Rgb("#1E90FF"));
-        cognomeTF.setBackground(hex2Rgb("#FFFFFF"));
-        cognomeTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        cognomeTF.setBackground(hex2Rgb("#F0F8FF"));
+        cognomeTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
         cognomeTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         cognomeTF.setHorizontalAlignment(JTextField.CENTER);
         cognomeTF.setCaretColor(hex2Rgb("#1E90FF"));
         cognomeTF.setFocusTraversalKeysEnabled(false);
 
 
-        codiceFiscaleL.setBounds(80,450,110,25);
+        codiceFiscaleL.setBounds(80,400,100,25);
         codiceFiscaleL.setForeground(hex2Rgb("#1E90FF"));
         codiceFiscaleL.setBackground(hex2Rgb("#FFFFFF"));
         codiceFiscaleL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         codiceFiscaleL.setFont(new Font("Comic Sans",Font.ITALIC,15));
 
 
-        codiceFiscaleTF.setBounds(200,450,300,25);
+        codiceFiscaleTF.setBounds(200,400,300,25);
         codiceFiscaleTF.setForeground(hex2Rgb("#1E90FF"));
-        codiceFiscaleTF.setBackground(hex2Rgb("#FFFFFF"));
+        codiceFiscaleTF.setBackground(hex2Rgb("#F0F8FF"));
         codiceFiscaleTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         codiceFiscaleTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         codiceFiscaleTF.setHorizontalAlignment(JTextField.CENTER);
         codiceFiscaleTF.setCaretColor(hex2Rgb("#1E90FF"));
         codiceFiscaleTF.setFocusTraversalKeysEnabled(false);
+
+
+        useridL.setBounds(80,450,110,25);
+        useridL.setForeground(hex2Rgb("#1E90FF"));
+        useridL.setBackground(hex2Rgb("#FFFFFF"));
+        useridL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        useridL.setFont(new Font("Comic Sans",Font.ITALIC,15));
+
+
+        useridTF.setBounds(200,450,300,25);
+        useridTF.setForeground(hex2Rgb("#1E90FF"));
+        useridTF.setBackground(hex2Rgb("#F0F8FF"));
+        useridTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
+        useridTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        useridTF.setHorizontalAlignment(JTextField.CENTER);
+        useridTF.setCaretColor(hex2Rgb("#1E90FF"));
+        useridTF.setFocusTraversalKeysEnabled(false);
 
 
         mailL.setBounds(80,500,100,25);
@@ -511,7 +547,7 @@ public class Registrazione {
 
         mailTF.setBounds(200,500,300,25);
         mailTF.setForeground(hex2Rgb("#1E90FF"));
-        mailTF.setBackground(hex2Rgb("#FFFFFF"));
+        mailTF.setBackground(hex2Rgb("#F0F8FF"));
         mailTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         mailTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         mailTF.setHorizontalAlignment(JTextField.CENTER);
@@ -528,8 +564,8 @@ public class Registrazione {
 
         pwdTF.setBounds(200,550,300,25);
         pwdTF.setForeground(hex2Rgb("#1E90FF"));
-        pwdTF.setBackground(hex2Rgb("#FFFFFF"));
-        pwdTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
+        pwdTF.setBackground(hex2Rgb("#F0F8FF"));
+        pwdTF.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, hex2Rgb("#1E90FF")));
         pwdTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         pwdTF.setHorizontalAlignment(JTextField.CENTER);
         pwdTF.setCaretColor(hex2Rgb("#1E90FF"));
@@ -556,7 +592,7 @@ public class Registrazione {
 
         confermaPwdTF.setBounds(200,600,300,25);
         confermaPwdTF.setForeground(hex2Rgb("#1E90FF"));
-        confermaPwdTF.setBackground(hex2Rgb("#FFFFFF"));
+        confermaPwdTF.setBackground(hex2Rgb("#F0F8FF"));
         confermaPwdTF.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         confermaPwdTF.setFont(new Font("Comic Sans",Font.ITALIC,20));
         confermaPwdTF.setHorizontalAlignment(JTextField.CENTER);
@@ -580,9 +616,34 @@ public class Registrazione {
         b.setBounds(200,660,200,40);
         b.setBackground(hex2Rgb("#FFFFFF"));
         b.setForeground(hex2Rgb("#1E90FF"));
-        b.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+        b.setBorder(BorderFactory.createMatteBorder(1, 0, 2, 0, hex2Rgb("#1E90FF")));
         b.setFont(new Font("Comic Sans",Font.BOLD,15));
         b.setFocusTraversalKeysEnabled(false);
+
+
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                try {
+                    new Cittadini(false, null);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
 
 
         f.add(panel);
@@ -608,6 +669,9 @@ public class Registrazione {
         f.add(errorCognome);
         f.add(errorCodiceFiscale);
         f.add(errorMail);
+        f.add(indietro);
+        f.add(useridL);
+        f.add(useridTF);
     }
 
     public static void main(String[] args)

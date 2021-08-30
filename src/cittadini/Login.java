@@ -1,9 +1,14 @@
 package cittadini;
 
+import centrivaccinali.CentriVaccinali;
+import centrivaccinali.RegistraCentri;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Login {
@@ -51,6 +56,7 @@ public class Login {
      */
     int chkVisibilityPwd = 0;
 
+    JButton indietro = new JButton();
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -73,8 +79,7 @@ public class Login {
         return new String(pwd.getPassword()).equals("");
     }
 
-    public Login()
-    {
+    public Login() throws IOException {
         f.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
@@ -226,7 +231,7 @@ public class Login {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(true);
+                    new Cittadini(true, null);
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -313,6 +318,30 @@ public class Login {
         b.setFont(new Font("Comic Sans",Font.ITALIC,20));
 
 
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                try {
+                    new Cittadini(false, null);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
 
         check.setVisible(false);
         check1.setVisible(false);
@@ -337,7 +366,7 @@ public class Login {
         f.add(b);
         f.add(tx);
         f.add(tx1);
-        //f.add(panel);
+        f.add(indietro);
         f.add(occhio);
         f.add(focus);
     }

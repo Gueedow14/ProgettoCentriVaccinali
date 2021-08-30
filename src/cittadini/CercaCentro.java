@@ -1,10 +1,17 @@
 package cittadini;
 
+import centrivaccinali.RegistraCentri;
+import common.Cittadino;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class CercaCentro {
@@ -18,13 +25,17 @@ public class CercaCentro {
     private static final String SECONDA_TIPOLOGIA = "Aziendale";
     private static final String TERZA_TIPOLOGIA = "Hub";
 
+    JButton indietro = new JButton();
+
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public CercaCentro()
-    {
+    public CercaCentro(boolean checkLogin, Cittadino account, boolean checkR) throws IOException {
+
+        System.out.println("cerca "+checkLogin);
+
         JFrame f = new JFrame("Cerca centro");
 
         JButton ricerca = new JButton("Ricerca centro");
@@ -124,7 +135,7 @@ public class CercaCentro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new Homepage(true);
+                    new Homepage(true, account, checkR);
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -203,6 +214,29 @@ public class CercaCentro {
         ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
 
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
+        indietro.setForeground(hex2Rgb("#1E90FF"));
+        indietro.setBackground(hex2Rgb("#F0F8FF"));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        indietro.setFocusable(false);
+
+        indietro.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                try {
+                    new Homepage(checkLogin, account, checkR);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
 
         f.add(tipologiaCentro);
         f.add(nomeL);
@@ -211,11 +245,12 @@ public class CercaCentro {
         f.add(comuneTF);
         f.add(tipoRicerca);
         f.add(ricerca);
+        f.add(indietro);
     }
 
 
-    public static void main(String[] args) {
-        new CercaCentro();
+    public static void main(String[] args) throws IOException {
+        new CercaCentro(false, null, false);
     }
 
 }
