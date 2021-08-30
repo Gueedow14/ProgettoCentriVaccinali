@@ -2,12 +2,13 @@ package centrivaccinali;
 
 import common.Vaccinazione;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
@@ -16,7 +17,7 @@ public class RegistraCittadini {
 
     JFrame f = new JFrame("Registrazione Cittadino");
 
-    JButton indietro = new JButton("Indietro");
+    JButton indietro = new JButton();
 
     /**
      * Label che indica il titolo della finestra
@@ -121,7 +122,7 @@ public class RegistraCittadini {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public RegistraCittadini() {
+    public RegistraCittadini() throws IOException {
 
         int sizeL = 17;
         int sizeTF = 17;
@@ -265,10 +266,13 @@ public class RegistraCittadini {
         cfTF.setCaretColor(hex2Rgb("#1E90FF"));
         cfTF.setFocusTraversalKeysEnabled(false);
 
-        indietro.setBounds(20,475,80,25);
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCittadini.class.getResource("/indietro.jpeg")));
+        imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+        indietro.setIcon(new ImageIcon(imageBack));
+        indietro.setBounds(15,15,35,35);
         indietro.setForeground(hex2Rgb("#1E90FF"));
         indietro.setBackground(hex2Rgb("#F0F8FF"));
-        indietro.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, hex2Rgb("#1E90FF")));
+        indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         indietro.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
         indietro.setFocusable(false);
 
@@ -426,6 +430,12 @@ public class RegistraCittadini {
 
         public static void main (String[]args)
         {
-            SwingUtilities.invokeLater(RegistraCittadini::new);
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    new RegistraCittadini();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }

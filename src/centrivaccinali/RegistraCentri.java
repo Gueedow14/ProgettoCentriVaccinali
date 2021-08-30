@@ -3,7 +3,11 @@ package centrivaccinali;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class RegistraCentri {
@@ -15,7 +19,7 @@ public class RegistraCentri {
 
     JFrame f = new JFrame("Registrazione Centro Vaccinale");
 
-    JButton indietro = new JButton("Indietro");
+    JButton indietro = new JButton();
 
     /**
      * Label che indica il titolo della finestra
@@ -132,7 +136,8 @@ public class RegistraCentri {
 
     JButton b = new JButton("REGISTRA CENTRO");
 
-    public RegistraCentri() {
+
+    public RegistraCentri() throws IOException {
 
             int sizeL = 17;
             int sizeTF = 17;
@@ -309,10 +314,13 @@ public class RegistraCentri {
             provinciaTF.setCaretColor(hex2Rgb("#1E90FF"));
             provinciaTF.setFocusTraversalKeysEnabled(false);
 
-            indietro.setBounds(20,575,80,25);
+            Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+            imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
+            indietro.setIcon(new ImageIcon(imageBack));
+            indietro.setBounds(15,15,35,35);
             indietro.setForeground(hex2Rgb("#1E90FF"));
             indietro.setBackground(hex2Rgb("#F0F8FF"));
-            indietro.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, hex2Rgb("#1E90FF")));
+            indietro.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
             indietro.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
             indietro.setFocusable(false);
 
@@ -440,6 +448,12 @@ public class RegistraCentri {
 
     public static void main (String[]args)
     {
-        SwingUtilities.invokeLater(RegistraCentri::new);
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new RegistraCentri();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

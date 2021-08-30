@@ -3,6 +3,7 @@ package centrivaccinali;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class CentriVaccinali {
 
@@ -39,7 +40,11 @@ public class CentriVaccinali {
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
-                RegistraCentri a = new RegistraCentri();
+                try {
+                    RegistraCentri a = new RegistraCentri();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -57,7 +62,11 @@ public class CentriVaccinali {
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
-                RegistraCittadini b = new RegistraCittadini();
+                try {
+                    RegistraCittadini b = new RegistraCittadini();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
