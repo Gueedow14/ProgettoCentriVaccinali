@@ -2,13 +2,21 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="USE_RELEASE_OPTION" value="false" />
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="untitled104" />
+      </profile>
+    </annotationProcessing>
     <bytecodeTargetLevel target="15">
       <module name="untitled104" target="16" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="untitled104" options="--add-exports java.xml/com.sun.org.apache.xalan.internal.xsltc.compiler.util=ALL-UNNAMED" />
+      <module name="untitled104" options="" />
     </option>
   </component>
 </project>
