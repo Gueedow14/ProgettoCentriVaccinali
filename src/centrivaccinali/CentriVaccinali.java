@@ -1,10 +1,12 @@
 package centrivaccinali;
 
 import java.awt.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.util.Objects;
 
 public class CentriVaccinali {
 
@@ -17,20 +19,44 @@ public class CentriVaccinali {
     JLabel titolo = new JLabel("CENTRI VACCINALI");
     JButton registraCentro = new JButton ("Registra Centro Vaccinale");
     JButton registraCittadino = new JButton ("Registra Cittadino");
+    JLabel logo = new JLabel();
+    JLabel sfondo = new JLabel();
 
     public CentriVaccinali() {
 
-        f.getContentPane().setBackground(hex2Rgb("#7FFFD4"));
+        titolo.setBounds(250 ,30,500,50);
+        titolo.setForeground(hex2Rgb("#0000CD"));
+        titolo.setBackground(hex2Rgb("#F0F8FF"));
+        titolo.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        titolo.setFont(new Font("Comic Sans",Font.BOLD,30));
+
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(CentriVaccinali.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+
+        logo.setIcon(new ImageIcon(img2));
+        logo.setBounds(320, 115, 150, 150);
+
+        /*ImageIcon sf = new ImageIcon(Objects.requireNonNull(CentriVaccinali.class.getResource("/sfondo.jpg")));
+        Image sf1 = sf.getImage();
+        Image sf2 = sf1.getScaledInstance(800, 500, Image.SCALE_SMOOTH);
+
+        sfondo.setIcon(new ImageIcon(sf2));
+        sfondo.setBounds(0,-350,1200,1200);
+        sfondo.setOpaque(true);*/
+
+        f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         f.setBounds(350,150,800,500);
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);
+        f.setIconImage(img2);
 
         registraCentro.setBackground(Color.decode("#F0F8FF"));
         registraCentro.setForeground(Color.decode("#000000"));
         registraCentro.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
-        registraCentro.setBounds(300,175,200,75);
+        registraCentro.setBounds(425,300,200,75);
         registraCentro.setFont(new Font("Arial", Font.ITALIC, 15));
         registraCentro.setFocusable(false);
 
@@ -43,7 +69,7 @@ public class CentriVaccinali {
                 f.dispose();
                 try {
                     RegistraCentri a = new RegistraCentri();
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -52,7 +78,7 @@ public class CentriVaccinali {
         registraCittadino.setBackground(Color.decode("#F0F8FF"));
         registraCittadino.setForeground(Color.decode("#000000"));
         registraCittadino.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
-        registraCittadino.setBounds(300,275,200,75);
+        registraCittadino.setBounds(175,300,200,75);
         registraCittadino.setFont(new Font("Arial", Font.ITALIC, 15));
         registraCittadino.setFocusable(false);
 
@@ -71,9 +97,12 @@ public class CentriVaccinali {
             }
         });
 
+
         f.add(registraCentro);
         f.add(registraCittadino);
-
+        f.add(logo);
+        f.add(sfondo);
+        f.add(titolo);
     }
 
 

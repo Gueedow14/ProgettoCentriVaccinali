@@ -3,8 +3,7 @@ package centrivaccinali;
 import common.*;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -12,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -193,6 +193,44 @@ public class RegistraCittadini extends UnicastRemoteObject {
         centroTF.setCaretColor(hex2Rgb("#1E90FF"));
         centroTF.setFocusTraversalKeysEnabled(false);
 
+        centroTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String centro = centroTF.getText();
+                if (centro.length()!=0) {
+                    centroTF.setText(centro.substring(0, 1).toUpperCase(Locale.ROOT) + centro.substring(1));
+                    for (int i = 0; i < centroTF.getText().length() - 1; i++) {
+                        centro = centroTF.getText();
+                        if (centro.charAt(i) == ' ') {
+                            centroTF.setText(centro.substring(0, i + 1) + Character.toUpperCase(centro.charAt(i + 1)) + centro.substring(i + 2));
+                        }
+                    }
+                }
+                checkCentro(centroTF.getText());
+            }
+        });
+
+        KeyListener centroTFkey = new KeyListener() {
+
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    nomeTF.requestFocus();
+            }
+        };
+        centroTF.addKeyListener(centroTFkey);
 
         dataL.setBounds(70,300,110,25);
         dataL.setForeground(hex2Rgb("#1E90FF"));
@@ -211,6 +249,25 @@ public class RegistraCittadini extends UnicastRemoteObject {
         String sample = java.time.LocalDate.now().toString();
         String today = sample.substring(8,10) + "/" + sample.substring(5,7) + "/" + sample.substring(0,4);
         dataTF.setText(today);
+
+        KeyListener dataKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    centroTF.requestFocus();
+            }
+        };
+        dataTF.addKeyListener(dataKey);
 
 
         tipoL.setBounds(70,350,110,25);
@@ -243,13 +300,50 @@ public class RegistraCittadini extends UnicastRemoteObject {
         nomeTF.setCaretColor(hex2Rgb("#1E90FF"));
         nomeTF.setFocusTraversalKeysEnabled(false);
 
+        nomeTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String nome = nomeTF.getText();
+                if (nome.length()!=0) {
+                    nomeTF.setText(nome.substring(0, 1).toUpperCase(Locale.ROOT) + nome.substring(1));
+                    for (int i = 0; i < nomeTF.getText().length() - 1; i++) {
+                        nome = nomeTF.getText();
+                        if (nome.charAt(i) == ' ') {
+                            nomeTF.setText(nome.substring(0, i + 1) + Character.toUpperCase(nome.charAt(i + 1)) + nome.substring(i + 2));
+                        }
+                    }
+                }
+                checkNome(nomeTF.getText());
+            }
+        });
+
+        KeyListener nomeKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    cognomeTF.requestFocus();
+            }
+        };
+        nomeTF.addKeyListener(nomeKey);
 
         cognomeL.setBounds(70,200,110,25);
         cognomeL.setForeground(hex2Rgb("#1E90FF"));
         cognomeL.setBackground(hex2Rgb("#F0F8FF"));
         cognomeL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         cognomeL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
 
         cognomeTF.setBounds(200,200,300,25);
         cognomeTF.setForeground(hex2Rgb("#1E90FF"));
@@ -260,6 +354,44 @@ public class RegistraCittadini extends UnicastRemoteObject {
         cognomeTF.setCaretColor(hex2Rgb("#1E90FF"));
         cognomeTF.setFocusTraversalKeysEnabled(false);
 
+        cognomeTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String cognome = cognomeTF.getText();
+                if (cognome.length()!=0) {
+                    cognomeTF.setText(cognome.substring(0, 1).toUpperCase(Locale.ROOT) + cognome.substring(1));
+                    for (int i = 0; i < cognomeTF.getText().length() - 1; i++) {
+                        cognome = cognomeTF.getText();
+                        if (cognome.charAt(i) == ' ') {
+                            cognomeTF.setText(cognome.substring(0, i + 1) + Character.toUpperCase(cognome.charAt(i + 1)) + cognome.substring(i + 2));
+                        }
+                    }
+                }
+                checkCognome(cognomeTF.getText());
+            }
+        });
+
+        KeyListener cognomeKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    cfTF.requestFocus();
+            }
+        };
+        cognomeTF.addKeyListener(cognomeKey);
 
         cfL.setBounds(70,250,110,25);
         cfL.setForeground(hex2Rgb("#1E90FF"));
@@ -275,6 +407,36 @@ public class RegistraCittadini extends UnicastRemoteObject {
         cfTF.setHorizontalAlignment(JTextField.CENTER);
         cfTF.setCaretColor(hex2Rgb("#1E90FF"));
         cfTF.setFocusTraversalKeysEnabled(false);
+
+        cfTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                cfTF.setText(cfTF.getText().toUpperCase());
+                checkCF(cfTF.getText());
+            }
+        });
+
+        KeyListener cfKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    dataTF.requestFocus();
+            }
+        };
+        cfTF.addKeyListener(cfKey);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -317,7 +479,6 @@ public class RegistraCittadini extends UnicastRemoteObject {
                     } catch (SQLException | RemoteException ex) {
                         ex.printStackTrace();
                     }
-                    //System.out.println(nuovo.getCf() +" "+ nuovo.getIdVaccinazione() +" "+ nuovo.getNomeCV() +" "+ nuovo.getTipo() +" "+ nuovo.getData());
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
@@ -353,7 +514,10 @@ public class RegistraCittadini extends UnicastRemoteObject {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 100, 600, 550);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(CentriVaccinali.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
     }
     public static boolean checkCentro(String centro){
         if(!centro.equals("")){
@@ -363,6 +527,7 @@ public class RegistraCittadini extends UnicastRemoteObject {
         errorCentro.setVisible(true);
         return false;
     }
+
 
     public static boolean checkData(String data)
     {
@@ -417,7 +582,6 @@ public class RegistraCittadini extends UnicastRemoteObject {
     }
 
     public static boolean checkCF(String CF) {
-        /*
         if(CF.length() == 16) {
             String nome = CF.substring(0, 3);
             String cognome = CF.substring(3, 6);
@@ -434,14 +598,15 @@ public class RegistraCittadini extends UnicastRemoteObject {
                 return false;
             }
         }
-        errorCf.setVisible(true);*/
+        errorCf.setVisible(true);
         return true;
     }
 
 
-        private boolean controlloCampi () {
+    private boolean controlloCampi () {
             return checkNome(nomeTF.getText()) & checkCognome(cognomeTF.getText()) & checkCF(cfTF.getText()) & checkData(dataTF.getText()) & checkCentro(centroTF.getText());
         }
+
 
         public static void main (String[]args) throws Exception {
             new RegistraCittadini();

@@ -154,7 +154,10 @@ public class CercaCentro {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 50, 600, 500);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(CercaCentro.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
 
         tipoRicerca.setBounds(175,50,250,25);
         tipoRicerca.setForeground(hex2Rgb("#1E90FF"));

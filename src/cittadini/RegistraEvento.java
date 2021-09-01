@@ -1,5 +1,6 @@
 package cittadini;
 
+import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
 
@@ -151,6 +152,10 @@ public class RegistraEvento
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);
         f.setVisible(true);
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(RegistraEvento.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
 
         JComboBox<String> tipoEvento = new JComboBox<String>();
         tipoEvento.setModel(new DefaultComboBoxModel<String>() {

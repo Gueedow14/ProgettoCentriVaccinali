@@ -402,7 +402,10 @@ public class Registrazione {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 50, 600, 770);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(Registrazione.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
 
         errorNome.setBounds(60,350,25,25);
         errorNome.setForeground(Color.RED);

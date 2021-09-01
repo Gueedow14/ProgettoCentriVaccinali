@@ -3,8 +3,7 @@ package centrivaccinali;
 import common.*;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -12,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -20,6 +20,7 @@ import javax.swing.*;
 public class RegistraCentri extends UnicastRemoteObject {
 
     private static ClientCV stub;
+
 
     public static Color hex2Rgb(String colorStr)
     {
@@ -146,7 +147,11 @@ public class RegistraCentri extends UnicastRemoteObject {
     JButton b = new JButton("REGISTRA CENTRO");
 
 
-    public RegistraCentri() throws IOException {
+    public RegistraCentri() throws IOException, NotBoundException {
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         int sizeL = 17;
         int sizeTF = 17;
 
@@ -185,7 +190,7 @@ public class RegistraCentri extends UnicastRemoteObject {
         errorNumeroVia.setFont(new Font("Comic Sans",Font.BOLD,25));
         errorNumeroVia.setVisible(false);
 
-        errorProvincia.setBounds(55,355,25,25);
+        errorProvincia.setBounds(45,355,25,25);
         errorProvincia.setForeground(Color.RED);
         errorProvincia.setBackground(hex2Rgb("#FF0000"));
         errorProvincia.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -213,6 +218,44 @@ public class RegistraCentri extends UnicastRemoteObject {
         nomeCentroTF.setCaretColor(hex2Rgb("#1E90FF"));
         nomeCentroTF.setFocusTraversalKeysEnabled(false);
 
+        nomeCentroTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String nome = nomeCentroTF.getText();
+                if (nome.length()!=0) {
+                    nomeCentroTF.setText(nome.substring(0, 1).toUpperCase(Locale.ROOT) + nome.substring(1));
+                    for (int i = 0; i < nomeCentroTF.getText().length() - 1; i++) {
+                        nome = nomeCentroTF.getText();
+                        if (nome.charAt(i) == ' ') {
+                            nomeCentroTF.setText(nome.substring(0, i + 1) + Character.toUpperCase(nome.charAt(i + 1)) + nome.substring(i + 2));
+                        }
+                    }
+                }
+                checkNomeCentro(nomeCentroTF.getText());
+            }
+        });
+
+        KeyListener centroKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    nomeViaTF.requestFocus();
+            }
+        };
+        nomeCentroTF.addKeyListener(centroKey);
 
         nomeViaL.setBounds(70,200,110,25);
         nomeViaL.setForeground(hex2Rgb("#1E90FF"));
@@ -229,6 +272,44 @@ public class RegistraCentri extends UnicastRemoteObject {
         nomeViaTF.setCaretColor(hex2Rgb("#1E90FF"));
         nomeViaTF.setFocusTraversalKeysEnabled(false);
 
+        nomeViaTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String via = nomeViaTF.getText();
+                if (via.length()!=0) {
+                    nomeViaTF.setText(via.substring(0, 1).toUpperCase(Locale.ROOT) + via.substring(1));
+                    for (int i = 0; i < nomeViaTF.getText().length() - 1; i++) {
+                        via = nomeViaTF.getText();
+                        if (via.charAt(i) == ' ') {
+                            nomeViaTF.setText(via.substring(0, i + 1) + Character.toUpperCase(via.charAt(i + 1)) + via.substring(i + 2));
+                        }
+                    }
+                }
+                checkVia(nomeViaTF.getText());
+            }
+        });
+
+        KeyListener viaKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    numeroCivicoTF.requestFocus();
+            }
+        };
+        nomeViaTF.addKeyListener(viaKey);
 
         tipoL.setBounds(70,450,110,25);
         tipoL.setForeground(hex2Rgb("#1E90FF"));
@@ -274,13 +355,40 @@ public class RegistraCentri extends UnicastRemoteObject {
         numeroCivicoTF.setCaretColor(hex2Rgb("#1E90FF"));
         numeroCivicoTF.setFocusTraversalKeysEnabled(false);
 
+        numeroCivicoTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkCiv(numeroCivicoTF.getText());
+            }
+        });
+
+        KeyListener numeroKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    comuneTF.requestFocus();
+            }
+        };
+        numeroCivicoTF.addKeyListener(numeroKey);
 
         comuneL.setBounds(70,300,110,25);
         comuneL.setForeground(hex2Rgb("#1E90FF"));
         comuneL.setBackground(hex2Rgb("#F0F8FF"));
         comuneL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         comuneL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
 
         comuneTF.setBounds(200,300,300,25);
         comuneTF.setForeground(hex2Rgb("#1E90FF"));
@@ -290,6 +398,45 @@ public class RegistraCentri extends UnicastRemoteObject {
         comuneTF.setHorizontalAlignment(JTextField.CENTER);
         comuneTF.setCaretColor(hex2Rgb("#1E90FF"));
         comuneTF.setFocusTraversalKeysEnabled(false);
+
+        comuneTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String comune = comuneTF.getText();
+                if (comune.length()!=0) {
+                    comuneTF.setText(comune.substring(0, 1).toUpperCase(Locale.ROOT) + comune.substring(1));
+                    for (int i = 0; i < comuneTF.getText().length() - 1; i++) {
+                        comune = comuneTF.getText();
+                        if (comune.charAt(i) == ' ') {
+                            comuneTF.setText(comune.substring(0, i + 1) + Character.toUpperCase(comune.charAt(i + 1)) + comune.substring(i + 2));
+                        }
+                    }
+                }
+                checkComune(comuneTF.getText());
+            }
+        });
+
+        KeyListener comuneKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    provinciaTF.requestFocus();
+            }
+        };
+        comuneTF.addKeyListener(comuneKey);
 
         CAPL.setBounds(70,400,110,25);
         CAPL.setForeground(hex2Rgb("#1E90FF"));
@@ -307,7 +454,36 @@ public class RegistraCentri extends UnicastRemoteObject {
         CAPTF.setCaretColor(hex2Rgb("#1E90FF"));
         CAPTF.setFocusTraversalKeysEnabled(false);
 
-        provinciaL.setBounds(70,350,110,25);
+        CAPTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                checkCAP(CAPTF.getText());
+            }
+        });
+
+        KeyListener capKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    nomeCentroTF.requestFocus();
+            }
+        };
+        CAPTF.addKeyListener(capKey);
+
+        provinciaL.setBounds(60,350,120,25);
         provinciaL.setForeground(hex2Rgb("#1E90FF"));
         provinciaL.setBackground(hex2Rgb("#F0F8FF"));
         provinciaL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -321,6 +497,37 @@ public class RegistraCentri extends UnicastRemoteObject {
         provinciaTF.setHorizontalAlignment(JTextField.CENTER);
         provinciaTF.setCaretColor(hex2Rgb("#1E90FF"));
         provinciaTF.setFocusTraversalKeysEnabled(false);
+
+        provinciaTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                String provincia = provinciaTF.getText();
+                provinciaTF.setText(provincia.toUpperCase());
+                checkProvincia(provinciaTF.getText());
+            }
+        });
+
+        KeyListener provKey = new KeyListener()
+        {
+            public void keyPressed(KeyEvent keyEvent) {}
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent)
+            {
+                check(keyEvent);
+            }
+
+            private void check(KeyEvent keyEvent)
+            {
+                if(keyEvent.getKeyChar() == KeyEvent.VK_TAB)
+                    CAPTF.requestFocus();
+            }
+        };
+        provinciaTF.addKeyListener(provKey);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -391,13 +598,16 @@ public class RegistraCentri extends UnicastRemoteObject {
         f.add(b);
         f.add(titolo);
 
-        f.getContentPane().setBackground(hex2Rgb("#F0FFFF"));
+        f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         f.setBounds(350,150,600,650);
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(CentriVaccinali.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
     }
 
     public boolean checkNomeCentro(String nome){
@@ -459,8 +669,7 @@ public class RegistraCentri extends UnicastRemoteObject {
     }
 
     public static void main (String[]args) throws IOException, NotBoundException {
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
-        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         new RegistraCentri();
     }
 }

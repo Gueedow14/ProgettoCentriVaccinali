@@ -1,10 +1,7 @@
 package cittadini;
 
-import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
-import centrivaccinali.RegistraCittadini;
 import common.Cittadino;
-import common.Vaccinazione;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -183,7 +180,10 @@ public class PrenotazioneVaccino {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 100, 600, 450);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(PrenotazioneVaccino.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
     }
 
 

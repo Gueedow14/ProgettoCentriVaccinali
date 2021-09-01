@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.JTableHeader;
-import javax.xml.validation.SchemaFactoryConfigurationError;
+
 
 
 public class Homepage {
@@ -217,7 +217,10 @@ public class Homepage {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(410, 240, 900, 600);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(Homepage.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
 
         f.add(ricerca);
         f.add(indietro);

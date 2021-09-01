@@ -5,7 +5,6 @@ import common.*;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -341,7 +340,10 @@ public class InfoCentro extends UnicastRemoteObject {
             f.add(registra);
         f.add(panel);
         f.add(indietro);
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(InfoCentro.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
     }
 
     public static void main(String[] args) throws IOException, NotBoundException {

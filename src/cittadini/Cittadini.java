@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import javax.swing.*;
 
 public class Cittadini {
@@ -238,7 +239,10 @@ public class Cittadini {
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
-
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(Cittadini.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
 
         focus.setBounds(0,0,1,1);
         focus.setBackground(Color.decode("#FFFFFF"));
@@ -322,6 +326,7 @@ public class Cittadini {
         f.add(BTPrenota);
         f.add(BTLogin);
         f.add(focus);
+
     }
 
 
