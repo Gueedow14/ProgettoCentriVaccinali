@@ -16,24 +16,72 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+
+/**
+ * La classe CercaCentro contiene il codice per la creazione della schermata relativa alla ricerca dei centri vaccinali
+ * @author Giulio Baricci
+ */
+
 public class CercaCentro {
 
+    /**
+     * Valore di default per la selezione del tipo di ricerca
+     */
     private static final String DEAFULT_RICERCA = "Seleziona il tipo di ricerca";
+
+    /**
+     * Primo valore della combobox per il tipo di ricerca
+     */
     private static final String PRIMA_RICERCA = "Per nome";
+
+    /**
+     * Secondo valore della combobox per il tipo di ricerca
+     */
     private static final String SECONDA_RICERCA = "Per comune e tipologia";
 
+    /**
+     * Valore di default per la selezione del tipo di centro
+     */
     private static final String DEFAULT_TIPOLOGIA = "Seleziona la tipologia del centro";
+
+    /**
+     * Primo valore della combobox per il tipo di centro
+     */
     private static final String PRIMA_TIPOLOGIA = "Ospedaliero";
+
+    /**
+     * Secondo valore della combobox per il tipo di centro
+     */
     private static final String SECONDA_TIPOLOGIA = "Aziendale";
+
+    /**
+     * Terzo valore della combobox per il tipo di centro
+     */
     private static final String TERZA_TIPOLOGIA = "Hub";
 
+    /**
+     * Bottone per tornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
+    /**
+     * Il costruttore contiene il codice per la creazione e la visualizzazione della schermata relativa alla
+     * ricerca dei centri vaccinali
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cttadino che ha effettuato l'accesso
+     * @param checkR controlla se la schermata viene creata durante una registrazione
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     */
     public CercaCentro(boolean checkLogin, Cittadino account, boolean checkR) throws IOException {
 
         System.out.println("cerca "+checkLogin);
@@ -258,7 +306,7 @@ public class CercaCentro {
             {
                 try {
                     new Homepage(checkLogin, account, checkR);
-                } catch (IOException | NotBoundException ex) {
+                } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -277,6 +325,11 @@ public class CercaCentro {
         f.add(indietro);
     }
 
+    /**
+     * Metodo per il controlo sul nome inserito
+     * @param text valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     private boolean CheckNome(String text) {
         if(text.length() > 0)
             return true;
@@ -284,6 +337,11 @@ public class CercaCentro {
             return false;
     }
 
+    /**
+     * Metodo per il controllo del comune inserito
+     * @param text valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     private boolean CheckComune(String text) {
         if(text.length() > 0)
             return true;

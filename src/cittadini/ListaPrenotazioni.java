@@ -2,6 +2,8 @@ package cittadini;
 
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
+import common.ClientCV;
+import common.Prenotazione;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,45 +11,135 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
-import static java.lang.Integer.parseInt;
 
-public class ListaPrenotazioni {
+/**
+ * La classe ListaPrenotazioni contiene il codice per la creazione della schermata relativa alla lista delle
+ * prenotazioni effettuate da un cittadino
+ * @author Giulio Baricci
+ */
 
+public class ListaPrenotazioni extends UnicastRemoteObject {
+
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
+    private static ClientCV stub;
+
+    /**
+     * Lista che contiene tutte le prenotazioni effettuate dal cittadino
+     */
+    java.util.List<Prenotazione> lista = new ArrayList<>();
+
+    /**
+     * Frame della schermata delle prenotazioni
+     */
     JFrame f = new JFrame("Prenotazioni");
 
+    /**
+     * Bottone per ritornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
+    /**
+     * Titolo visualizzato nella schrmata
+     */
     JLabel titolo = new JLabel("Prenotazioni effettuate");
 
-    static JLabel errorData = new JLabel("*");
-    static JLabel errorOrario = new JLabel("*");
-
+    /**
+     * Label che indica le informazioni relative alla prima prenotazione
+     */
     JLabel pren1 = new JLabel("Prenotazione 1:");
+
+    /**
+     * Label che indica la data relativa alla prima prenotazione
+     */
     JLabel data1L = new JLabel("Data:", SwingConstants.CENTER);
 
+    /**
+     * Label che indica l'orario relativo alla prima prenotazione
+     */
     JLabel orario1L = new JLabel("Orario:", SwingConstants.CENTER);
 
+    /**
+     * Label che indica le informazioni relative alla seconda prenotazione
+     */
     JLabel pren2 = new JLabel("Prenotazione 2:");
+
+    /**
+     * Label che indica la data relativa alla seconda prenotazione
+     */
     JLabel data2L = new JLabel("Data:", SwingConstants.CENTER);
 
+    /**
+     * Label che indica l'orario relativo alla prima prenotazione
+     */
     JLabel orario2L = new JLabel("Orario:", SwingConstants.CENTER);
 
-
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr)
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public ListaPrenotazioni(boolean checkLogin, Cittadino account) throws IOException {
+    /**
+     * Il costruttore contine il codice per la creazione e la visualizzazione della schermata relativa
+     * alle prenotazioni effettuate dal cittadino
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cittadino che ha effettuato l'accesso
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
+     * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
+     */
+    public ListaPrenotazioni(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
+        lista = stub.getPrenotazioni(account);
+
+        if(lista.size() == 0){
+            orario1L.setVisible(false);
+            orario2L.setVisible(false);
+            data2L.setText("Non prenotata");
+            data1L.setText("Non prenotata");
+        }
+        else if(lista.size() == 1){
+            orario1L.setVisible(true);
+            Prenotazione p1 = lista.get(0);
+            String data[] = p1.getData().split(" ");
+            data1L.setText("Data: "+data[0]);
+            orario1L.setText("Orario: "+data[1]);
+            orario2L.setVisible(false);
+            data2L.setText("Non prenotata");
+        }
+        else if(lista.size() == 2){
+            orario1L.setVisible(true);
+            orario2L.setVisible(true);
+            Prenotazione p1 = lista.get(0);
+            Prenotazione p2 = lista.get(1);
+            String data1[] = p1.getData().split(" ");
+            String data2[] = p2.getData().split(" ");
+            data2L.setText("Data: "+data1[0]);
+            orario1L.setText("Orario: "+data1[1]);
+            data1L.setText("Data: "+data2[0]);
+            orario2L.setText("Orario: "+data2[1]);
+        }
 
         int sizeL = 17;
         int sizeTF = 17;
         System.out.println(checkLogin);
-
 
         titolo.setBounds(122 ,30,500,50);
         titolo.setForeground(hex2Rgb("#1E90FF"));
@@ -146,7 +238,7 @@ public class ListaPrenotazioni {
     }
 
 
-    public static void main (String[]args) throws IOException {
+    public static void main (String[]args) throws IOException, NotBoundException, SQLException {
         new ListaPrenotazioni(false,null);
     }
 }

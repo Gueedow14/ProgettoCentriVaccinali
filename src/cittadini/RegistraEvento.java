@@ -1,21 +1,20 @@
 package cittadini;
 
-import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
- * La classe Recensione contiene il codice per l'aggiunta di una recensione nel file EatAdvisor.dati per la creazione della finestra dove l'utente rilascia una recensione sul ristorante selezionato
- * @author Davide Feldkircher, Guido Bernasconi
+ * La classe RegistraEvento contiene il codice per la creazione della schermata relativa alla registrazione di un evento avverso
+ * @author Giulio Baricci
  */
+
 public class RegistraEvento
 {
 
@@ -24,6 +23,9 @@ public class RegistraEvento
      */
     static int severita = 0;
 
+    /**
+     * Bottone per ritornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
     /**
@@ -129,15 +131,24 @@ public class RegistraEvento
 		*/
     }
 
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    private static final String DEFAULT_EVENTO = "Seleziona il tipo di evento";
     /**
-     * Metodo con il codice per la creazione della finestra della recensione
-     * @throws IOException  Il costruttore, agendo sul file EatAdvisor.dati, può creare un'IOException
+     * Costante contenente la selezione di default della combobox
+     */
+    private static final String DEFAULT_EVENTO = "Seleziona il tipo di evento";
+
+    /**
+     * Metodo con il codice per la creazione della finestra della registrazione di un evento avverso
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
     public RegistraEvento(boolean checkLogin, Cittadino account) throws IOException
     {

@@ -11,10 +11,16 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+
+/**
+ * La classe Login contiene il codice per la creazione della schermata di login
+ * @author Giulio Baricci
+ */
+
 public class Login {
 
     /**
-     * Frame inizale dell'applicazione
+     * Frame della schermata di login
      */
     JFrame f = new JFrame("Login");
 
@@ -48,7 +54,18 @@ public class Login {
      */
     JButton b = new JButton("Accedi");
 
+    /**
+     * Label contenente il logo
+     */
+    JLabel logo = new JLabel();
+
+    /**
+     * Variabile che controlla la TextField relativa allo username
+     */
     JLabel check = new JLabel("0");
+    /**
+     * Variabile che controlla la TextField relativa alla password
+     */
     JLabel check1 = new JLabel("0");
 
     /**
@@ -56,6 +73,9 @@ public class Login {
      */
     int chkVisibilityPwd = 0;
 
+    /**
+     * Bottone per ritornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
     /**
@@ -73,12 +93,15 @@ public class Login {
      * @param pwd è il JPasswordField (campo Password) da controllare
      * @return	ritorna true se il campo Password è vuoto, ritorna false se l'utente ha inserito almeno un carattere nel JPasswordField
      */
-
     public static boolean CheckPWD(JPasswordField pwd)	//check se il campo pwd è vuoto
     {
         return new String(pwd.getPassword()).equals("");
     }
 
+    /**
+     * Il costruttore della classe Login contiene il codice per la creazione della schermata di accesso
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     */
     public Login() throws IOException {
         f.addMouseListener(new MouseAdapter()
         {
@@ -254,6 +277,13 @@ public class Login {
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(Registrazione.class.getResource("/logo.jpg")));
+        Image img1 = img.getImage();
+        Image img2 = img1.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        f.setIconImage(img2);
+
+        logo.setIcon(new ImageIcon(img2));
+        logo.setBounds(150, 50, 200, 200);
 
 
         focus.setBounds(0,0,1,1);
@@ -369,6 +399,7 @@ public class Login {
         f.add(indietro);
         f.add(occhio);
         f.add(focus);
+        f.add(logo);
     }
 
 

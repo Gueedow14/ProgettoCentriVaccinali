@@ -8,6 +8,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -17,25 +18,53 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 
+
+/**
+ * La classe InfoCentro contiene il codice per la creazione della schermata relativa alla visualizzazione
+ * delle informazioni relative a un centro vaccinale
+ * @author Giulio Baricci
+ */
+
 public class InfoCentro extends UnicastRemoteObject {
 
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
     private static ClientCV stub;
 
+    /**
+     * Bottone per tornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public InfoCentro(CentroVaccinale centro, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException {
+    /**
+     * Il costruttore contine il codice per la creazione e la visualizzazione della schermata di informazioni del
+     * centro vaccinale selezionato
+     * @param selezionato contiene le informazioni relative al centro selezionato
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cittadino che ha effettuato l'accesso
+     * @param checkR controlla se la schermata viene creata durante una registrazione
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
+     * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
+     */
+    public InfoCentro(CentroVaccinale selezionato, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
         super();
         System.out.println("info "+checkLogin);
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        CentroVaccinale selezionato = new CentroVaccinale(); //Prendere informazioni sul centro selezionato
 
         ArrayList<EventoAvverso> eventi = null; //Prendere lista eventi avversi registrati per il centro selezionato
 
@@ -322,7 +351,7 @@ public class InfoCentro extends UnicastRemoteObject {
             {
                 try {
                     new Homepage(checkLogin, account, checkR);
-                } catch (IOException | NotBoundException ex) {
+                } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -346,7 +375,7 @@ public class InfoCentro extends UnicastRemoteObject {
         f.setIconImage(img2);
     }
 
-    public static void main(String[] args) throws IOException, NotBoundException {
+    public static void main(String[] args) throws IOException, NotBoundException, SQLException {
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");

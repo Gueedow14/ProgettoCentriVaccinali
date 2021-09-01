@@ -9,9 +9,15 @@ import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
 import javax.swing.*;
+
+/**
+ * La classe Cittadini contiene il codice per la creazione della schermata iniziale
+ * @author Giulio Baricci
+ */
 
 public class Cittadini {
 
@@ -30,16 +36,18 @@ public class Cittadini {
      */
     JButton BTLista = new JButton("Lista centri vaccinali");
 
+
+    String twoLines = "Registrati presso\nun centro";
     /**
      * Bottone per registrarisi presso un centro vaccinale
      */
-    String twoLines = "Registrati presso\nun centro";
     JButton BTRegistrazione = new JButton("<html>" + twoLines.replaceAll("\\n", "<br>") + "</html>");
 
+
+    String twoLines2 = "Registra un\n evento avverso";
     /**
      * Bottone per accedere alla schermata di creazione (registrazione) di un nuovo evento avverso
      */
-    String twoLines2 = "Registra un\n evento avverso";
     JButton BTEventoAvverso = new JButton("<html>" + twoLines2.replaceAll("\\n", "<br>") + "</html>");
 
     /**
@@ -47,11 +55,21 @@ public class Cittadini {
      */
     JButton BTLogin = new JButton("Accedi");
 
+    /**
+     * Bottone per prenotare un vaccino
+     */
     JButton BTPrenota = new JButton("Prenota vaccino");
 
     String twoLines3 = "Visualizza\nprenotazioni";
+    /**
+     * Bottone per visualizzare le prenotazioni effettuate
+     */
     JButton BTListaPrenotazioni = new JButton("<html>" + twoLines3.replaceAll("\\n", "<br>") + "</html>");
 
+    /**
+     * Label contenente il logo
+     */
+    JLabel logo = new JLabel();
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -63,10 +81,16 @@ public class Cittadini {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-
+    /**
+     * Costruttore della schermata iniziale
+     * @param checkLogin controlla se è avvenuto un accesso
+     * @param account fa riferimento al cittadino che ha effettuato l'accesso
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     */
     public Cittadini(boolean checkLogin, Cittadino account) throws IOException
     {
-        System.out.println("cittadini "+checkLogin);
+
+
         BTLista.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
@@ -74,7 +98,7 @@ public class Cittadini {
                 try {
                     new Homepage(checkLogin, account, false);
                 }
-                catch(IOException | NotBoundException er)
+                catch(IOException | NotBoundException | SQLException er)
                 {
                     er.printStackTrace();
                 }
@@ -143,7 +167,7 @@ public class Cittadini {
             public void actionPerformed(ActionEvent e) {
                 try {
                     new ListaPrenotazioni(checkLogin, account);
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
                 //chiusura finestra login
@@ -297,6 +321,9 @@ public class Cittadini {
         Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         f.setIconImage(img2);
 
+        logo.setIcon(new ImageIcon(img2));
+        logo.setBounds(320, 50, 150, 150);
+
         focus.setBounds(0,0,1,1);
         focus.setBackground(Color.decode("#FFFFFF"));
         focus.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#FFFFFF")));
@@ -395,7 +422,7 @@ public class Cittadini {
         f.add(BTLogin);
         f.add(focus);
         f.add(BTListaPrenotazioni);
-
+        f.add(logo);
     }
 
 

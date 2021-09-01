@@ -23,25 +23,53 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.JTableHeader;
 
 
+/**
+ * La classe Homepage contiene il codice per la creazione della schermata relativa alla visualizzazione dei centri vaccinali
+ * presenti nel database
+ * @author Giulio Baricci
+ */
 
 public class Homepage extends UnicastRemoteObject {
 
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
     private static ClientCV stub;
 
+    /**
+     * Frame della schermata di visualizzazione della lista di centri vaccinali
+     */
     static JFrame f = new JFrame("Finestra Account");
-    List<CentroVaccinale> lista = new ArrayList<CentroVaccinale>();;
 
+    /**
+     * Lista contenente i centri vaccinali
+     */
+    List<CentroVaccinale> lista = new ArrayList<CentroVaccinale>();
+
+    /**
+     * Bottone per tornare alla schermata precedente
+     */
     JButton indietro = new JButton();
+
     public static boolean check;
     public static boolean checkReg;
 
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-
-    public static Object[][] PopolaTabella(List<CentroVaccinale> l) throws IOException
+    /**
+     * Il metodo PopolaTabella serve, come suggerisce il nome, a popolare la tabella della classe AccessoAccount
+     * @param l lista dei centri da visualizzare
+     * @return ritorna una matrice di Object che continene i valori da mostrare nella tabella
+     */
+    public static Object[][] PopolaTabella(List<CentroVaccinale> l)
     {
         String[][] matrix = new String[5][3];
 
@@ -57,8 +85,17 @@ public class Homepage extends UnicastRemoteObject {
         return matrix;
     }
 
-
-    public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException {
+    /**
+     * Il costruttore contiene il codice per la creazione e la visualizzazione della schermata contenente la lista di tutti
+     * i centi vaccinali presenti nel database
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cttadino che ha effettuato l'accesso
+     * @param checkR controlla se la schermata viene creata durante una registrazione
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
+     * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
+     */
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
@@ -74,7 +111,7 @@ public class Homepage extends UnicastRemoteObject {
         JButton ricerca = new JButton("Ricerca centro");
         JButton info = new JButton("Visualizza Informazioni Centro");
 
-        //lista = stub.ListaCentri();
+        lista = stub.centriRegistrati();
 
         String[] colonneTab = {"Nome Centro Vaccinale", "Tipologia", "Indirizzo"};
         Object[][] data = PopolaTabella(lista);
@@ -108,7 +145,7 @@ public class Homepage extends UnicastRemoteObject {
                 {
                     try {
                         new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
-                    } catch (IOException | NotBoundException ex) {
+                    } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
@@ -236,7 +273,17 @@ public class Homepage extends UnicastRemoteObject {
         f.add(panel);
     }
 
-
+    /**
+     * Il costruttore contiene il codice per la creazione e la visualizzazione della schermata contenente la lista dei
+     * centi vaccinali presenti nel database filtrati per nome dal valore contenuto in nomeC
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cttadino che ha effettuato l'accesso
+     * @param checkR controlla se la schermata viene creata durante una registrazione
+     * @param nomeC contiene il nome del centro da ricercare
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
+     * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
+     */
     public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String nomeC) throws IOException, NotBoundException, SQLException {
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
@@ -287,7 +334,7 @@ public class Homepage extends UnicastRemoteObject {
                 {
                     try {
                         new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
-                    } catch (IOException | NotBoundException ex) {
+                    } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
@@ -415,8 +462,20 @@ public class Homepage extends UnicastRemoteObject {
         f.add(panel);
     }
 
-
-    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String comuneC, String tipoC) throws IOException, NotBoundException {
+    /**
+     * Il costruttore contiene il codice per la creazione e la visualizzazione della schermata contenente la lista dei
+     * centi vaccinali presenti nel database filtrati per comune dal valore contenuto in comuneC e per tipo dal valore
+     * contenuto in tipoC
+     * @param checkLogin controlla se è stato effettuato un accesso
+     * @param account fa riferimento al cttadino che ha effettuato l'accesso
+     * @param checkR controlla se la schermata viene creata durante una registrazione
+     * @param comuneC contiene il comune su cui fare la ricerca
+     * @param tipoC contiene la tipologia del centro su cui fare la ricerca
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
+     * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
+     */
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String comuneC, String tipoC) throws IOException, NotBoundException, SQLException {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
@@ -431,7 +490,7 @@ public class Homepage extends UnicastRemoteObject {
         JButton ricerca = new JButton("Ricerca centro");
         JButton info = new JButton("Visualizza Informazioni Centro");
 
-        //lista = stub.cercaCentroVaccinaleComune(comuneC, tipoC);
+        lista = stub.cercaCentroVaccinale(comuneC, tipoC);
 
         String[] colonneTab = {"Nome Centro Vaccinale", "Tipologia", "Indirizzo"};
         Object[][] data = PopolaTabella(lista);
@@ -465,7 +524,7 @@ public class Homepage extends UnicastRemoteObject {
                 {
                     try {
                         new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
-                    } catch (IOException | NotBoundException ex) {
+                    } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
@@ -593,7 +652,7 @@ public class Homepage extends UnicastRemoteObject {
         f.add(panel);
     }
 
-    public static void main(String[] args) throws IOException, NotBoundException {
+    public static void main(String[] args) throws IOException, NotBoundException, SQLException {
         // TODO Auto-generated method stub
         new Homepage(false, null, false);
     }

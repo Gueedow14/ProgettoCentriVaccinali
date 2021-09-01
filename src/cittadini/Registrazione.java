@@ -8,21 +8,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.sql.SQLException;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+
+/**
+ * La classe Registrazione contiene il codice per la creazione della schermata relativa alla regisrtazione del cittadino
+ * @author Giulio Baricci
+ */
+
 public class Registrazione {
 
     /**
-     * Frame della schermata di registrazione di un nuovo utente
+     * Frame della schermata di registrazione di un nuovo cittadino
      */
     static JFrame f = new JFrame("Registrazione Nuovo Account");
-
-    /**
-     * Label che indica un errore nell'inserimento dell'username
-     */
-    //static JLabel errorUser = new JLabel("*");
 
     /**
      * Label che indica un errore nell'inserimento della password
@@ -45,7 +47,7 @@ public class Registrazione {
     static JLabel errorCognome = new JLabel("*");
 
     /**
-     * Label che indica un errore nell'inserimento del comune
+     * Label che indica un errore nell'inserimento del codice fiscale
      */
     static JLabel errorCodiceFiscale = new JLabel("*");
 
@@ -74,87 +76,72 @@ public class Registrazione {
     JLabel frecciaBack = new JLabel();
 
     /**
-     * Bottone per tornare alla schermata precedente
-     */
-    JButton back = new JButton();
-
-    /**
-     * Label che indica il campo dove l'utente deve inserire l'username
-     */
-    //JLabel userL = new JLabel("Username:", SwingConstants.CENTER);
-
-    /**
-     * TextField dove l'utente deve inserire l'username
-     */
-    //JTextField userTF = new JTextField("");
-
-    /**
-     * Label che indica il campo dove l'utente deve inserire la password
+     * Label che indica il campo dove il cittadino deve inserire la password
      */
     JLabel pwdL = new JLabel("Password:", SwingConstants.CENTER);
     /**
-     * PasswordField dove l'utente deve inserire l'username
+     * PasswordField dove il cittadino deve inserire l'username
      */
     JPasswordField pwdTF = new JPasswordField("");
 
     /**
-     * Label che indica il campo dove l'utente deve inserire la conferma della password
+     * Label che indica il campo dove il cittadino deve inserire la conferma della password
      */
     JLabel confermaPwdL = new JLabel("Conferma Pwd:", SwingConstants.CENTER);
     /**
-     * PasswordField dove l'utente deve inserire la conferma della password
+     * PasswordField dove il cittadino deve inserire la conferma della password
      */
     JPasswordField confermaPwdTF = new JPasswordField("");
 
     /**
-     * Label che indica il campo dove l'utente deve inserire il proprio nome
+     * Label che indica il campo dove il cittadino deve inserire il proprio nome
      */
     JLabel nomeL = new JLabel("Nome:", SwingConstants.CENTER);
     /**
-     * TextField dove l'utente deve inserire il proprio nome
+     * TextField dove il cittadino deve inserire il proprio nome
      */
     JTextField nomeTF = new JTextField("");
 
     /**
-     * Label che indica il campo dove l'utente deve inserire il proprio cognome
+     * Label che indica il campo dove il cittadino deve inserire il proprio cognome
      */
     JLabel cognomeL = new JLabel("Cognome:", SwingConstants.CENTER);
     /**
-     * TextField dove l'utente deve inserire il proprio cognome
+     * TextField dove il cittadino deve inserire il proprio cognome
      */
     JTextField cognomeTF = new JTextField("");
 
     /**
-     * Label che indica il campo dove l'utente deve inserire il comune di residenza
+     * Label che indica il campo dove il cittadino deve inserire il proprio codice fiscale
      */
     JLabel codiceFiscaleL = new JLabel("Codice fiscale: ", SwingConstants.CENTER);
     /**
-     * TextField dove l'utente deve inserire il comune di residenza
+     * TextField dove il cittadino deve inserire il proprio codice fiscale
      */
     JTextField codiceFiscaleTF = new JTextField("");
 
     /**
-     * Label che indica il campo dove l'utente deve inserire la mail
+     * Label che indica il campo dove il cittadino deve inserire la mail
      */
     JLabel mailL = new JLabel("E-Mail: ", SwingConstants.CENTER);
     /**
-     * TextField dove l'utente deve inserire la mail
+     * TextField dove il cittadino deve inserire la mail
      */
     JTextField mailTF = new JTextField("");
 
 
     /**
-     * Label che indica il campo dove l'utente deve inserire il comune di residenza
+     * Label che indica il campo dove il cittadino deve inserire lo userId
      */
     JLabel useridL = new JLabel("User ID: ", SwingConstants.CENTER);
     /**
-     * TextField dove l'utente deve inserire il comune di residenza
+     * TextField dove il cittadino deve inserire lo userId
      */
     JTextField useridTF = new JTextField("");
 
 
     /**
-     * Bottone per inviare i campi ed iscriversi
+     * Bottone per inviare i campi ed passare alla selezione del centro vaccinale
      */
     JButton b = new JButton("SELEZIONA CV");
 
@@ -178,7 +165,15 @@ public class Registrazione {
      */
     JButton occhio1 = new JButton();
 
+    /**
+     * Bottone per tornare alla schermata precedente
+     */
     JButton indietro = new JButton();
+
+    /**
+     * Label contenente il logo
+     */
+    JLabel logo = new JLabel();
 
     /**
      * Variabile integer per il controllo dell'echo char del JPasswordField 'password'
@@ -199,7 +194,7 @@ public class Registrazione {
 
 
     /**
-     * Array di booleani, ogni casella dell'array è associata ad un tipo di errore di inserimento che l'utente potrebbe commettere, quando l'utente commette uno degli errori previsti la casella corrispondente assume valore true, se l'utente corregge oppure non commette tale errore allora la casella avrà valore false
+     * Array di booleani, ogni casella dell'array è associata ad un tipo di errore di inserimento che il cittadino potrebbe commettere, quando il cittadino commette uno degli errori previsti la casella corrispondente assume valore true, se il cittadino corregge oppure non commette tale errore allora la casella avrà valore false
      */
     boolean[] errorCounter = {false, false, false, false, false, false, false};
 
@@ -213,6 +208,11 @@ public class Registrazione {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
+    /**
+     * Metodo per il controllo del nome
+     * @param nome valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckNome(String nome)
     {
         if(nome.length() >= 3)
@@ -226,6 +226,11 @@ public class Registrazione {
             return false;
     }
 
+    /**
+     * Metodo per il controllo del cognome
+     * @param cognome valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckCognome(String cognome)
     {
         if(cognome.length() >= 3)
@@ -239,6 +244,11 @@ public class Registrazione {
             return false;
     }
 
+    /**
+     * Metodo per il contollo del codice fiscale
+     * @param CF valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckCodFisc(String CF) {
         if(CF.length() == 16) {
             String nome = CF.substring(0, 3);
@@ -257,6 +267,11 @@ public class Registrazione {
         return false;
     }
 
+    /**
+     * Metodo per il controllo dello userId
+     * @param user valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     private boolean CheckUserId(String user) {
         if(user.length() >= 3)
             return true;
@@ -264,7 +279,11 @@ public class Registrazione {
             return false;
     }
 
-    //Da sistemare
+    /**
+     * Metodo per il controllo della mail
+     * @param email valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckEmail(String email)
     {
         String s[] = email.split("@");
@@ -280,6 +299,11 @@ public class Registrazione {
             return false;
     }
 
+    /**
+     * Metodo per il controllo dell password
+     * @param pwd valore inserito dal cittadino
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckPwd(String pwd)
     {
         if(pwd.length() >= 8)
@@ -290,6 +314,12 @@ public class Registrazione {
         return false;
     }
 
+    /**
+     * Metodo per la conferma della password
+     * @param confPwd valore inserito dal cittadino
+     * @param pwd valore di confronto
+     * @return ritorna l'esito del controllo
+     */
     public static boolean CheckConfPwd(String confPwd, String pwd)
     {
         if(confPwd.equals(pwd))
@@ -300,6 +330,11 @@ public class Registrazione {
         return false;
     }
 
+    /**
+     * Il costruttore contine il codice per la creazione e la visualizzazione della schermata relativa
+     * allaregistrazione del cittadino
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     */
     public Registrazione() throws IOException
     {
         b.addMouseListener(new MouseAdapter() {
@@ -406,7 +441,7 @@ public class Registrazione {
 
                     try {
                         new Homepage(true, c, true);
-                    } catch (IOException | NotBoundException e1) {
+                    } catch (IOException | NotBoundException | SQLException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
@@ -434,8 +469,6 @@ public class Registrazione {
                         msg += "- La conferma deve combaciare con la password \n";
                     JOptionPane.showMessageDialog(f, msg, "Errore registrazione", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 
@@ -448,8 +481,11 @@ public class Registrazione {
         f.setBounds(660, 50, 600, 770);
         ImageIcon img = new ImageIcon(Objects.requireNonNull(Registrazione.class.getResource("/logo.jpg")));
         Image img1 = img.getImage();
-        Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image img2 = img1.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         f.setIconImage(img2);
+
+        logo.setIcon(new ImageIcon(img2));
+        logo.setBounds(200, 50, 200, 200);
 
         errorNome.setBounds(60,300,25,25);
         errorNome.setForeground(Color.RED);
@@ -539,6 +575,18 @@ public class Registrazione {
         nomeTF.setCaretColor(hex2Rgb("#1E90FF"));
         nomeTF.setFocusTraversalKeysEnabled(false);
 
+        nomeTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    cognomeTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
 
         cognomeL.setBounds(80,350,100,25);
         cognomeL.setForeground(hex2Rgb("#1E90FF"));
@@ -556,6 +604,17 @@ public class Registrazione {
         cognomeTF.setCaretColor(hex2Rgb("#1E90FF"));
         cognomeTF.setFocusTraversalKeysEnabled(false);
 
+        cognomeTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    codiceFiscaleTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
 
         codiceFiscaleL.setBounds(80,400,100,25);
         codiceFiscaleL.setForeground(hex2Rgb("#1E90FF"));
@@ -572,6 +631,28 @@ public class Registrazione {
         codiceFiscaleTF.setHorizontalAlignment(JTextField.CENTER);
         codiceFiscaleTF.setCaretColor(hex2Rgb("#1E90FF"));
         codiceFiscaleTF.setFocusTraversalKeysEnabled(false);
+
+        codiceFiscaleTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                codiceFiscaleTF.setText(codiceFiscaleTF.getText().toUpperCase());
+            }
+        });
+
+        codiceFiscaleTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    useridTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
 
 
         useridL.setBounds(80,450,110,25);
@@ -590,6 +671,18 @@ public class Registrazione {
         useridTF.setCaretColor(hex2Rgb("#1E90FF"));
         useridTF.setFocusTraversalKeysEnabled(false);
 
+        useridTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    mailTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
 
         mailL.setBounds(80,500,100,25);
         mailL.setForeground(hex2Rgb("#1E90FF"));
@@ -607,6 +700,18 @@ public class Registrazione {
         mailTF.setCaretColor(hex2Rgb("#1E90FF"));
         mailTF.setFocusTraversalKeysEnabled(false);
 
+        mailTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    pwdTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
 
         pwdL.setBounds(80,550,100,25);
         pwdL.setForeground(hex2Rgb("#1E90FF"));
@@ -623,6 +728,18 @@ public class Registrazione {
         pwdTF.setHorizontalAlignment(JTextField.CENTER);
         pwdTF.setCaretColor(hex2Rgb("#1E90FF"));
         pwdTF.setFocusTraversalKeysEnabled(false);
+
+        pwdTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    confermaPwdTF.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
 
         /*
         occhio.setBounds(500,540,60,40);
@@ -651,6 +768,18 @@ public class Registrazione {
         confermaPwdTF.setHorizontalAlignment(JTextField.CENTER);
         confermaPwdTF.setCaretColor(hex2Rgb("#1E90FF"));
         confermaPwdTF.setFocusTraversalKeysEnabled(false);
+
+        confermaPwdTF.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == KeyEvent.VK_TAB)
+                    b.requestFocus();
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
 
         /*
         occhio1.setBounds(500,590,60,40);
@@ -700,7 +829,6 @@ public class Registrazione {
 
 
         f.add(panel);
-        f.add(back);
         f.add(pwdL);
         f.add(pwdTF);
         f.add(confermaPwdL);
@@ -725,6 +853,7 @@ public class Registrazione {
         f.add(indietro);
         f.add(useridL);
         f.add(useridTF);
+        f.add(logo);
     }
 
 

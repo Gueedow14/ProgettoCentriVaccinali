@@ -5,40 +5,93 @@ import common.Cittadino;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
+
+/**
+ * La classe PrenotazioneVaccino contiene il codice per la creazione della schermata per la prenotazione di un vaccino
+ * @author Giulio Baricci
+ */
+
 public class PrenotazioneVaccino {
 
+    /**
+     * Frame della schermata di prenotazione di un vaccino
+     */
     JFrame f = new JFrame("Prenotazione Vaccino");
 
+    /**
+     * Bottone per ritornare alla schermata precedente
+     */
     JButton indietro = new JButton();
 
+    /**
+     * Label per il titolo
+     */
     JLabel titolo = new JLabel("Prenotazione Vaccino");
 
+    /**
+     * Label per visualizzare un eventuale errore nella data
+     */
     static JLabel errorData = new JLabel("*");
+
+    /**
+     * Label per visualizzare un eventuale errore nell'orario
+     */
     static JLabel errorOrario = new JLabel("*");
 
+    /**
+     * Label che indica il campo dove deve essere inserita la data
+     */
     JLabel dataL = new JLabel("Data:", SwingConstants.CENTER);
+
+    /**
+     * TextField dove deve essere inserita la data
+     */
     JTextField dataTF = new JTextField("");
 
+    /**
+     * Label che indica il campo dove deve essere inserito l'orario
+     */
     JLabel orarioL = new JLabel("Orario:", SwingConstants.CENTER);
+
+    /**
+     * TextField dove deve essere inserito l'orario
+     */
     JTextField orarioTF = new JTextField("");
 
+    /**
+     * Bottone per effettuare la prenotazione del vaccino
+     */
     JButton b = new JButton("Prenota");
 
+    /**
+     * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
+     * @param colorStr	stringa che traduce il codice esadecimale in RGB
+     * @return	ritorna il valore rgb
+     */
     public static Color hex2Rgb(String colorStr)
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
+    /**
+     * Il costruttore della classe PrenotazioneVaccino contiene il codice per la creazione e la visualizzazione
+     * della schermata relativa alla prenotazione del vaccino
+     * @param checkLogin controlla se è stato effettuato l'accesso
+     * @param account fa riferimento al cittadino che ha effettuato l'accesso
+     * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     */
     public PrenotazioneVaccino(boolean checkLogin, Cittadino account) throws IOException {
 
         int sizeL = 17;
@@ -150,6 +203,7 @@ public class PrenotazioneVaccino {
             {
 
                 if(controlloCampi()) {
+
                     //Prenota vaccino
 
                     try {
@@ -160,6 +214,10 @@ public class PrenotazioneVaccino {
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(f, "- La data non puo' essere precedente o uguale al giorno odierno e deve\n corrisponedere al formato dd/mm/yyyy\n- L'orario deve corrispondere al formato hh:mm", "Errore registrazione", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -186,7 +244,11 @@ public class PrenotazioneVaccino {
         f.setIconImage(img2);
     }
 
-
+    /**
+     * Metodo che controlla la correttezza della data inserita
+     * @param data corrisponde alla data inserita
+     * @return ritorna l'esito del controllo
+     */
     public static boolean checkData(String data)
     {
         if(!data.equals("") && data.length() == 10){
@@ -195,11 +257,15 @@ public class PrenotazioneVaccino {
             String mese = data.substring(3,5);
             String anno = data.substring(6,10);
 
-            if(parseInt(giorno) > 0  && parseInt(giorno) < 32 &&  parseInt(mese) > 0 &&  parseInt(mese) < 13  && parseInt(anno) > 2020){
-                errorData.setVisible(false);
-                return true;}
 
+            if(parseInt(giorno) > 0  && parseInt(giorno) < 32 &&
+                    parseInt(mese) > 0 &&  parseInt(mese) < 13  &&
+                    parseInt(anno) >= LocalDateTime.now().getYear()){
+                errorData.setVisible(false);
+                return true;
+            }
             else {
+
                 errorData.setVisible(true);
                 return false;
             }
@@ -208,6 +274,11 @@ public class PrenotazioneVaccino {
         return false;
     }
 
+    /**
+     * Metodo che controlla la correttezza dell'orario inserito
+     * @param orario corrisponde all'orario inserito
+     * @return ritorna l'esito del controllo
+     */
     public static boolean checkOrario(String orario)
     {
         if(!orario.equals("") && orario.length() == 5){
@@ -217,8 +288,8 @@ public class PrenotazioneVaccino {
 
             if(parseInt(ore) >= 0  && parseInt(ore) < 24 &&  parseInt(minuti) >= 0 &&  parseInt(minuti) < 60){
                 errorOrario.setVisible(false);
-                return true;}
-
+                return true;
+            }
             else {
                 errorOrario.setVisible(true);
                 return false;
@@ -228,6 +299,10 @@ public class PrenotazioneVaccino {
         return false;
     }
 
+    /**
+     * Metodo che richiama i controlli sulle informazioni inserite
+     * @return ritorna l'esito dei controlli
+     */
     private boolean controlloCampi () {
         return checkOrario(orarioTF.getText()) & checkData(dataTF.getText());
     }
