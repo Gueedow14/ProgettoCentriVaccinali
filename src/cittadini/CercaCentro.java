@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -134,16 +136,40 @@ public class CercaCentro {
         {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    new Homepage(true, account, checkR);
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+                if(!tipoRicerca.getSelectedItem().toString().equals(DEAFULT_RICERCA)) {
+                    try {
+                        if (tipoRicerca.getSelectedItem().toString().equals(PRIMA_RICERCA))
+                            if(CheckNome(nomeTF.getText())) {
+                                new Homepage(true, account, checkR, nomeTF.getText());
+                                f.setVisible(false);
+                                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                                f.dispose();
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(f, "Inserire un nome da ricercare", "Errore ricerca", JOptionPane.ERROR_MESSAGE);
+                            }
+                        else if (tipoRicerca.getSelectedItem().toString().equals(SECONDA_RICERCA))
+                            if(!tipologiaCentro.getSelectedItem().toString().equals(DEFAULT_TIPOLOGIA))
+                                if(CheckComune(comuneTF.getText())) {
+                                    new Homepage(true, account, checkR, comuneTF.getText(), tipologiaCentro.getSelectedItem().toString());
+                                    f.setVisible(false);
+                                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                                    f.dispose();
+                                }
+                                    else
+                                    JOptionPane.showMessageDialog(f, "Inserire un comune da ricercare", "Errore ricerca", JOptionPane.ERROR_MESSAGE);
+                            else
+                                JOptionPane.showMessageDialog(f, "Selezionare una tipologia da ricercare", "Errore ricerca", JOptionPane.ERROR_MESSAGE);
 
-                f.setVisible(false);
-                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                f.dispose();
+                    } catch (IOException | NotBoundException | SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+
+                }
+                else
+                    JOptionPane.showMessageDialog(f, "Selezionare un tipo di ricerca", "Errore selezione ricerca", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -232,7 +258,7 @@ public class CercaCentro {
             {
                 try {
                     new Homepage(checkLogin, account, checkR);
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -249,6 +275,20 @@ public class CercaCentro {
         f.add(tipoRicerca);
         f.add(ricerca);
         f.add(indietro);
+    }
+
+    private boolean CheckNome(String text) {
+        if(text.length() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean CheckComune(String text) {
+        if(text.length() > 0)
+            return true;
+        else
+            return false;
     }
 
 

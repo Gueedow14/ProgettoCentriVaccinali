@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.Map;
 import java.util.Objects;
 import javax.swing.*;
@@ -48,6 +49,9 @@ public class Cittadini {
 
     JButton BTPrenota = new JButton("Prenota vaccino");
 
+    String twoLines3 = "Visualizza\nprenotazioni";
+    JButton BTListaPrenotazioni = new JButton("<html>" + twoLines3.replaceAll("\\n", "<br>") + "</html>");
+
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -70,7 +74,7 @@ public class Cittadini {
                 try {
                     new Homepage(checkLogin, account, false);
                 }
-                catch(IOException er)
+                catch(IOException | NotBoundException er)
                 {
                     er.printStackTrace();
                 }
@@ -123,6 +127,22 @@ public class Cittadini {
             public void actionPerformed(ActionEvent e) {
                 try {
                     new PrenotazioneVaccino(checkLogin, account);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                //chiusura finestra login
+                f.setVisible(false);
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.dispose();
+            }
+        });
+
+        BTListaPrenotazioni.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new ListaPrenotazioni(checkLogin, account);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -214,6 +234,39 @@ public class Cittadini {
             }
         });
 
+        BTListaPrenotazioni.addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                BTListaPrenotazioni.setBackground(hex2Rgb("#FFFFFF"));
+                BTListaPrenotazioni.setForeground(hex2Rgb("#1E90FF"));
+            }
+
+            @Override
+            public void focusGained(FocusEvent e)
+            {
+                BTListaPrenotazioni.setBackground(hex2Rgb("#1E90FF"));
+                BTListaPrenotazioni.setForeground(hex2Rgb("#FFFFFF"));
+            }
+        });
+
+        BTPrenota.addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                BTPrenota.setBackground(hex2Rgb("#FFFFFF"));
+                BTPrenota.setForeground(hex2Rgb("#1E90FF"));
+            }
+
+            @Override
+            public void focusGained(FocusEvent e)
+            {
+                BTPrenota.setBackground(hex2Rgb("#1E90FF"));
+                BTPrenota.setForeground(hex2Rgb("#FFFFFF"));
+            }
+        });
 
         BTLogin.addFocusListener(new FocusListener()
         {
@@ -255,7 +308,7 @@ public class Cittadini {
         BTLista.setBounds(50,350,200,60);
         BTLista.setBackground(hex2Rgb("#FFFFFF"));
         BTLista.setForeground(hex2Rgb("#1E90FF"));
-        BTLista.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
+        BTLista.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         BTLista.setFont(new Font("Comic Sans",Font.ITALIC,20));
 
 
@@ -265,7 +318,7 @@ public class Cittadini {
         BTRegistrazione.setHorizontalAlignment(SwingConstants.CENTER);
         BTRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
         BTRegistrazione.setForeground(hex2Rgb("#1E90FF"));
-        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
+        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         if(!checkLogin) {
             BTRegistrazione.setEnabled(true);
             BTRegistrazione.setVisible(true);
@@ -281,7 +334,7 @@ public class Cittadini {
         BTPrenota.setFont(new Font("Comic Sans",Font.ITALIC,20));
         BTPrenota.setBackground(hex2Rgb("#FFFFFF"));
         BTPrenota.setForeground(hex2Rgb("#1E90FF"));
-        BTPrenota.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
+        BTPrenota.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         if(checkLogin) {
             BTPrenota.setEnabled(true);
             BTPrenota.setVisible(true);
@@ -292,9 +345,24 @@ public class Cittadini {
             BTPrenota.setEnabled(false);
         }
 
+        BTListaPrenotazioni.setBounds(300,260,200,60);
+        BTListaPrenotazioni.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTListaPrenotazioni.setBackground(hex2Rgb("#FFFFFF"));
+        BTListaPrenotazioni.setForeground(hex2Rgb("#1E90FF"));
+        BTListaPrenotazioni.setBorder(BorderFactory.createMatteBorder(1, 0, 2, 0, hex2Rgb("#1E90FF")));
+        if(checkLogin) {
+            BTListaPrenotazioni.setEnabled(true);
+            BTListaPrenotazioni.setVisible(true);
+        }
+        else
+        {
+            BTListaPrenotazioni.setVisible(false);
+            BTListaPrenotazioni.setEnabled(false);
+        }
+
         //bottone registra evento avverso
         BTEventoAvverso.setBounds(550,350,200,60);
-        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, hex2Rgb("#1E90FF")));
+        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         BTEventoAvverso.setFont(new Font("Comic Sans",Font.ITALIC,20));
         if(checkLogin) {
             BTEventoAvverso.setBackground(hex2Rgb("#FFFFFF"));
@@ -326,6 +394,7 @@ public class Cittadini {
         f.add(BTPrenota);
         f.add(BTLogin);
         f.add(focus);
+        f.add(BTListaPrenotazioni);
 
     }
 

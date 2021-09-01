@@ -28,7 +28,7 @@ public class InfoCentro extends UnicastRemoteObject {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public InfoCentro(String valueAt, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException {
+    public InfoCentro(CentroVaccinale centro, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException {
         super();
         System.out.println("info "+checkLogin);
 
@@ -322,7 +322,7 @@ public class InfoCentro extends UnicastRemoteObject {
             {
                 try {
                     new Homepage(checkLogin, account, checkR);
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -351,7 +351,7 @@ public class InfoCentro extends UnicastRemoteObject {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        new InfoCentro("ciao",true, null, false);
+        new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false);
 
     }
 

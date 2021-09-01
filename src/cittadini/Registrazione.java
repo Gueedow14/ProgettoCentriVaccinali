@@ -7,6 +7,7 @@ import common.Cittadino;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -49,9 +50,9 @@ public class Registrazione {
     static JLabel errorCodiceFiscale = new JLabel("*");
 
     /**
-     * Label che indica un errore nell'inserimento della sigla della provincia
+     * Label che indica un errore nell'inserimento dello userId
      */
-    //static JLabel errorSigla = new JLabel("*");
+    static JLabel errorUserId = new JLabel("*");
 
     /**
      * Label che indica un errore nell'inserimento della mail
@@ -200,7 +201,7 @@ public class Registrazione {
     /**
      * Array di booleani, ogni casella dell'array è associata ad un tipo di errore di inserimento che l'utente potrebbe commettere, quando l'utente commette uno degli errori previsti la casella corrispondente assume valore true, se l'utente corregge oppure non commette tale errore allora la casella avrà valore false
      */
-    boolean[] errorCounter = {false, false, false, false, false, false};
+    boolean[] errorCounter = {false, false, false, false, false, false, false};
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -238,17 +239,29 @@ public class Registrazione {
             return false;
     }
 
-    public static boolean CheckCodFisc(String codFisc)
-    {
-        if(codFisc.length() == 16)
-        {
-            for(char c : codFisc.toCharArray())
-                if(!((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57)))
-                    return false;
-            return true;
-        }
+    public static boolean CheckCodFisc(String CF) {
+        if(CF.length() == 16) {
+            String nome = CF.substring(0, 3);
+            String cognome = CF.substring(3, 6);
+            String anno = CF.substring(6, 8);
+            String mese = CF.substring(8, 9);
+            String giorno = CF.substring(9, 11);
 
+            if (nome.matches("[a-zA-Z]+") && cognome.matches("[a-zA-Z]+") && mese.matches("[a-zA-Z]+") && anno.matches("[0-9]+") && giorno.matches("[0-9]+")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         return false;
+    }
+
+    private boolean CheckUserId(String user) {
+        if(user.length() >= 3)
+            return true;
+        else
+            return false;
     }
 
     //Da sistemare
@@ -295,7 +308,7 @@ public class Registrazione {
                 int sentinel = 0;
 
                 //Registrazione cittadino
-                /*if(!CheckNome(nomeTF.getText()))
+                if(!CheckNome(nomeTF.getText()))
                 {
                     errorNome.setVisible(true);
                     errorCounter[0] = true;
@@ -331,40 +344,52 @@ public class Registrazione {
                     errorCounter[2] = false;
                 }
 
-                if(!CheckEmail(mailTF.getText()))
+                if(!CheckUserId(useridTF.getText()))
                 {
-                    errorMail.setVisible(true);
+                    errorConfermaPwd.setVisible(true);
                     errorCounter[3] = true;
                     sentinel++;
                 }
                 else
                 {
-                    errorMail.setVisible(false);
+                    errorConfermaPwd.setVisible(false);
                     errorCounter[3] = false;
                 }
 
-                if(!CheckPwd(pwdTF.getText()))
+                if(!CheckEmail(mailTF.getText()))
                 {
-                    errorPwd.setVisible(true);
+                    errorMail.setVisible(true);
                     errorCounter[4] = true;
                     sentinel++;
                 }
                 else
                 {
-                    errorPwd.setVisible(false);
+                    errorMail.setVisible(false);
                     errorCounter[4] = false;
                 }
 
-                if(!CheckConfPwd(confermaPwdTF.getText(), pwdTF.getText()))
+                if(!CheckPwd(pwdTF.getText()))
                 {
-                    errorConfermaPwd.setVisible(true);
+                    errorPwd.setVisible(true);
                     errorCounter[5] = true;
                     sentinel++;
                 }
                 else
                 {
-                    errorConfermaPwd.setVisible(false);
+                    errorPwd.setVisible(false);
                     errorCounter[5] = false;
+                }
+
+                if(!CheckConfPwd(confermaPwdTF.getText(), pwdTF.getText()))
+                {
+                    errorConfermaPwd.setVisible(true);
+                    errorCounter[6] = true;
+                    sentinel++;
+                }
+                else
+                {
+                    errorConfermaPwd.setVisible(false);
+                    errorCounter[6] = false;
                 }
 
                 try {
@@ -373,7 +398,7 @@ public class Registrazione {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
                 }
-                */
+
                 if(sentinel == 0)
                 {
                     Cittadino c = new Cittadino(useridTF.getText(), pwdTF.getPassword().toString(), nomeTF.getText(), cognomeTF.getText(), codiceFiscaleTF.getText(), mailTF.getText(), null);
@@ -381,7 +406,7 @@ public class Registrazione {
 
                     try {
                         new Homepage(true, c, true);
-                    } catch (IOException e1) {
+                    } catch (IOException | NotBoundException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
@@ -389,6 +414,25 @@ public class Registrazione {
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
+                }
+                else
+                {
+                    String msg = "";
+                    if(errorCounter[0])
+                        msg += "- Il nome deve contenere almeno 3 lettere \n";
+                    if(errorCounter[1])
+                        msg += "- Il cognome deve contenere almeno 3 lettere \n";
+                    if(errorCounter[2])
+                        msg += "- Il codice fiscale deve essere di 16 caratteri \n";
+                    if(errorCounter[3])
+                        msg += "- Lo userId inserito e' gia' esistente \n";
+                    if(errorCounter[4])
+                        msg += "- L'indirizzo email deve essere corretto \n";
+                    if(errorCounter[5])
+                        msg += "- La password deve essere di almeno 8 caratteri \n";
+                    if(errorCounter[6])
+                        msg += "- La conferma deve combaciare con la password \n";
+                    JOptionPane.showMessageDialog(f, msg, "Errore registrazione", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -407,7 +451,7 @@ public class Registrazione {
         Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         f.setIconImage(img2);
 
-        errorNome.setBounds(60,350,25,25);
+        errorNome.setBounds(60,300,25,25);
         errorNome.setForeground(Color.RED);
         errorNome.setBackground(hex2Rgb("#FFFFFF"));
         errorNome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -415,7 +459,7 @@ public class Registrazione {
         errorNome.setVisible(false);
 
 
-        errorCognome.setBounds(60,400,25,25);
+        errorCognome.setBounds(60,350,25,25);
         errorCognome.setForeground(Color.RED);
         errorCognome.setBackground(hex2Rgb("#FFFFFF"));
         errorCognome.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -423,13 +467,19 @@ public class Registrazione {
         errorCognome.setVisible(false);
 
 
-        errorCodiceFiscale.setBounds(60,450,25,25);
+        errorCodiceFiscale.setBounds(60,400,25,25);
         errorCodiceFiscale.setForeground(Color.RED);
         errorCodiceFiscale.setBackground(hex2Rgb("#FFFFFF"));
         errorCodiceFiscale.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         errorCodiceFiscale.setFont(new Font("Comic Sans",Font.BOLD,25));
         errorCodiceFiscale.setVisible(false);
 
+        errorUserId.setBounds(60,450,25,25);
+        errorUserId.setForeground(Color.RED);
+        errorUserId.setBackground(hex2Rgb("#FFFFFF"));
+        errorUserId.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
+        errorUserId.setFont(new Font("Comic Sans",Font.BOLD,25));
+        errorUserId.setVisible(false);
 
         errorMail.setBounds(60,500,25,25);
         errorMail.setForeground(Color.RED);
@@ -676,6 +726,8 @@ public class Registrazione {
         f.add(useridL);
         f.add(useridTF);
     }
+
+
 
     public static void main(String[] args)
     {
