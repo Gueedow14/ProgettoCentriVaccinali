@@ -83,6 +83,14 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         }
     }
 
+    private void queryRicercaPrenotazioni(Statement s, ArrayList<Prenotazione> l) throws SQLException {
+        ResultSet rst = s.executeQuery("SELECT * FROM prenotazione");
+        while(rst.next()) {
+            Prenotazione p = new Prenotazione(rst.getInt("idprenotazione"), rst.getString("userid"), rst.getString("cv"), rst.getString("dataprenotazione"));
+            l.add(p);
+        }
+    }
+
     private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO prenotazione " +
@@ -109,6 +117,49 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     @Override
     public List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) throws SQLException {
+        ArrayList<CentroVaccinale> listaCV = new ArrayList<>(), ris = new ArrayList<>();
+
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,listaCV);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,listaCV);
+        }
+
+        for(CentroVaccinale centroVaccinale : listaCV)
+            if(centroVaccinale.getNome().contains(nomeCV))
+                ris.add(centroVaccinale);
+
+        return ris;
+    }
+
+    @Override
+    public List<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws SQLException, RemoteException {
+        ArrayList<CentroVaccinale> listaCV = new ArrayList<>(), ris = new ArrayList<>();
+
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,listaCV);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRicercaCV(s,listaCV);
+        }
+
+        for(CentroVaccinale centroVaccinale : listaCV) {
+            String[] tmp = centroVaccinale.getIndirizzo().split("\\|");
+            String com = tmp[3];
+            if(com.equals(comune) && centroVaccinale.getTipologia().equals(tipo))
+                ris.add(centroVaccinale);
+        }
+
+        return ris;
+    }
+
+    @Override
+    public List<CentroVaccinale> centriRegistrati() throws SQLException, RemoteException {
         ArrayList<CentroVaccinale> lista = new ArrayList<>();
 
         if (conn.isValid(1000)) {
@@ -121,6 +172,26 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         }
 
         return lista;
+    }
+
+    @Override
+    public List<Prenotazione> getPrenotazioni(Cittadino c) throws SQLException, RemoteException {
+        ArrayList<Prenotazione> lista = new ArrayList<>(), ris = new ArrayList<>();
+
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRicercaPrenotazioni(s,lista);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRicercaPrenotazioni(s,lista);
+        }
+
+        for (Prenotazione p : lista)
+            if (p.getUserid().equals(c.getUserid()))
+                ris.add(p);
+
+        return ris;
     }
 
     @Override

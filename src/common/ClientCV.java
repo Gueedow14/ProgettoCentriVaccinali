@@ -8,6 +8,9 @@ import java.util.List;
 public interface ClientCV extends Remote {
     void visualizzaCentroVaccinale(CentroVaccinale cv) throws RemoteException;
     List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) throws SQLException, RemoteException;
+    List<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws SQLException, RemoteException;
+    List<CentroVaccinale> centriRegistrati() throws SQLException, RemoteException;
+    List<Prenotazione> getPrenotazioni(Cittadino c) throws SQLException, RemoteException;
     void registraCittadino(Cittadino c) throws SQLException, RemoteException;
     void registraCentroVaccinale(CentroVaccinale cv) throws SQLException, RemoteException;
     void registraVaccinato(Vaccinazione v) throws SQLException, RemoteException;
