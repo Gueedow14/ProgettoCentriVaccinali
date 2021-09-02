@@ -21,9 +21,21 @@ import static java.lang.Integer.parseInt;
 
 public class RegistraCittadini extends UnicastRemoteObject {
 
+    /**
+     * Stub utilizzato per il collegamento al ServerCV.
+     */
+
     private static ClientCV stub;
 
+    /**
+     * Frame di contenimento della finestra.
+     */
+
     JFrame f = new JFrame("Registrazione Cittadino");
+
+    /**
+     * Bottone per il ritorno alla schermata principale.
+     */
 
     JButton indietro = new JButton();
 
@@ -86,6 +98,10 @@ public class RegistraCittadini extends UnicastRemoteObject {
 
     String[] tipi = {"Pfizer", "Moderna", "Astrazeneca", "J&J"};
 
+    /**
+     * JComboBox utilizzata per la selezione del tipo di vaccinazione.
+     */
+
     JComboBox<String> tipoTF = new JComboBox<>(tipi);
 
     /**
@@ -125,10 +141,18 @@ public class RegistraCittadini extends UnicastRemoteObject {
 
     JButton b = new JButton("ISCRIVITI");
 
+    /**
+     * Metodo utlizzato per la conversione dei codici RGB.
+     */
+
     public static Color hex2Rgb(String colorStr)
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
+
+    /**
+     * Costruttore che crea l'interfaccia e ne gestisce lo stile, la dimensione, la posizione e i suoi listeners.
+     */
 
     public RegistraCittadini() throws IOException, NotBoundException {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
@@ -519,6 +543,13 @@ public class RegistraCittadini extends UnicastRemoteObject {
         Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         f.setIconImage(img2);
     }
+
+    /**
+     * Metodo che controlla la compilazione del campo Nome Centro Vaccinale: non deve essere vuoto.
+     * @param centro che contiene il testo inserito nel campo relativo.
+     * @return boolean che restituisce l'esito del check.
+     */
+
     public static boolean checkCentro(String centro){
         if(!centro.equals("")){
             errorCentro.setVisible(false);
@@ -528,10 +559,15 @@ public class RegistraCittadini extends UnicastRemoteObject {
         return false;
     }
 
+    /**
+     * Metodo che controlla la compilazione del campo Data Vaccinazione: non deve essere vuoto e deve essere nel formato gg/mm/aaaa, viene autocopilato con la data odierna.
+     * @param data che contiene il testo inserito nel campo relativo.
+     * @return boolean che restituisce l'esito del check.
+     */
 
     public static boolean checkData(String data)
     {
-        if(!data.equals("") && data.length() == 10){
+        if(data.length() == 10){
 
             String giorno = data.substring(0,2);
             String mese = data.substring(3,5);
@@ -550,6 +586,12 @@ public class RegistraCittadini extends UnicastRemoteObject {
         return false;
     }
 
+    /**
+     * Metodo che controlla la compilazione del campo Nome Vaccinato: non deve essere vuoto.
+     * @param nome che contiene il testo inserito nel campo relativo.
+     * @return boolean che restituisce l'esito del check.
+     */
+
     public static boolean checkNome(String nome)
     {
         if(nome.equals("")) {
@@ -566,6 +608,12 @@ public class RegistraCittadini extends UnicastRemoteObject {
             return true;
     }
 
+    /**
+     * Metodo che controlla la compilazione del campo Cognome Vaccinato: non deve essere vuoto.
+     * @param cognome nome che contiene il testo inserito nel campo relativo.
+     * @return boolean che restituisce l'esito del check.
+     */
+
     public static boolean checkCognome(String cognome)
     {
         if(cognome.equals("")) {
@@ -580,6 +628,12 @@ public class RegistraCittadini extends UnicastRemoteObject {
             errorCognome.setVisible(false);
         return true;
     }
+
+    /**
+     * Metodo che controlla la compilazione del campo CF : non deve essere vuoto e deve essere formattato correttamente.
+     * @param CF nome che contiene il testo inserito nel campo relativo.
+     * @return boolean che restituisce l'esito del check.
+     */
 
     public static boolean checkCF(String CF) {
         if(CF.length() == 16) {
@@ -602,6 +656,10 @@ public class RegistraCittadini extends UnicastRemoteObject {
         return true;
     }
 
+    /**
+     * Metodo che esegue tutti i check e permette la registrazione a DB della vaccinazione.
+     * @return boolean che restituisce l'esito del check.
+     */
 
     private boolean controlloCampi () {
             return checkNome(nomeTF.getText()) & checkCognome(cognomeTF.getText()) & checkCF(cfTF.getText()) & checkData(dataTF.getText()) & checkCentro(centroTF.getText());

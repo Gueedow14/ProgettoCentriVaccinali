@@ -19,15 +19,29 @@ import javax.swing.*;
 
 public class RegistraCentri extends UnicastRemoteObject {
 
+    /**
+     * Oggetto stub utilizzato per interfacciarsi al ServerCV
+     */
+
     private static ClientCV stub;
 
+    /**
+     * Metodo utlizzato per la conversione dei codici RGB
+     */
 
     public static Color hex2Rgb(String colorStr)
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
+    /**
+     * Frame della finestra RegistraCentri
+     */
     JFrame f = new JFrame("Registrazione Centro Vaccinale");
+
+    /**
+     * Bottone di ritorno alla schermata CentriVaccinali
+     */
 
     JButton indietro = new JButton();
 
@@ -84,15 +98,27 @@ public class RegistraCentri extends UnicastRemoteObject {
      */
     JTextField nomeViaTF = new JTextField("");
 
+    /**
+     * Array che contiene i vari tipi di via selezionabili
+     */
+
+    String[] vie = {"Via", "Viale", "Piazza"};
 
     /**
-     * JComboBoxes dove l'utente deve scegliere il tipo di centro e il tipo di via
+     * JComboBox per la selezione del tipo di via
      */
-    String[] vie = {"Via", "Viale", "Piazza"};
 
     JComboBox<String> vieTF = new JComboBox<>(vie);
 
+    /**
+     * Array contenente i diversi tipi di centri selezionabili
+     */
+
     String[] tipi = {"Ospedaliero", "Aziendale", "Hub"};
+
+    /**
+     * JComboBox per la selezione dei tipi di centro
+     */
 
     JComboBox<String> tipoTF = new JComboBox<>(tipi);
 
@@ -146,6 +172,9 @@ public class RegistraCentri extends UnicastRemoteObject {
 
     JButton b = new JButton("REGISTRA CENTRO");
 
+    /**
+     * Esecuzione principale della classe RegistraCentri
+     */
 
     public RegistraCentri() throws IOException, NotBoundException {
 
@@ -344,7 +373,6 @@ public class RegistraCentri extends UnicastRemoteObject {
         numeroCivicoL.setBackground(hex2Rgb("#F0F8FF"));
         numeroCivicoL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         numeroCivicoL.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
-
 
         numeroCivicoTF.setBounds(200,250,300,25);
         numeroCivicoTF.setForeground(hex2Rgb("#1E90FF"));
@@ -610,6 +638,12 @@ public class RegistraCentri extends UnicastRemoteObject {
         f.setIconImage(img2);
     }
 
+    /**
+     * Metodo per il controllo dell'inserimento del campo nome: non deve essere vuoto e non deve essere già presente nel DB.
+     * @param nome che contiene il testo inserito nel TextField del nome.
+     * @return booleano che indica l'esito del check.
+     */
+
     public boolean checkNomeCentro(String nome){
         if(nome.equals("")){
             errorNome.setVisible(true);
@@ -618,6 +652,12 @@ public class RegistraCentri extends UnicastRemoteObject {
         errorNome.setVisible(false);
         return true;
     }
+
+    /**
+     * Metodo per il controllo dell'inserimento del campo Nome Via: non deve essere vuoto.
+     * @param via che contiene il testo inserito nel TextField della via.
+     * @return booleano che indica l'esito del check.
+     */
 
     public boolean checkVia(String via){
         if(via.equals("")){
@@ -628,6 +668,12 @@ public class RegistraCentri extends UnicastRemoteObject {
         return true;
     }
 
+    /**
+     * Metodo per il controllo dell'inserimento del campo Numero Civico: non deve essere vuoto e deve essere composto da solo numeri.
+     * @param civ che contiene il testo inserito nel TextField della via.
+     * @return booleano che indica l'esito del check.
+     */
+
     public boolean checkCiv(String civ){
         if(!civ.matches("[0-9]+")) {
             errorNumeroVia.setVisible(true);
@@ -636,6 +682,12 @@ public class RegistraCentri extends UnicastRemoteObject {
         errorNumeroVia.setVisible(false);
         return true;
     }
+
+    /**
+     * Metodo per il controllo dell'inserimento del campo Comune: non deve essere vuoto.
+     * @param comune che contiene il testo inserito nel TextField del comune.
+     * @return booleano che indica l'esito del check.
+     */
 
     public boolean checkComune(String comune){
         if(comune.equals("")){
@@ -646,8 +698,14 @@ public class RegistraCentri extends UnicastRemoteObject {
         return true;
     }
 
+    /**
+     * Metodo per il controllo dell'inserimento del campo Provincia: non deve essere vuoto e deve essere composto da solo due lettere.
+     * @param provincia che contiene il testo inserito nel TextField della sigla della provincia.
+     * @return booleano che indica l'esito del check.
+     */
+
     public boolean checkProvincia(String provincia){
-        if(provincia.equals("") || provincia.length()!=2){
+        if(provincia.length() != 2){
             errorProvincia.setVisible(true);
             return false;
         }
@@ -655,13 +713,24 @@ public class RegistraCentri extends UnicastRemoteObject {
         return true;
     }
 
+    /**
+     * Metodo per il controllo dell'inserimento del campo CAP: non deve essere vuoto e deve essere composto da solo cinque numeri.
+     * @param CAP che contiene il testo inserito nel TextField del CAP.
+     * @return booleano che indica l'esito del check.
+     */
+
     public boolean checkCAP(String CAP){
-        if(CAP.equals("")||CAP.length()!=5){
+        if(CAP.length() != 5){
             errorCAP.setVisible(true);
             return false;}
         errorCAP.setVisible(false);
         return true;
     }
+
+    /**
+     * Metodo che chiama tutti i check dei campi della schermata prima di eseguire l'inserimento nel DB.
+     * @return booleano che indica l'esito del check.
+     */
 
     public boolean checkCampiCentri(){
 

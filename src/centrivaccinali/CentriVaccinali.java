@@ -10,17 +10,46 @@ import java.util.Objects;
 
 public class CentriVaccinali {
 
+    /** Metodo utlizzato per la conversione dei codici RGB*/
+
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
     {
         return new Color(Integer.valueOf( colorStr.substring( 1, 3 ), 16 ), Integer.valueOf( colorStr.substring( 3, 5 ), 16 ), Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
+    /**
+     * Frame per la rappresentazione della schermata CentriVaccinali.
+     */
+
     JFrame f = new JFrame("Centri Vaccinali");
+
+    /**
+     * Label contenente il titolo della finestra.
+     */
+
     JLabel titolo = new JLabel("CENTRI VACCINALI");
+
+    /**
+     * Bottone per il reindirizzamento alla finestra RegistraCentri.
+     */
+
     JButton registraCentro = new JButton ("Registra Centro Vaccinale");
+
+    /**
+     * Bottone per il reindirizzamento alla finestra RegistraCittadini.
+     */
+
     JButton registraCittadino = new JButton ("Registra Cittadino");
+
+    /**
+     * Label contenente il logo dell'applicazione.
+     */
+
     JLabel logo = new JLabel();
-    JLabel sfondo = new JLabel();
+
+    /**
+     * Costruttore che crea l'interfaccia gestendone stile, dimensione, posizione e listeners.
+     */
 
     public CentriVaccinali() {
 
@@ -101,22 +130,12 @@ public class CentriVaccinali {
         f.add(registraCentro);
         f.add(registraCittadino);
         f.add(logo);
-        f.add(sfondo);
         f.add(titolo);
     }
 
-
     public static void main (String[] args)
     {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-
-            @Override
-            public void run()
-            {
-                new CentriVaccinali();
-            }
-        });
+        SwingUtilities.invokeLater(CentriVaccinali::new);
     }
 
 
