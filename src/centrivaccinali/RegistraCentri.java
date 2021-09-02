@@ -11,11 +11,17 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+/**
+ * La classe RegistraCentri serve per registrare un nuovo centro vaccinale nel DB.
+ * @author Davide Feldkircher
+ */
 
 public class RegistraCentri extends UnicastRemoteObject {
 
@@ -580,14 +586,25 @@ public class RegistraCentri extends UnicastRemoteObject {
 
         b.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (checkCampiCentri()) {
-                    try {
-                        String indirizzo = vieTF.getSelectedIndex() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText();
-                        CentroVaccinale cv = new CentroVaccinale(nomeCentroTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), indirizzo);
-                        stub.registraCentroVaccinale(cv);
-                    } catch (SQLException | RemoteException ex) {
-                        ex.printStackTrace();
+                try {
+                    if (checkCampiCentri()) {
+
+                        try {
+                            String nomeCentro = nomeCentroTF.getText().replaceAll(" ", "_");
+                            String indirizzo = vieTF.getSelectedItem() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText();
+                            CentroVaccinale cv = new CentroVaccinale(nomeCentro, Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), indirizzo);
+                            stub.registraCentroVaccinale(cv);
+                            new CentriVaccinali();
+                            f.setVisible(false);
+                            f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                            f.dispose();
+
+                        } catch (SQLException | RemoteException ex) {
+                            ex.printStackTrace();
+                        }
                     }
+                } catch (SQLException | RemoteException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -728,13 +745,29 @@ public class RegistraCentri extends UnicastRemoteObject {
     }
 
     /**
+     * Metodo
+     * @param nome
+     * @return
+     */
+
+    public boolean checkUnique(String nome) throws SQLException, RemoteException {
+        nome = nome.replaceAll(" ", "_");
+        List<CentroVaccinale> lista = stub.cercaCentroVaccinale(nome);
+        for(CentroVaccinale c: lista)
+            if(c.getNome().equals(nome)){
+                JOptionPane.showMessageDialog(f, "Centro gia' presente nel DB", "Errore registrazione", JOptionPane.ERROR_MESSAGE);
+                return false;}
+        return true;
+    }
+
+    /**
      * Metodo che chiama tutti i check dei campi della schermata prima di eseguire l'inserimento nel DB.
      * @return booleano che indica l'esito del check.
      */
 
-    public boolean checkCampiCentri(){
+    public boolean checkCampiCentri() throws SQLException, RemoteException {
 
-        return checkCAP(CAPTF.getText()) & checkCiv(numeroCivicoTF.getText()) & checkComune(comuneTF.getText()) & checkProvincia(provinciaTF.getText()) & checkNomeCentro(nomeCentroTF.getText()) & checkVia(nomeViaTF.getText());
+        return checkCAP(CAPTF.getText()) & checkCiv(numeroCivicoTF.getText()) & checkComune(comuneTF.getText()) & checkProvincia(provinciaTF.getText()) & checkNomeCentro(nomeCentroTF.getText()) & checkVia(nomeViaTF.getText()) & checkUnique(nomeCentroTF.getText());
     }
 
     public static void main (String[]args) throws IOException, NotBoundException {

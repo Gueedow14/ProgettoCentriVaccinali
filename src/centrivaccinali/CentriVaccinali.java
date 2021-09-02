@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.util.Objects;
 
+/**
+ * La classe Centri Vaccinali mostra un'interfaccia nel quale decidere se procedere alla registrazione di una nuova vaccinazione o di un nuovo centro vaccinale.
+ * @author Davide Feldkircher
+ */
+
 public class CentriVaccinali {
 
     /** Metodo utlizzato per la conversione dei codici RGB*/

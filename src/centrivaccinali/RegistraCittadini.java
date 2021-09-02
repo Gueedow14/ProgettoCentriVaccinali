@@ -19,6 +19,11 @@ import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * La classe Registra Cittadini serve per registrare una nuova vaccinazione nel DB.
+ * @author Davide Feldkircher
+ */
+
 public class RegistraCittadini extends UnicastRemoteObject {
 
     /**
@@ -503,6 +508,7 @@ public class RegistraCittadini extends UnicastRemoteObject {
                     } catch (SQLException | RemoteException ex) {
                         ex.printStackTrace();
                     }
+                    new CentriVaccinali();
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
