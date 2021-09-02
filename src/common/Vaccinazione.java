@@ -14,7 +14,7 @@ public class Vaccinazione implements Serializable {
     private String nome;
     private String cognome;
     private String tipo;
-    private static short idVaccinazione = 0;
+    private short idVaccinazione = 0;
 
     //Metodi Setters
 
@@ -73,7 +73,6 @@ public class Vaccinazione implements Serializable {
     }
 
     public Vaccinazione(String nomeCV, String nome, String cognome, String cf, String data, String tipo){
-        idVaccinazione++;
         this.nomeCV = nomeCV;
         this.nome = nome;
         this.cognome = cognome;

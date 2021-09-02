@@ -6,14 +6,14 @@ import java.io.Serializable;
 public class EventoAvverso implements Serializable {
 
 
-    private static int id = 0;
+    private int id = 0;
     private String evento;
     private int severita;
     private String note;
     private String cv;
     private String cittadino;
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
@@ -34,7 +34,6 @@ public class EventoAvverso implements Serializable {
     }
 
     public EventoAvverso(String evento, int severita, String note, String cv, String c) {
-        id++;
         this.evento = evento;
         this.severita = severita;
         this.note = note;
@@ -42,8 +41,8 @@ public class EventoAvverso implements Serializable {
         cittadino = c;
     }
 
-    public EventoAvverso(int idp, String evento, int severita, String note, String cv, String c) {
-        id = idp;
+    public EventoAvverso(int id, String evento, int severita, String note, String cv, String c) {
+        this.id = id;
         this.evento = evento;
         this.severita = severita;
         this.note = note;

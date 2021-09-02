@@ -4,13 +4,12 @@ import java.io.Serializable;
 
 public class Prenotazione implements Serializable {
 
-    private static int idprenotazione = 0;
+    private int idprenotazione = 0;
     private String userid;
     private String nomecv;
     private String data;
 
     public Prenotazione(String userid, String nomecv, String data) {
-        idprenotazione++;
         this.userid = userid;
         this.nomecv = nomecv;
         this.data = data;
@@ -24,7 +23,7 @@ public class Prenotazione implements Serializable {
     }
 
     public Prenotazione() {
-        idprenotazione++;
+        idprenotazione = 0;
         userid = "";
         nomecv = "";
         data = "";

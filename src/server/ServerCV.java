@@ -2,6 +2,7 @@ package server;
 
 import common.*;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -91,17 +92,17 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         }
     }
 
-    private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException {
+    private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO prenotazione " +
-                        "VALUES (" + p.getIdPrenotazione() + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
+                        "VALUES (" + (contaPrenotazioni() +1) + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
         );
     }
 
-    private void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException {
+    private void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
-                        "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome()  + "'," + v.getIdVaccinazione() + ",'" + v.getData() + "','" + v.getTipo() + "')"
+                        "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome()  + "'," + (contaVaccinati() + 1) + ",'" + v.getData() + "','" + v.getTipo() + "')"
         );
     }
 
@@ -111,6 +112,13 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
             EventoAvverso p = new EventoAvverso(rst.getInt("idevento"), rst.getString("evento"), rst.getInt("severita"), rst.getString("note"), rst.getString("cv"), rst.getString("userid"));
             l.add(p);
         }
+    }
+
+    private void queryRegistrazioneEventiAvversi(Statement s, EventoAvverso e) throws SQLException, RemoteException {
+        s.executeUpdate(
+                "INSERT INTO presenta " +
+                        "VALUES (" + (contaEventiAvversi() + 1) + ",'" + e.getTesto() + "'," + e.getSeverita() + ",'" + e.getCittadino()  + "','" + e.getEvento() + "','" + e.getCv() + "')"
+        );
     }
 
     private void exec() {
@@ -210,6 +218,18 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     @Override
+    public void registraEventoAvverso(EventoAvverso e) throws SQLException, RemoteException {
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRegistrazioneEventiAvversi(s,e);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRegistrazioneEventiAvversi(s,e);
+        }
+    }
+
+    @Override
     public void registraCentroVaccinale(CentroVaccinale cv) throws SQLException {
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
@@ -222,7 +242,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     @Override
-    public void registraVaccinato(Vaccinazione v)  throws SQLException {
+    public void registraVaccinato(Vaccinazione v)  throws SQLException, RemoteException {
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
             queryRegistrazioneVaccinato(s,v);
@@ -255,7 +275,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     @Override
-    public void prenotaVaccino(Prenotazione p)  throws SQLException {
+    public void prenotaVaccino(Prenotazione p)  throws SQLException, RemoteException {
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
             queryPrenotazioneVaccino(s,p);
@@ -287,7 +307,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
             connessioneDB();
 
         Statement s = conn.createStatement();
-        ResultSet rst = s.executeQuery("SELECT * FROM presenta");
+        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM presenta");
         rst.next();
         return rst.getInt(1);
     }
@@ -298,11 +318,10 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
             connessioneDB();
 
         Statement s = conn.createStatement();
-        ResultSet rst = s.executeQuery("SELECT * FROM prenotazione");
+        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM prenotazione");
         rst.next();
         return rst.getInt(1);
     }
-
 
     @Override
     public int contaVaccinati() throws SQLException, RemoteException {
@@ -326,16 +345,5 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         }
 
         return count;
-    }
-
-
-    @Override
-    public int contaCittadini() throws SQLException, RemoteException {
-        if(!conn.isValid(100))
-            connessioneDB();
-        Statement s = conn.createStatement();
-        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM cittadino");
-        rst.next();
-        return rst.getInt(1);
     }
 }
