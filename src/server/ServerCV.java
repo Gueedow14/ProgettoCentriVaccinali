@@ -105,15 +105,18 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         );
     }
 
+    private void queryRicercaEventiAvversiCV(Statement s, ArrayList<EventoAvverso> l) throws SQLException {
+        ResultSet rst = s.executeQuery("SELECT * FROM presenta");
+        while (rst.next()) {
+            EventoAvverso p = new EventoAvverso(rst.getInt("idevento"), rst.getString("evento"), rst.getInt("severita"), rst.getString("note"), rst.getString("cv"), rst.getString("userid"));
+            l.add(p);
+        }
+    }
+
     private void exec() {
 
     }
 
-
-    @Override
-    public void visualizzaCentroVaccinale(CentroVaccinale cv) {
-        //PRENDERE LISTA EVENTI AVVERSI DI UN CV E INFO CV
-    }
 
     @Override
     public List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) throws SQLException {
@@ -231,6 +234,27 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     @Override
+    public List<EventoAvverso> getEventiAvversi(CentroVaccinale cv) throws SQLException, RemoteException {
+        ArrayList<EventoAvverso> lista = new ArrayList<>();
+        ArrayList<EventoAvverso> ris = new ArrayList<>();
+
+        if (conn.isValid(1000)) {
+            Statement s = conn.createStatement();
+            queryRicercaEventiAvversiCV(s,lista);
+        } else {
+            connessioneDB();
+            Statement s = conn.createStatement();
+            queryRicercaEventiAvversiCV(s,lista);
+        }
+
+        for (EventoAvverso p : lista)
+            if (p.getCv().equals(cv.getNome()))
+                ris.add(p);
+
+        return ris;
+    }
+
+    @Override
     public void prenotaVaccino(Prenotazione p)  throws SQLException {
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
@@ -258,17 +282,30 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     @Override
-    public int contaCittadini() throws SQLException, RemoteException {
+    public int contaEventiAvversi() throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
+
         Statement s = conn.createStatement();
-        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM cittadino");
+        ResultSet rst = s.executeQuery("SELECT * FROM presenta");
         rst.next();
         return rst.getInt(1);
     }
 
     @Override
-    public int getVaccinati() throws SQLException, RemoteException {
+    public int contaPrenotazioni() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT * FROM prenotazione");
+        rst.next();
+        return rst.getInt(1);
+    }
+
+
+    @Override
+    public int contaVaccinati() throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
 
@@ -289,5 +326,16 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         }
 
         return count;
+    }
+
+
+    @Override
+    public int contaCittadini() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT COUNT(*) FROM cittadino");
+        rst.next();
+        return rst.getInt(1);
     }
 }

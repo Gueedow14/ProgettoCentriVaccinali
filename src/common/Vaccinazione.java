@@ -82,5 +82,25 @@ public class Vaccinazione implements Serializable {
         this.tipo = tipo;
     }
 
+    public Vaccinazione(){
+        idVaccinazione = 0;
+        this.nomeCV = "";
+        this.nome = "";
+        this.cognome = "";
+        this.cf = "";
+        this.data = "";
+        this.tipo = "";
+    }
+
+    public Vaccinazione(short idv, String nomeCV, String nome, String cognome, String cf, String data, String tipo){
+        idVaccinazione = idv;
+        this.nomeCV = nomeCV;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.cf = cf;
+        this.data = data;
+        this.tipo = tipo;
+    }
+
 
 }

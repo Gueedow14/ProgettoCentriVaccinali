@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ClientCV extends Remote {
-    void visualizzaCentroVaccinale(CentroVaccinale cv) throws RemoteException;
     List<CentroVaccinale> cercaCentroVaccinale(String nomeCV) throws SQLException, RemoteException;
     List<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws SQLException, RemoteException;
     List<CentroVaccinale> centriRegistrati() throws SQLException, RemoteException;
@@ -17,5 +16,8 @@ public interface ClientCV extends Remote {
     void prenotaVaccino(Prenotazione p) throws SQLException, RemoteException;
     boolean loginCittadino(String userid, String pwd) throws SQLException, RemoteException;
     int contaCittadini() throws SQLException, RemoteException;
-    int getVaccinati() throws SQLException, RemoteException;
+    int contaVaccinati() throws SQLException, RemoteException;
+    List<EventoAvverso> getEventiAvversi(CentroVaccinale cv) throws SQLException, RemoteException;
+    int contaEventiAvversi() throws SQLException, RemoteException;
+    int contaPrenotazioni() throws SQLException, RemoteException;
 }
