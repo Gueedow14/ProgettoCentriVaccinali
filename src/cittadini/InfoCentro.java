@@ -215,9 +215,9 @@ public class InfoCentro extends UnicastRemoteObject {
             for(int i=0; i<eventi.size(); i++)
             {
 
-                JPanel review = new JPanel();
-                review.setBackground(hex2Rgb("#FFFFFF"));
-                review.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+                JPanel evento = new JPanel();
+                evento.setBackground(hex2Rgb("#FFFFFF"));
+                evento.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
 
 
                 JLabel eventoAvv = new JLabel("              Evento:  " + eventi.get(i).getEvento() + "       Severita':  " + eventi.get(i).getSeverita() + "                 ");
@@ -232,8 +232,8 @@ public class InfoCentro extends UnicastRemoteObject {
 
                 if(eventi.get(i).getTesto().length() < 62)
                 {
-                    testo.setText("  " + eventi.get(i).getTesto());
-                    review.setBounds(0, y, 520, 70);
+                    testo.setText("  " + eventi.get(i).getTesto()+"        ");
+                    evento.setBounds(0, y, 520, 70);
                     eventPanel.setPreferredSize(d = new Dimension(500,h));
                     y += 70;
                     h += 70;
@@ -241,7 +241,7 @@ public class InfoCentro extends UnicastRemoteObject {
                 else if(eventi.get(i).getTesto().length() < 125)
                 {
                     testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62));
-                    review.setBounds(0, y, 520, 90);
+                    evento.setBounds(0, y, 520, 90);
                     eventPanel.setPreferredSize(d = new Dimension(500,h));
                     y += 90;
                     h += 90;
@@ -249,7 +249,7 @@ public class InfoCentro extends UnicastRemoteObject {
                 else if(eventi.get(i).getTesto().length() <195)
                 {
                     testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125));
-                    review.setBounds(0, y, 520, 110);
+                    evento.setBounds(0, y, 520, 110);
                     eventPanel.setPreferredSize(d = new Dimension(500,h));
                     y += 110;
                     h += 110;
@@ -257,23 +257,24 @@ public class InfoCentro extends UnicastRemoteObject {
                 else if(eventi.get(i).getTesto().length() < 300)
                 {
                     testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125, 190) + " \n  " + eventi.get(i).getTesto().substring(190));
-                    review.setBounds(0, y, 520, 130);
+                    evento.setBounds(0, y, 520, 130);
                     eventPanel.setPreferredSize(d = new Dimension(500,h));
                     y += 130;
                     h += 130;
                 }
-                testo.setForeground(hex2Rgb("#FFFFFF"));
+                testo.setForeground(hex2Rgb("#1E90FF"));
                 testo.setBackground(hex2Rgb("#FFFFFF"));
                 testo.setFont(new Font("Arial", Font.ITALIC, 16));
 
-                review.add(eventoAvv);
-                review.add(testo);
+                evento.add(eventoAvv);
+                evento.add(testo);
 
-                eventPanel.add(review);
+                eventPanel.add(evento);
 			}
 		}
 		else
 		{
+		    scroll.setBackground(hex2Rgb("FFFFFF"));
 			scroll.setVisible(false);
 			noCommenti.setVisible(true);
 		}

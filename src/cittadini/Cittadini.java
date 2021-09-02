@@ -184,7 +184,7 @@ public class Cittadini {
                 if(BTLogin.getText().equals("Accedi")) {
                     try {
                         new Login();
-                    } catch (IOException ex) {
+                    } catch (IOException | NotBoundException ex) {
                         ex.printStackTrace();
                     }
                 }

@@ -139,7 +139,6 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
 
         int sizeL = 17;
         int sizeTF = 17;
-        System.out.println(checkLogin);
 
         titolo.setBounds(122 ,30,500,50);
         titolo.setForeground(hex2Rgb("#1E90FF"));

@@ -591,7 +591,7 @@ public class RegistraCentri extends UnicastRemoteObject {
 
                         try {
                             String nomeCentro = nomeCentroTF.getText().replaceAll(" ", "_");
-                            String indirizzo = vieTF.getSelectedItem() + "|" + nomeViaTF.getText() + "|" + numeroCivicoTF.getText() + "|" + comuneTF.getText() + "|" + provinciaTF.getText() + "|" + CAPTF.getText();
+                            String indirizzo = vieTF.getSelectedItem() + "§" + nomeViaTF.getText() + "§" + numeroCivicoTF.getText() + "§" + comuneTF.getText() + "§" + provinciaTF.getText() + "§" + CAPTF.getText();
                             CentroVaccinale cv = new CentroVaccinale(nomeCentro, Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), indirizzo);
                             stub.registraCentroVaccinale(cv);
                             new CentriVaccinali();

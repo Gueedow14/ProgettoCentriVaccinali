@@ -101,7 +101,6 @@ public class PrenotazioneVaccino {
 
         int sizeL = 17;
         int sizeTF = 17;
-        System.out.println(checkLogin);
 
 
         errorData.setBounds(90,155,25,25);

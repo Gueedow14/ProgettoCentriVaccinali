@@ -289,11 +289,11 @@ public class Registrazione {
         String s[] = email.split("@");
         if(s.length == 2)
         {
-            String s2[] = s[1].split(".");
-            if(s2.length > 2)
+            //String s2[] = s[1].split(".");
+            //if(s2.length > 2)
                 return true;
-            else
-                return false;
+            //else
+            //    return false;
         }
         else
             return false;
@@ -539,25 +539,6 @@ public class Registrazione {
         errorConfermaPwd.setFont(new Font("Comic Sans",Font.BOLD,25));
         errorConfermaPwd.setVisible(false);
 
-/*
-        Image freccia = ImageIO.read(Cittadini.class.getResource("/frecciaBottone.jpeg"));
-        freccia = freccia.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
-    	back.setIcon(new ImageIcon(freccia));
-        back.setBounds(2,2,45,45);
-        back.setForeground(hex2Rgb("#1E90FF"));
-        back.setBackground(hex2Rgb("#FFFFFF"));
-        back.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#FFFFFF")));
-
-
-        ImageIcon img = new ImageIcon(Cittadini.class.getResource("/logoRegistrazione.jpeg"));
-		Image img1 = img.getImage();
-		Image img2 = img1.getScaledInstance(480, 240, Image.SCALE_SMOOTH);
-		imgReg.setIcon(new ImageIcon(img2));
-		imgReg.setBounds(0, 0, 480, 240);
-		panel.setBounds(56, 30, 480, 240);
-		panel.setBackground(hex2Rgb("#FFFFFF"));
-		panel.add(imgReg);
-*/
 
         nomeL.setBounds(80,300,100,25);
         nomeL.setForeground(hex2Rgb("#1E90FF"));
@@ -741,17 +722,51 @@ public class Registrazione {
             public void keyReleased(KeyEvent e) {}
         });
 
-        /*
-        occhio.setBounds(500,540,60,40);
+
+        occhio.setBounds(500,540,40,30);
         occhio.setBackground(hex2Rgb("#FFFFFF"));
         occhio.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         imgOcchio.setBounds(50,0,100,40);
-        ImageIcon imgButton = new ImageIcon(Clienti.class.getResource("/occhioPwd.jpeg"));
+        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
         Image imgButton1 = imgButton.getImage();
-        Image imgButton2 = imgButton1.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
+        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
         imgOcchio.setIcon(new ImageIcon(imgButton2));
         occhio.add(imgOcchio);
-        */
+
+        occhio.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                if(!((new String(pwdTF.getPassword())).equals("PASSWORD")))
+                {
+                    if(chkVisibilityPwdA == 1)
+                    {
+
+                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
+                        Image imgButton1 = imgButton.getImage();
+                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                        imgOcchio.setIcon(new ImageIcon(imgButton2));
+                        occhio.add(imgOcchio);
+                        pwdTF.setEchoChar((char) 0);
+
+                        chkVisibilityPwdA = 0;
+                    }
+                    else if (chkVisibilityPwdA == 0)
+                    {
+
+                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
+                        Image imgButton1 = imgButton.getImage();
+                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                        imgOcchio.setIcon(new ImageIcon(imgButton2));
+                        occhio.add(imgOcchio);
+                        pwdTF.setEchoChar('•');
+
+                        chkVisibilityPwdA = 1;
+                    }
+                }
+            }
+        });
+
 
         confermaPwdL.setBounds(75,600,110,25);
         confermaPwdL.setForeground(hex2Rgb("#1E90FF"));
@@ -781,18 +796,50 @@ public class Registrazione {
             public void keyReleased(KeyEvent e) {}
         });
 
-        /*
-        occhio1.setBounds(500,590,60,40);
+
+        occhio1.setBounds(500,590,40,30);
         occhio1.setBackground(hex2Rgb("#FFFFFF"));
         occhio1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         imgOcchio1.setBounds(50,0,100,40);
-        ImageIcon imgButtonB = new ImageIcon(Clienti.class.getResource("/occhioPwd.jpeg"));
+        ImageIcon imgButtonB = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
         Image imgButtonB1 = imgButtonB.getImage();
-        Image imgButtonB2 = imgButtonB1.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
+        Image imgButtonB2 = imgButtonB1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
         imgOcchio1.setIcon(new ImageIcon(imgButtonB2));
         occhio1.add(imgOcchio1);
-        */
 
+        occhio1.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                if(!((new String(pwdTF.getPassword())).equals("PASSWORD")))
+                {
+                    if(chkVisibilityPwdB == 1)
+                    {
+
+                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
+                        Image imgButton1 = imgButton.getImage();
+                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                        imgOcchio1.setIcon(new ImageIcon(imgButton2));
+                        occhio1.add(imgOcchio1);
+                        pwdTF.setEchoChar((char) 0);
+
+                        chkVisibilityPwdB = 0;
+                    }
+                    else if (chkVisibilityPwdB == 0)
+                    {
+
+                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
+                        Image imgButton1 = imgButton.getImage();
+                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                        imgOcchio1.setIcon(new ImageIcon(imgButton2));
+                        occhio1.add(imgOcchio1);
+                        pwdTF.setEchoChar('•');
+
+                        chkVisibilityPwdB = 1;
+                    }
+                }
+            }
+        });
 
 
         b.setBounds(200,660,200,40);

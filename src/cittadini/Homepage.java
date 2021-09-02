@@ -78,7 +78,8 @@ public class Homepage extends UnicastRemoteObject {
         {
             matrix[i][0] = c1.getNome();
             matrix[i][1] = c1.getTipologia();
-            matrix[i][2] = c1.getIndirizzo();
+            String indirizzo[] = c1.getIndirizzo().split("|");
+            matrix[i][2] = indirizzo[0]+" "+indirizzo[1]+" "+indirizzo[2]+" "+indirizzo[3]+" "+indirizzo[4]+" "+indirizzo[5];
             i++;
         }
 
@@ -100,8 +101,7 @@ public class Homepage extends UnicastRemoteObject {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        //JLabel l1 = new JLabel("Accesso effettuato correttamente!");
-        System.out.println("homepage "+checkLogin);
+
         check = checkLogin;
         checkReg = checkR;
         JTextField tmpFocus = new JTextField();
@@ -289,8 +289,7 @@ public class Homepage extends UnicastRemoteObject {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        //JLabel l1 = new JLabel("Accesso effettuato correttamente!");
-        System.out.println("homepage "+checkLogin);
+
         check = checkLogin;
         checkReg = checkR;
         JTextField tmpFocus = new JTextField();
@@ -479,8 +478,6 @@ public class Homepage extends UnicastRemoteObject {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        //JLabel l1 = new JLabel("Accesso effettuato correttamente!");
-        System.out.println("homepage "+checkLogin);
         check = checkLogin;
         checkReg = checkR;
         JTextField tmpFocus = new JTextField();

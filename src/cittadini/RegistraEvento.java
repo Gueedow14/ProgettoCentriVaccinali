@@ -77,7 +77,7 @@ public class RegistraEvento
 			l.setIcon(new ImageIcon(stellaVuota));
 		    l.setBounds(0, 0, 70, 70);
 		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.setBounds(190, 390, 70, 70);
+		    p.setBounds(190, 130, 70, 70);
 		    p.add(l);
 		}
 		else if(v ==7)
@@ -134,7 +134,7 @@ public class RegistraEvento
 			l.setIcon(new ImageIcon(stellaPiena));
 		    l.setBounds(5, 0, 70, 70);
 		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.setBounds(190, 398, 70, 70);
+		    p.setBounds(190, 135, 70, 70);
 		    p.add(l);
 		}
 
@@ -279,11 +279,11 @@ public class RegistraEvento
         SetStellaVuota(p4,s4,severita);
         SetStellaVuota(p5,s5,severita);
 
-        p1.setBounds(190, 390, 70, 70);
-        p2.setBounds(280, 390, 70, 70);
-        p3.setBounds(370, 390, 70, 70);
-        p4.setBounds(460, 390, 70, 70);
-        p5.setBounds(550, 390, 70, 70);
+        p1.setBounds(190, 130, 70, 70);
+        p2.setBounds(280, 130, 70, 70);
+        p3.setBounds(370, 130, 70, 70);
+        p4.setBounds(460, 130, 70, 70);
+        p5.setBounds(550, 130, 70, 70);
 
 
 
@@ -308,26 +308,13 @@ public class RegistraEvento
                     evt.consume();
             }
         });
-    	/*
-    	JLabel tmpImage = new JLabel();
-    	JPanel panelRec = new JPanel();
-    	panelRec.setBounds(200,-20,400,200);
-        panelRec.setBackground(Color.decode("#FFFFFF"));
-        panelRec.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.decode("#1E90FF")));
-        tmpImage.setBounds(50,0,400,200);
 
-        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/recensione.jpeg"));
-        Image imgButton1 = imgButton.getImage();
-        Image imgButton2 = imgButton1.getScaledInstance(500, 220, Image.SCALE_SMOOTH);
-        tmpImage.setIcon(new ImageIcon(imgButton2));
-        panelRec.add(tmpImage);
-        */
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(testo, BorderLayout.NORTH);
         panel.add(counter, BorderLayout.SOUTH);
-        panel.setBounds(175, 180, 450, 200);
+        panel.setBounds(175, 240, 450, 200);
         panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#1E90FF")));
         panel.setBackground(Color.decode("#FFFFFF"));
         panel.setForeground(Color.decode("#1E90FF"));
@@ -338,7 +325,7 @@ public class RegistraEvento
             public void mouseClicked(MouseEvent e)
             {
                 String str = new String(testo.getText());
-                if(str.equals("Inserisci il commento qui..."))
+                if(str.equals("Inserisci note aggiuntive qui..."))
                     testo.setText("");
                 testo.requestFocus();
                 testo.setCaretColor(Color.decode("#1E90FF"));
@@ -387,84 +374,84 @@ public class RegistraEvento
                 {
                     SetStellaVuota(p1,s1,severita);
                     severita = 0;
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
                 }
                 else if(severita == 0)
                 {
                     severita = 1;
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
                 }
                 else if(severita == 2)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 1;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
                 }
                 else if(severita == 3)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 1;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
                 }
                 else if(severita == 4)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 1;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
                 }
                 else if(severita == 5)
                 {
                     severita = 7;
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 1;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
                 }
             }
 
@@ -501,10 +488,10 @@ public class RegistraEvento
                 if(severita == 2)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -513,91 +500,91 @@ public class RegistraEvento
                     severita = 2;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
                 else if(severita == 1)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     severita = 2;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
                 else if(severita == 3)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 2;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
                 else if(severita == 4)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 2;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
                 else if(severita == 5)
                 {
                     severita = 7;
 
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 2;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
             }
 
@@ -607,10 +594,10 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
                 }
             }
 
@@ -620,10 +607,10 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -640,13 +627,13 @@ public class RegistraEvento
                 if(severita == 3)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -655,103 +642,103 @@ public class RegistraEvento
                     severita = 3;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
                 else if(severita == 1)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     severita = 3;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
                 else if(severita == 2)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 3;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
                 else if(severita == 4)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 3;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
                 else if(severita == 5)
                 {
                     severita = 7;
 
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 3;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
             }
 
@@ -762,13 +749,13 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
                 }
             }
 
@@ -778,13 +765,13 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -801,16 +788,16 @@ public class RegistraEvento
                 if(severita == 4)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -819,115 +806,115 @@ public class RegistraEvento
                     severita = 4;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
                 else if(severita == 1)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     severita = 4;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
                 else if(severita == 2)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 4;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
                 else if(severita == 3)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 4;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
                 else if(severita == 5)
                 {
                     severita = 7;
 
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 4;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
 
             }
@@ -938,16 +925,16 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
                 }
             }
 
@@ -957,16 +944,16 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -984,19 +971,19 @@ public class RegistraEvento
                 {
                     severita = 7;
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 0;
                 }
@@ -1005,125 +992,125 @@ public class RegistraEvento
                     severita = 5;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
                 }
                 else if(severita == 1)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     severita = 5;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
                 }
                 else if(severita == 2)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     severita = 5;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
                 }
                 else if(severita == 3)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     severita = 5;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
                 }
                 else if(severita == 4)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     severita = 5;
 
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
 
                 }
 
@@ -1135,19 +1122,19 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaPiena(p1,s1,severita);
-                    p1.setBounds(190, 398, 70, 70);
+                    p1.setBounds(190, 135, 70, 70);
 
                     SetStellaPiena(p2,s2,severita);
-                    p2.setBounds(280, 398, 70, 70);
+                    p2.setBounds(280, 135, 70, 70);
 
                     SetStellaPiena(p3,s3,severita);
-                    p3.setBounds(370, 398, 70, 70);
+                    p3.setBounds(370, 135, 70, 70);
 
                     SetStellaPiena(p4,s4,severita);
-                    p4.setBounds(460, 398, 70, 70);
+                    p4.setBounds(460, 135, 70, 70);
 
                     SetStellaPiena(p5,s5,severita);
-                    p5.setBounds(550, 398, 70, 70);
+                    p5.setBounds(550, 135, 70, 70);
                 }
             }
 
@@ -1157,19 +1144,19 @@ public class RegistraEvento
                 if(severita == 0)
                 {
                     SetStellaVuota(p1,s1,severita);
-                    p1.setBounds(190, 390, 70, 70);
+                    p1.setBounds(190, 130, 70, 70);
 
                     SetStellaVuota(p2,s2,severita);
-                    p2.setBounds(280, 390, 70, 70);
+                    p2.setBounds(280, 130, 70, 70);
 
                     SetStellaVuota(p3,s3,severita);
-                    p3.setBounds(370, 390, 70, 70);
+                    p3.setBounds(370, 130, 70, 70);
 
                     SetStellaVuota(p4,s4,severita);
-                    p4.setBounds(460, 390, 70, 70);
+                    p4.setBounds(460, 130, 70, 70);
 
                     SetStellaVuota(p5,s5,severita);
-                    p5.setBounds(550, 390, 70, 70);
+                    p5.setBounds(550, 130, 70, 70);
 
                     severita = 0;
                 }

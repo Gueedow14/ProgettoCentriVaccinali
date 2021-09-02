@@ -7,6 +7,9 @@ import common.ClientCV;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -106,7 +109,11 @@ public class Login {
      * Il costruttore della classe Login contiene il codice per la creazione della schermata di accesso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public Login() throws IOException {
+    public Login() throws IOException, NotBoundException {
+
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         f.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
@@ -211,26 +218,26 @@ public class Login {
                 {
                     if(chkVisibilityPwd == 1)
                     {
-	            		/*
-		            	ImageIcon imgButton = new ImageIcon(Clienti.class.getResource("/occhioPwdReverse.jpeg"));
+
+		            	ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
 		                Image imgButton1 = imgButton.getImage();
-		                Image imgButton2 = imgButton1.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
+		                Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
 		                imgOcchio.setIcon(new ImageIcon(imgButton2));
 		                occhio.add(imgOcchio);
 		            	tx1.setEchoChar((char) 0);
-		            	*/
+
                         chkVisibilityPwd = 0;
                     }
                     else if (chkVisibilityPwd == 0)
                     {
-	            		/*
-	            		ImageIcon imgButton = new ImageIcon(Clienti.class.getResource("/occhioPwd.jpeg"));
+
+	            		ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
 		                Image imgButton1 = imgButton.getImage();
-		                Image imgButton2 = imgButton1.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
+		                Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
 		                imgOcchio.setIcon(new ImageIcon(imgButton2));
 		                occhio.add(imgOcchio);
 		            	tx1.setEchoChar('•');
-		            	*/
+
                         chkVisibilityPwd = 1;
                     }
                 }
@@ -322,13 +329,11 @@ public class Login {
 
         tx1.setText("PASSWORD");
         tx1.setFont(new Font("Comic Sans",Font.ITALIC,20));
-        tx1.setBounds(50,420,400,50);
+        tx1.setBounds(50,420,370,50);
         tx1.requestFocus(true);
 
         if(check1.getText().equals("0"))
             tx1.setEchoChar((char)0);
-
-
 
         tx1.setBackground(hex2Rgb("#FFFFFF"));
         tx1.setForeground(hex2Rgb("#1E90FF"));
@@ -336,19 +341,18 @@ public class Login {
         tx1.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, hex2Rgb("#1E90FF")));
         tx1.setHorizontalAlignment(JTextField.CENTER);
 
-        /*
-        occhio.setBounds(755,425,60,40);
+
+        occhio.setBounds(420,425,40,30);
         occhio.setBackground(hex2Rgb("#FFFFFF"));
         occhio.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
-        imgOcchio.setBounds(50,0,60,40);
+        imgOcchio.setBounds(50,0,40,30);
 
-        ImageIcon imgButton = new ImageIcon(Clienti.class.getResource("/occhioPwd.jpeg"));
+        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
         Image imgButton1 = imgButton.getImage();
-        Image imgButton2 = imgButton1.getScaledInstance(60, 40, Image.SCALE_SMOOTH);
+        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
 
         imgOcchio.setIcon(new ImageIcon(imgButton2));
         occhio.add(imgOcchio);
-        */
 
 
         //bottone accedi
@@ -387,20 +391,7 @@ public class Login {
         check.setVisible(false);
         check1.setVisible(false);
 
-        /*
-        ImageIcon img = new ImageIcon(Clienti.class.getResource("/logo.jpeg"));
-        Image img1 = img.getImage();
-        Image img2 = img1.getScaledInstance(400, 390, Image.SCALE_SMOOTH);
 
-
-        tmpImage.setIcon(new ImageIcon(img2));
-        tmpImage.setBounds(0, 0, 350, 350);
-
-
-        panel.setBounds(375, 0, 350, 350);
-        panel.setBackground(hex2Rgb("#FFFFFF"));
-        panel.add(tmpImage);
-		*/
 
         f.add(check);
         f.add(check1);
