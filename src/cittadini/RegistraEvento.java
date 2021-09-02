@@ -3,6 +3,7 @@ package cittadini;
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
 import common.ClientCV;
+import common.EventoAvverso;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,8 +11,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -42,7 +45,7 @@ public class RegistraEvento
      */
     public static void SetStellaVuota(JPanel p, JLabel l, int v)
     {
-		/*
+
 		if(v == 0)
 		{
 			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
@@ -88,7 +91,7 @@ public class RegistraEvento
 		    p.setBackground(Color.decode("#FFFFFF"));
 		    p.add(l);
 		}
-		*/
+
     }
 
     /**
@@ -99,7 +102,7 @@ public class RegistraEvento
      */
     public static void SetStellaPiena(JPanel p, JLabel l, int v)
     {
-		/*
+
 		if(v == 0)
 		{
 			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
@@ -134,7 +137,7 @@ public class RegistraEvento
 		    p.setBounds(190, 398, 70, 70);
 		    p.add(l);
 		}
-		*/
+
     }
 
     /**
@@ -349,21 +352,6 @@ public class RegistraEvento
         invia.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.decode("#1E90FF")));
         invia.setBounds(355, 480, 100, 40);
         invia.setFont(new Font("Arial", Font.ITALIC, 20));
-
-    	/*
-    	Image freccia = null;
-		try
-		{
-			freccia = ImageIO.read(Cittadini.class.getResource("/frecciaBottone.jpeg"));
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-        freccia = freccia.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
-        */
-
-
 
 
         f.addMouseListener(new MouseAdapter()
@@ -1196,12 +1184,18 @@ public class RegistraEvento
 
                 if(severita>0 && severita<6 && !tipoEvento.getSelectedItem().toString().equals(DEFAULT_EVENTO))
                 {
-
-
-                    //aggiungi recensione
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
+                    EventoAvverso ev = new EventoAvverso(tipoEvento.getSelectedItem().toString(), severita, testo.getText(), account.getCv(), account.getUserid());
+                    try {
+                        stub.registraEventoAvverso(ev);
+                        //aggiungi recensione
+                        f.setVisible(false);
+                        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        f.dispose();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 else if(!tipoEvento.getSelectedItem().toString().equals(DEFAULT_EVENTO))
                     JOptionPane.showMessageDialog(f, "Selezionare una severita", "Errore Severita", JOptionPane.ERROR_MESSAGE);
