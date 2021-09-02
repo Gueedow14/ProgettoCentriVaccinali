@@ -2,10 +2,12 @@ package cittadini;
 
 import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
+import common.ClientCV;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -18,6 +20,8 @@ import javax.swing.*;
  */
 
 public class Login {
+
+    public static ClientCV stub;
 
     /**
      * Frame della schermata di login
@@ -254,16 +258,23 @@ public class Login {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(true, null);
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
+                    if(stub.loginCittadino(tx.getText(), tx1.getPassword().toString())) {
+                        new Cittadini(true, null);
+
+                        //chiusura finestra login
+                        f.setVisible(false);
+                        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        f.dispose();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(f, "Username o password non corretti", "Errore login", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                } catch (IOException | SQLException e1) {
                     e1.printStackTrace();
                 }
 
-                //chiusura finestra login
-                f.setVisible(false);
-                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                f.dispose();
             }
         });
 

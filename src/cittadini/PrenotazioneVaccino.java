@@ -2,6 +2,8 @@ package cittadini;
 
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
+import common.ClientCV;
+import common.Prenotazione;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -24,6 +27,8 @@ import static java.lang.Integer.parseInt;
  */
 
 public class PrenotazioneVaccino {
+
+    private static ClientCV stub;
 
     /**
      * Frame della schermata di prenotazione di un vaccino
@@ -204,11 +209,11 @@ public class PrenotazioneVaccino {
 
                 if(controlloCampi()) {
 
-                    //Prenota vaccino
-
                     try {
+                        Prenotazione p = new Prenotazione(stub.contaPrenotazioni(), account.getUserid(), account.getCv(), dataTF.getText()+" "+orarioTF.getText());
+                        stub.prenotaVaccino(p);
                         new Cittadini(checkLogin, account);
-                    } catch (IOException ex) {
+                    } catch (IOException | SQLException ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);

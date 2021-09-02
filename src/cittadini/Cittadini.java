@@ -135,7 +135,7 @@ public class Cittadini {
             public void actionPerformed(ActionEvent e) {
                 try {
                     new RegistraEvento(checkLogin, account);
-                } catch (IOException ex) {
+                } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
                 //chiusura finestra login

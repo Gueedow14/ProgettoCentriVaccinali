@@ -2,12 +2,16 @@ package cittadini;
 
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
+import common.ClientCV;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Objects;
 
 /**
@@ -17,6 +21,8 @@ import java.util.Objects;
 
 public class RegistraEvento
 {
+
+    private static ClientCV stub;
 
     /**
      * Severita lasciata dall'utente nella recensione
@@ -150,9 +156,9 @@ public class RegistraEvento
      * Metodo con il codice per la creazione della finestra della registrazione di un evento avverso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public RegistraEvento(boolean checkLogin, Cittadino account) throws IOException
-    {
-        System.out.println(checkLogin);
+    public RegistraEvento(boolean checkLogin, Cittadino account) throws IOException, NotBoundException {
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         JFrame f = new JFrame("Finestra Recensione");
         f.getContentPane().setBackground(Color.decode("#FFFFFF"));
@@ -1190,6 +1196,8 @@ public class RegistraEvento
 
                 if(severita>0 && severita<6 && !tipoEvento.getSelectedItem().toString().equals(DEFAULT_EVENTO))
                 {
+
+
                     //aggiungi recensione
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -1253,7 +1261,7 @@ public class RegistraEvento
                 {
                     new RegistraEvento(true,null);
                 }
-                catch (IOException e)
+                catch (IOException | NotBoundException e)
                 {
                     e.printStackTrace();
                 }

@@ -60,13 +60,12 @@ public class InfoCentro extends UnicastRemoteObject {
      */
     public InfoCentro(CentroVaccinale selezionato, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
         super();
-        System.out.println("info "+checkLogin);
+
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-
-        ArrayList<EventoAvverso> eventi = null; //Prendere lista eventi avversi registrati per il centro selezionato
+        ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(selezionato); //Prendere lista eventi avversi registrati per il centro selezionato
 
         JPanel panel = new JPanel();
         JLabel tmpImage = new JLabel();
@@ -95,17 +94,12 @@ public class InfoCentro extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
 
-
                 try {
-
-                    CentroVaccinale cv = new CentroVaccinale("Centro_2", "Aziendale","via Manzoni, 34, Pescara");
-                    stub.registraCentroVaccinale(cv);
-                    Cittadino c = new Cittadino("abcd", "1234", "Amilcare", "Rossi", "amlrsi0011", "a.b@gb.it", "Centro_2");
+                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome());
                     stub.registraCittadino(c);
-                    //registraCittadino();
+
                     new Cittadini(checkLogin, account);
                 } catch (Exception e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -194,111 +188,96 @@ public class InfoCentro extends UnicastRemoteObject {
 
         int y = 0;
         int h = 0;
-		/*
+
 		if(eventi.size()!=0) {
-
-		if(eventi.get(eventi.size()-1).getTesto().length() < 62)
-
-		{
-			y = 70;
-			h = 70;
-		}
-
-		else if(eventi.get(eventi.size()-1).getTesto().length() < 125)
-
-		{
-			y = 90;
-			h = 90;
-		}
-		else if(eventi.get(eventi.size()-1).getTesto().length() <195)
-
-		{
-			y = 110;
-			h = 110;
-		}
-		else if(eventi.get(eventi.size()-1).getTesto().length() < 300)
-
-		{
-			y = 130;
-			h = 130;
-		}
+            if(eventi.get(eventi.size()-1).getTesto().length() < 62)
+            {
+                y = 70;
+                h = 70;
+            }
+            else if(eventi.get(eventi.size()-1).getTesto().length() < 125)
+            {
+                y = 90;
+                h = 90;
+            }
+            else if(eventi.get(eventi.size()-1).getTesto().length() <195)
+            {
+                y = 110;
+                h = 110;
+            }
+            else if(eventi.get(eventi.size()-1).getTesto().length() < 300)
+            {
+                y = 130;
+                h = 130;
+            }
 
 
-		for(int i=0; i<eventi.size(); i++)
-		{
+            for(int i=0; i<eventi.size(); i++)
+            {
 
-			JPanel review = new JPanel();
-			review.setBackground(hex2Rgb("#FFFFFF"));
-			review.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
+                JPanel review = new JPanel();
+                review.setBackground(hex2Rgb("#FFFFFF"));
+                review.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
 
 
-			JLabel eventoAvv = new JLabel("              Evento:  " + eventi.get(i).getEvento() + "       Severita':  " + eventi.get(i).getSeverita() + "                 ");
+                JLabel eventoAvv = new JLabel("              Evento:  " + eventi.get(i).getEvento() + "       Severita':  " + eventi.get(i).getSeverita() + "                 ");
 
-			eventoAvv.setForeground(hex2Rgb("#1E90FF"));
-			eventoAvv.setBackground(hex2Rgb("#FFFFFF"));
-			eventoAvv.setFont(new Font("Arial", Font.ITALIC, 20));
-			eventoAvv.setBounds(0, 0, 500, 20);
+                eventoAvv.setForeground(hex2Rgb("#1E90FF"));
+                eventoAvv.setBackground(hex2Rgb("#FFFFFF"));
+                eventoAvv.setFont(new Font("Arial", Font.ITALIC, 20));
+                eventoAvv.setBounds(0, 0, 500, 20);
 
-		    JTextArea testo = new JTextArea();
-		    testo.setFocusable(false);
+                JTextArea testo = new JTextArea();
+                testo.setFocusable(false);
 
-		    if(eventi.get(i).getTesto().length() < 62)
+                if(eventi.get(i).getTesto().length() < 62)
+                {
+                    testo.setText("  " + eventi.get(i).getTesto());
+                    review.setBounds(0, y, 520, 70);
+                    eventPanel.setPreferredSize(d = new Dimension(500,h));
+                    y += 70;
+                    h += 70;
+                }
+                else if(eventi.get(i).getTesto().length() < 125)
+                {
+                    testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62));
+                    review.setBounds(0, y, 520, 90);
+                    eventPanel.setPreferredSize(d = new Dimension(500,h));
+                    y += 90;
+                    h += 90;
+                }
+                else if(eventi.get(i).getTesto().length() <195)
+                {
+                    testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125));
+                    review.setBounds(0, y, 520, 110);
+                    eventPanel.setPreferredSize(d = new Dimension(500,h));
+                    y += 110;
+                    h += 110;
+                }
+                else if(eventi.get(i).getTesto().length() < 300)
+                {
+                    testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125, 190) + " \n  " + eventi.get(i).getTesto().substring(190));
+                    review.setBounds(0, y, 520, 130);
+                    eventPanel.setPreferredSize(d = new Dimension(500,h));
+                    y += 130;
+                    h += 130;
+                }
+                testo.setForeground(hex2Rgb("#FFFFFF"));
+                testo.setBackground(hex2Rgb("#FFFFFF"));
+                testo.setFont(new Font("Arial", Font.ITALIC, 16));
 
-		    {
-			    testo.setText("  " + eventi.get(i).getTesto());
-			    review.setBounds(0, y, 520, 70);
-			    eventPanel.setPreferredSize(d = new Dimension(500,h));
-			    y += 70;
-			    h += 70;
+                review.add(eventoAvv);
+                review.add(testo);
+
+                eventPanel.add(review);
 			}
-
-		    else if(eventi.get(i).getTesto().length() < 125)
-
-		    {
-			    testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62));
-			    review.setBounds(0, y, 520, 90);
-			    eventPanel.setPreferredSize(d = new Dimension(500,h));
-			    y += 90;
-			    h += 90;
-		    }
-
-		    else if(eventi.get(i).getTesto().length() <195)
-
-		    {
-		    	testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125));
-			    review.setBounds(0, y, 520, 110);
-			    eventPanel.setPreferredSize(d = new Dimension(500,h));
-			    y += 110;
-			    h += 110;
-		    }
-
-		    else if(eventi.get(i).getTesto().length() < 300)
-
-		    {
-		    	testo.setText("  " + eventi.get(i).getTesto().substring(0, 62) + " \n  " + eventi.get(i).getTesto().substring(62,125) + " \n  " + eventi.get(i).getTesto().substring(125, 190) + " \n  " + eventi.get(i).getTesto().substring(190));
-			    review.setBounds(0, y, 520, 130);
-			    eventPanel.setPreferredSize(d = new Dimension(500,h));
-			    y += 130;
-			    h += 130;
-		    }
-
-		    testo.setForeground(hex2Rgb("#FFFFFF"));
-		    testo.setBackground(hex2Rgb("#FFFFFF"));
-		    testo.setFont(new Font("Arial", Font.ITALIC, 16));
-
-		    review.add(eventoAvv);
-		    review.add(testo);
-
-		    eventPanel.add(review);
-			}
-
 		}
 		else
 		{
 			scroll.setVisible(false);
 			noCommenti.setVisible(true);
 		}
-		*/
+
         JLabel nomeCentro = new JLabel("Nome: " + selezionato.getNome());
         nomeCentro.setBounds(110, 50, 500, 30);
         nomeCentro.setBackground(hex2Rgb("#FFFFFF"));
