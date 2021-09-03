@@ -95,7 +95,7 @@ public class InfoCentro extends UnicastRemoteObject {
             {
 
                 try {
-                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome());
+                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome().replaceAll(" ","_"));
                     stub.registraCittadino(c);
 
                     new Cittadini(checkLogin, account);
