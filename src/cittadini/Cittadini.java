@@ -1,6 +1,8 @@
 package cittadini;
 
 import common.Cittadino;
+import common.ClientCV;
+import common.Prenotazione;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,6 +11,8 @@ import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
@@ -20,6 +24,11 @@ import javax.swing.*;
  */
 
 public class Cittadini {
+
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
+    private static ClientCV stub;
 
     /**
      * Frame iniziale dell'applicazione
@@ -86,10 +95,11 @@ public class Cittadini {
      * @param checkLogin controlla se è avvenuto un accesso
      * @param account fa riferimento al cittadino che ha effettuato l'accesso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      */
-    public Cittadini(boolean checkLogin, Cittadino account) throws IOException
-    {
-
+    public Cittadini(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         BTLista.addMouseListener(new MouseAdapter()
         {
@@ -151,7 +161,7 @@ public class Cittadini {
             public void actionPerformed(ActionEvent e) {
                 try {
                     new PrenotazioneVaccino(checkLogin, account);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 //chiusura finestra login
@@ -192,7 +202,7 @@ public class Cittadini {
                 {
                     try {
                         new Cittadini(false,null);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -391,8 +401,11 @@ public class Cittadini {
         BTEventoAvverso.setBounds(550,350,200,60);
         BTEventoAvverso.setFont(new Font("Arial", Font.ITALIC, 15));
         BTEventoAvverso.setHorizontalAlignment(SwingConstants.CENTER);
+        java.util.List<Prenotazione> lista = null;
+        if(checkLogin)
+             lista = stub.getPrenotazioni(account);
 
-        if(checkLogin && (account.getIdvaccinazione() != 0)) {
+        if(checkLogin && (lista.size() > 0)) {
             BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
             BTEventoAvverso.setForeground(Color.decode("#000000"));
             BTEventoAvverso.setEnabled(true);
@@ -435,7 +448,7 @@ public class Cittadini {
             {
                 try {
                     new Cittadini(false, null);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

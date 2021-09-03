@@ -126,15 +126,17 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     /**
      * Metodo che esegue la query che ottiene tutti i centri vaccinali memorizzati
      * @param s Statement per eseguire la query
-     * @param l Lista dove inserire i centri vaccinali registrati
+     * @return ritorna la lista di tutti i centri vaccinali presenti nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private synchronized void queryRicercaCV(Statement s, ArrayList<CentroVaccinale> l) throws SQLException {
+    private synchronized ArrayList<CentroVaccinale> queryRicercaCV(Statement s) throws SQLException {
         ResultSet rst = s.executeQuery("SELECT * FROM centrovaccinale");
+        ArrayList<CentroVaccinale> l = new ArrayList<>();
         while(rst.next()) {
             CentroVaccinale cv = new CentroVaccinale(rst.getString("nome"), rst.getString("tipologia"), rst.getString("indirizzo"));
             l.add(cv);
         }
+        return l;
     }
 
     /**
@@ -161,7 +163,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     private synchronized void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO prenotazione " +
-                        "VALUES (" + (contaPrenotazioni() +1) + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
+                        "VALUES (" + (contaPrenotazioni() +1) + ",'" + p.getUserid()  + "','" + p.getNomeCV() + "','" + p.getData() + "')"
         );
     }
 
@@ -219,11 +221,11 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
-            queryRicercaCV(s,listaCV);
+            listaCV = queryRicercaCV(s);
         } else {
             connessioneDB();
             Statement s = conn.createStatement();
-            queryRicercaCV(s,listaCV);
+            listaCV = queryRicercaCV(s);
         }
 
         for(CentroVaccinale centroVaccinale : listaCV)
@@ -247,15 +249,16 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
-            queryRicercaCV(s,listaCV);
+            listaCV = queryRicercaCV(s);
         } else {
             connessioneDB();
             Statement s = conn.createStatement();
-            queryRicercaCV(s,listaCV);
+            listaCV = queryRicercaCV(s);
         }
-
+        if(listaCV.size() == 0)
+            System.out.print("ciao");
         for(CentroVaccinale centroVaccinale : listaCV) {
-            String[] tmp = centroVaccinale.getIndirizzo().split("\\|");
+            String[] tmp = centroVaccinale.getIndirizzo().split("§");
             String com = tmp[3];
             if(com.equals(comune) && centroVaccinale.getTipologia().equals(tipo))
                 ris.add(centroVaccinale);
@@ -276,11 +279,11 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
         if (conn.isValid(1000)) {
             Statement s = conn.createStatement();
-            queryRicercaCV(s,lista);
+            lista = queryRicercaCV(s);
         } else {
             connessioneDB();
             Statement s = conn.createStatement();
-            queryRicercaCV(s,lista);
+            lista = queryRicercaCV(s);
         }
 
         return lista;

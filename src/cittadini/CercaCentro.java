@@ -84,8 +84,6 @@ public class CercaCentro {
      */
     public CercaCentro(boolean checkLogin, Cittadino account, boolean checkR) throws IOException {
 
-        System.out.println("cerca "+checkLogin);
-
         JFrame f = new JFrame("Cerca centro");
 
         JButton ricerca = new JButton("Ricerca centro");

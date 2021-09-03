@@ -274,7 +274,7 @@ public class InfoCentro extends UnicastRemoteObject {
 		}
 		else
 		{
-		    scroll.setBackground(hex2Rgb("FFFFFF"));
+		    scroll.setBackground(hex2Rgb("#FFFFFF"));
 			scroll.setVisible(false);
 			noCommenti.setVisible(true);
 		}
@@ -357,7 +357,7 @@ public class InfoCentro extends UnicastRemoteObject {
 
     public static void main(String[] args) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false);
