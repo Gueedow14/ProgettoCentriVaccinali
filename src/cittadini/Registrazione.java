@@ -15,7 +15,7 @@ import javax.swing.*;
 
 
 /**
- * La classe Registrazione contiene il codice per la creazione della schermata relativa alla regisrtazione del cittadino
+ * La classe Registrazione contiene il codice per la creazione della schermata relativa alla registrazione del cittadino
  * @author Giulio Baricci
  */
 

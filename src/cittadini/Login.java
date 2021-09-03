@@ -265,7 +265,7 @@ public class Login {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    if(stub.loginCittadino(tx.getText(), tx1.getPassword().toString())) {
+                    if(/*stub.loginCittadino(tx.getText(), tx1.getPassword().toString())*/true) {  //***********************************************************************************************************************************************************************************************************************************
                         new Cittadini(true, null);
 
                         //chiusura finestra login
@@ -278,7 +278,7 @@ public class Login {
                         JOptionPane.showMessageDialog(f, "Username o password non corretti", "Errore login", JOptionPane.ERROR_MESSAGE);
                     }
 
-                } catch (IOException | SQLException e1) {
+                } catch (Exception e1) {
                     e1.printStackTrace();
                 }
 

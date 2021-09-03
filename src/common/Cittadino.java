@@ -50,7 +50,7 @@ public class Cittadino implements Serializable {
     private String cv;
 
     /**
-     * Costruttore della classe Cittadino
+     * Costruttore della classe Cittadino per quando si deve registrare un nuovo cittadino
      * @param uid Id univoco del cittadino
      * @param pwd Password del cittadino
      * @param nome Nome del cittadino
@@ -66,6 +66,29 @@ public class Cittadino implements Serializable {
         this.cognome = cognome;
         this.cf = cf;
         idvaccinazione = 0;
+        this.mail = mail;
+        this.cv = cv;
+    }
+
+
+    /**
+     * Costruttore della classe Cittadino per quando si deve prendere un cittadino dal database
+     * @param uid Id univoco del cittadino
+     * @param pwd Password del cittadino
+     * @param nome Nome del cittadino
+     * @param idvaccinazione Id della vaccinazione effettuata dal cittadino
+     * @param cognome Cognome del cittadino
+     * @param cf Codice fiscale del cittadino
+     * @param mail indirizzo di posta elettronica del cittadino
+     * @param cv Nome del centro vaccinale a cui si è registrato il cittadino
+     */
+    public Cittadino(String uid, String pwd, String nome, String cognome, short idvaccinazione, String cf, String mail, String cv) {
+        userid = uid;
+        this.pwd = pwd;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.cf = cf;
+        this.idvaccinazione = idvaccinazione;
         this.mail = mail;
         this.cv = cv;
     }

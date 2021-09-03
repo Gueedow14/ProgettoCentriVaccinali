@@ -78,7 +78,7 @@ public interface ClientCV extends Remote {
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
-    boolean loginCittadino(String userid, String pwd) throws SQLException, RemoteException;
+    Cittadino loginCittadino(String userid, String pwd) throws SQLException, RemoteException;
     /**
      * Metodo per contare il numero di vaccinazioni effettuate in tutti i centri vaccinali registrati nel sistema
      * @return Il numero totale di vaccinazioni effettuate
@@ -115,4 +115,5 @@ public interface ClientCV extends Remote {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     void registraEventoAvverso(EventoAvverso e) throws SQLException, RemoteException;
+    List<String> getTipiEventoAvverso() throws SQLException, RemoteException;
 }

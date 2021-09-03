@@ -9,7 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.util.*;
 
-
 /**
  * Classe server che implementa i metodi definiti nell'interfaccia ClientCV
  * @author Guido Bernasconi
@@ -76,7 +75,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per la connessione al database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè è in atto la connessione al database
      */
-    private static void connessioneDB() throws SQLException {
+    private synchronized static void connessioneDB() throws SQLException {
         String url = "jdbc:postgresql://localhost/" + db;
         Properties props = new Properties();
         props.setProperty("user",user);
@@ -90,7 +89,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param cv Centro vaccinale da registrare
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private void queryRegistrazioneCV(Statement s, CentroVaccinale cv) throws SQLException {
+    private synchronized void queryRegistrazioneCV(Statement s, CentroVaccinale cv) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO centrovaccinale " +
                         "VALUES ('" + cv.getNome() + "','"  + cv.getIndirizzo() + "','"  + cv.getTipologia() + "')"
@@ -117,7 +116,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param c Cittadino da registrare
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private void queryRegistrazioneCittadino(Statement s, Cittadino c) throws SQLException {
+    private synchronized void queryRegistrazioneCittadino(Statement s, Cittadino c) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO cittadino " +
                         "VALUES ('" + c.getUserid() + "','" + c.getPwd() + "','"  + c.getNome() + "','"  + c.getCognome() + "','"  + c.getCf() + "',"  + c.getIdvaccinazione() + ",'"  + c.getMail() + "','"  + c.getCv() + "')"
@@ -130,7 +129,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param l Lista dove inserire i centri vaccinali registrati
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private void queryRicercaCV(Statement s, ArrayList<CentroVaccinale> l) throws SQLException {
+    private synchronized void queryRicercaCV(Statement s, ArrayList<CentroVaccinale> l) throws SQLException {
         ResultSet rst = s.executeQuery("SELECT * FROM centrovaccinale");
         while(rst.next()) {
             CentroVaccinale cv = new CentroVaccinale(rst.getString("nome"), rst.getString("tipologia"), rst.getString("indirizzo"));
@@ -144,7 +143,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param l Lista dove inserire le prenotazioni effettuate
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private void queryRicercaPrenotazioni(Statement s, ArrayList<Prenotazione> l) throws SQLException {
+    private synchronized void queryRicercaPrenotazioni(Statement s, ArrayList<Prenotazione> l) throws SQLException {
         ResultSet rst = s.executeQuery("SELECT * FROM prenotazione");
         while(rst.next()) {
             Prenotazione p = new Prenotazione(rst.getInt("idprenotazione"), rst.getString("userid"), rst.getString("cv"), rst.getString("dataprenotazione"));
@@ -159,7 +158,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
-    private void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException, RemoteException {
+    private synchronized void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO prenotazione " +
                         "VALUES (" + (contaPrenotazioni() +1) + "," + p.getUserid()  + "," + p.getNomeCV() + "," + p.getData() + ")"
@@ -173,7 +172,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
-    private void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
+    private synchronized void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
                         "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome()  + "'," + (contaVaccinati() + 1) + ",'" + v.getData() + "','" + v.getTipo() + "')"
@@ -186,7 +185,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param l Lista in cui verranno inserite le prenotazioni effettuate
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      */
-    private void queryRicercaEventiAvversiCV(Statement s, ArrayList<EventoAvverso> l) throws SQLException {
+    private synchronized void queryRicercaEventiAvversiCV(Statement s, ArrayList<EventoAvverso> l) throws SQLException {
         ResultSet rst = s.executeQuery("SELECT * FROM presenta");
         while (rst.next()) {
             EventoAvverso p = new EventoAvverso(rst.getInt("idevento"), rst.getString("evento"), rst.getInt("severita"), rst.getString("note"), rst.getString("cv"), rst.getString("userid"));
@@ -201,7 +200,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
-    private void queryRegistrazioneEventiAvversi(Statement s, EventoAvverso e) throws SQLException, RemoteException {
+    private synchronized void queryRegistrazioneEventiAvversi(Statement s, EventoAvverso e) throws SQLException, RemoteException {
         s.executeUpdate(
                 "INSERT INTO presenta " +
                         "VALUES (" + (contaEventiAvversi() + 1) + ",'" + e.getTesto() + "'," + e.getSeverita() + ",'" + e.getCittadino()  + "','" + e.getEvento() + "','" + e.getCv() + "')"
@@ -318,7 +317,6 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per registrare un cittadino nel database
      * @param c Cittadino da registrare nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public void registraCittadino(Cittadino c) throws SQLException {
@@ -351,10 +349,32 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     /**
+     * Metodo che ritorna tutti i tipi di eventi avversi registrati
+     * @return Lista contenente i tipi di eventi avversi
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    @Override
+    public List<String> getTipiEventoAvverso() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        List<String> listEA = new ArrayList<>();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT evento FROM eventoavverso");
+
+        while(rst.next())
+            listEA.add(rst.getString("evento"));
+
+
+        return listEA;
+    }
+
+    /**
      * Metodo per registrare un centro vaccinale nel database
      * @param cv Centro Vaccinale da registrare nel databse
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public void registraCentroVaccinale(CentroVaccinale cv) throws SQLException {
@@ -441,18 +461,17 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
-    public boolean loginCittadino(String userid, String password)  throws SQLException, RemoteException {
+    public synchronized Cittadino loginCittadino(String userid, String password)  throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
         Statement s = conn.createStatement();
         ResultSet rst = s.executeQuery("SELECT * FROM cittadino");
         while(rst.next()) {
-            String uid = rst.getString("userid");
-            String pwd = rst.getString("pwd");
-            if(uid.equals(userid) && pwd.equals(password))
-                return true;
+            Cittadino c = new Cittadino(rst.getString("userid"), rst.getString("pwd"), rst.getString("nome"), rst.getString("cognome"), rst.getShort("idvaccinazione"), rst.getString("cf"), rst.getString("mail"), rst.getString("cv"));
+            if(c.getUserid().equals(userid) && c.getPwd().equals(password))
+                return c;
         }
-        return false;
+        return null;
     }
 
     /**
@@ -462,7 +481,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
-    public int contaEventiAvversi() throws SQLException, RemoteException {
+    public synchronized int contaEventiAvversi() throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
 
@@ -479,7 +498,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
-    public int contaPrenotazioni() throws SQLException, RemoteException {
+    public synchronized int contaPrenotazioni() throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
 
@@ -496,7 +515,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     @Override
-    public int contaVaccinati() throws SQLException, RemoteException {
+    public synchronized int contaVaccinati() throws SQLException, RemoteException {
         if(!conn.isValid(100))
             connessioneDB();
 
