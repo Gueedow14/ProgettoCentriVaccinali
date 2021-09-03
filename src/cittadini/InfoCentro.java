@@ -62,7 +62,7 @@ public class InfoCentro extends UnicastRemoteObject {
         super();
 
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(selezionato); //Prendere lista eventi avversi registrati per il centro selezionato

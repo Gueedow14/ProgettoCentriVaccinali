@@ -75,14 +75,15 @@ public class Homepage extends UnicastRemoteObject {
         String[][] matrix = new String[5][3];
 
         int i = 0;
-        for(CentroVaccinale c1 : l)
-        {
-            matrix[i][0] = c1.getNome().replaceAll("_"," ");
-            matrix[i][1] = c1.getTipologia();
-            String indirizzo[] = c1.getIndirizzo().split("§");
-            matrix[i][2] = indirizzo[0]+" "+indirizzo[1]+" "+indirizzo[2]+" "+indirizzo[3]+" "+indirizzo[4]+" "+indirizzo[5];
-            i++;
-        }
+        if(l.size() != 0)
+            for(CentroVaccinale c1 : l)
+            {
+                matrix[i][0] = c1.getNome().replaceAll("_"," ");
+                matrix[i][1] = c1.getTipologia();
+                String indirizzo = c1.getIndirizzo().replaceAll("§"," ");
+                matrix[i][2] = indirizzo;
+                i++;
+            }
 
         return matrix;
     }

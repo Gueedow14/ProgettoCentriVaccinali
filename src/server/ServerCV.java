@@ -119,7 +119,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     private synchronized void queryRegistrazioneCittadino(Statement s, Cittadino c) throws SQLException {
         s.executeUpdate(
                 "INSERT INTO cittadino " +
-                        "VALUES ('" + c.getUserid() + "','" + c.getPwd() + "','"  + c.getNome() + "','"  + c.getCognome() + "','"  + c.getCf() + "',"  + c.getIdvaccinazione() + ",'"  + c.getMail() + "','"  + c.getCv() + "')"
+                        "VALUES ('" + c.getUserid() + "','" + c.getPwd() + "','"  + c.getNome() + "','"  + c.getCognome() + "','"  + c.getCf() + "','"  + c.getMail() + "','"  + c.getCv() + "',"  + c.getIdvaccinazione() + ")"
         );
     }
 
