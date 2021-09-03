@@ -22,7 +22,7 @@ import javax.swing.*;
 public class Cittadini {
 
     /**
-     * Frame inizale dell'applicazione
+     * Frame iniziale dell'applicazione
      */
     JFrame f = new JFrame("Cittadini");
 
@@ -333,19 +333,19 @@ public class Cittadini {
 
         //bottone lista centri
         BTLista.setBounds(50,350,200,60);
-        BTLista.setBackground(hex2Rgb("#FFFFFF"));
-        BTLista.setForeground(hex2Rgb("#1E90FF"));
-        BTLista.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        BTLista.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTLista.setBackground(Color.decode("#F0F8FF"));
+        BTLista.setForeground(Color.decode("#000000"));
+        BTLista.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
+        BTLista.setFont(new Font("Arial", Font.ITALIC, 15));
 
 
         //bottone registrazione
         BTRegistrazione.setBounds(300,350,200,60);
-        BTRegistrazione.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTRegistrazione.setFont(new Font("Arial", Font.ITALIC, 15));
         BTRegistrazione.setHorizontalAlignment(SwingConstants.CENTER);
-        BTRegistrazione.setBackground(hex2Rgb("#FFFFFF"));
-        BTRegistrazione.setForeground(hex2Rgb("#1E90FF"));
-        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
+        BTRegistrazione.setBackground(Color.decode("#F0F8FF"));
+        BTRegistrazione.setForeground(Color.decode("#000000"));
+        BTRegistrazione.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
         if(!checkLogin) {
             BTRegistrazione.setEnabled(true);
             BTRegistrazione.setVisible(true);
@@ -358,10 +358,10 @@ public class Cittadini {
 
         //bottone prenotazione
         BTPrenota.setBounds(300,350,200,60);
-        BTPrenota.setFont(new Font("Comic Sans",Font.ITALIC,20));
-        BTPrenota.setBackground(hex2Rgb("#FFFFFF"));
-        BTPrenota.setForeground(hex2Rgb("#1E90FF"));
-        BTPrenota.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
+        BTPrenota.setFont(new Font("Arial", Font.ITALIC, 15));
+        BTPrenota.setHorizontalAlignment(SwingConstants.CENTER);
+        BTPrenota.setBackground(Color.decode("#F0F8FF"));
+        BTPrenota.setForeground(Color.decode("#000000"));
         if(checkLogin) {
             BTPrenota.setEnabled(true);
             BTPrenota.setVisible(true);
@@ -373,10 +373,10 @@ public class Cittadini {
         }
 
         BTListaPrenotazioni.setBounds(300,260,200,60);
-        BTListaPrenotazioni.setFont(new Font("Comic Sans",Font.ITALIC,20));
-        BTListaPrenotazioni.setBackground(hex2Rgb("#FFFFFF"));
-        BTListaPrenotazioni.setForeground(hex2Rgb("#1E90FF"));
-        BTListaPrenotazioni.setBorder(BorderFactory.createMatteBorder(1, 0, 2, 0, hex2Rgb("#1E90FF")));
+        BTListaPrenotazioni.setFont(new Font("Arial", Font.ITALIC, 15));
+        BTListaPrenotazioni.setHorizontalAlignment(SwingConstants.CENTER);
+        BTListaPrenotazioni.setBackground(Color.decode("#F0F8FF"));
+        BTListaPrenotazioni.setForeground(Color.decode("#000000"));
         if(checkLogin) {
             BTListaPrenotazioni.setEnabled(true);
             BTListaPrenotazioni.setVisible(true);
@@ -389,11 +389,12 @@ public class Cittadini {
 
         //bottone registra evento avverso
         BTEventoAvverso.setBounds(550,350,200,60);
-        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        BTEventoAvverso.setFont(new Font("Comic Sans",Font.ITALIC,20));
+        BTEventoAvverso.setFont(new Font("Arial", Font.ITALIC, 15));
+        BTEventoAvverso.setHorizontalAlignment(SwingConstants.CENTER);
+
         if(checkLogin) {
-            BTEventoAvverso.setBackground(hex2Rgb("#FFFFFF"));
-            BTEventoAvverso.setForeground(hex2Rgb("#1E90FF"));
+            BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
+            BTEventoAvverso.setForeground(Color.decode("#000000"));
             BTEventoAvverso.setEnabled(true);
         }
         else
