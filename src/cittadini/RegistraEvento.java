@@ -46,51 +46,51 @@ public class RegistraEvento
     public static void SetStellaVuota(JPanel p, JLabel l, int v)
     {
 
-		if(v == 0)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaVuota = img1.getScaledInstance(110, 70, Image.SCALE_SMOOTH);
+        if(v == 0)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaVuota = img1.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaVuota));
-		    l.setBounds(0, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.add(l);
-		}
-		else if(v < 5)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaVuota = img1.getScaledInstance(109, 70, Image.SCALE_SMOOTH);
+            l.setIcon(new ImageIcon(stellaVuota));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.add(l);
+        }
+        else if(v < 5)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaVuota = img1.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaVuota));
-		    l.setBounds(0, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.add(l);
-		}
-		else if(v == 6)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaVuota = img1.getScaledInstance(110, 70, Image.SCALE_SMOOTH);
+            l.setIcon(new ImageIcon(stellaVuota));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.add(l);
+        }
+        else if(v == 6)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaVuota = img1.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaVuota));
-		    l.setBounds(0, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.setBounds(190, 130, 70, 70);
-		    p.add(l);
-		}
-		else if(v ==7)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaVuota = img1.getScaledInstance(109, 70, Image.SCALE_SMOOTH);
+            l.setIcon(new ImageIcon(stellaVuota));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.setBounds(190, 130, 70, 70);
+            p.add(l);
+        }
+        else if(v ==7)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaVuota.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaVuota = img1.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaVuota));
-		    l.setBounds(0, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.add(l);
-		}
+            l.setIcon(new ImageIcon(stellaVuota));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.add(l);
+        }
 
     }
 
@@ -103,40 +103,40 @@ public class RegistraEvento
     public static void SetStellaPiena(JPanel p, JLabel l, int v)
     {
 
-		if(v == 0)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaPiena = img1.getScaledInstance(100, 60, Image.SCALE_SMOOTH);
+        if(v == 0)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaPiena = img1.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaPiena));
-		    l.setBounds(5, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.add(l);
-		}
-		else if(v <= 5)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaPiena = img1.getScaledInstance( 99, 60, Image.SCALE_SMOOTH);
+            l.setIcon(new ImageIcon(stellaPiena));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.add(l);
+        }
+        else if(v <= 5)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaPiena = img1.getScaledInstance( 70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaPiena));
-		    l.setBounds(5, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.add(l);
-		}
-		else if(v == 6)
-		{
-			ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
-		    Image img1 = img.getImage();
-		    Image stellaPiena = img1.getScaledInstance(100, 60, Image.SCALE_SMOOTH);
+            l.setIcon(new ImageIcon(stellaPiena));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.add(l);
+        }
+        else if(v == 6)
+        {
+            ImageIcon img = new ImageIcon(Cittadini.class.getResource("/stellaPiena.jpeg"));
+            Image img1 = img.getImage();
+            Image stellaPiena = img1.getScaledInstance( 70, 70, Image.SCALE_SMOOTH);
 
-			l.setIcon(new ImageIcon(stellaPiena));
-		    l.setBounds(5, 0, 70, 70);
-		    p.setBackground(Color.decode("#FFFFFF"));
-		    p.setBounds(190, 135, 70, 70);
-		    p.add(l);
-		}
+            l.setIcon(new ImageIcon(stellaPiena));
+            l.setBounds(0, 0, 70, 70);
+            p.setBackground(Color.decode("#FFFFFF"));
+            p.setBounds(190, 135, 70, 70);
+            p.add(l);
+        }
 
     }
 
@@ -194,6 +194,8 @@ public class RegistraEvento
                 }
             }
         });
+
+        //List<EventoAvverso> ev;
 
         tipoEvento.addItem(DEFAULT_EVENTO);
         tipoEvento.addItem("Febbre");

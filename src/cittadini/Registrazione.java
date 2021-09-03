@@ -15,7 +15,7 @@ import javax.swing.*;
 
 
 /**
- * La classe Registrazione contiene il codice per la creazione della schermata relativa alla registrazione del cittadino
+ * La classe Registrazione contiene il codice per la creazione della schermata relativa alla regisrtazione del cittadino
  * @author Giulio Baricci
  */
 
@@ -133,7 +133,7 @@ public class Registrazione {
     /**
      * Label che indica il campo dove il cittadino deve inserire lo userId
      */
-    JLabel useridL = new JLabel("User ID: ", SwingConstants.CENTER);
+    JLabel useridL = new JLabel("Username: ", SwingConstants.CENTER);
     /**
      * TextField dove il cittadino deve inserire lo userId
      */
@@ -291,7 +291,7 @@ public class Registrazione {
         {
             //String s2[] = s[1].split(".");
             //if(s2.length > 2)
-                return true;
+            return true;
             //else
             //    return false;
         }
@@ -337,6 +337,14 @@ public class Registrazione {
      */
     public Registrazione() throws IOException
     {
+        nomeTF.setText("");
+        cognomeTF.setText("");
+        codiceFiscaleTF.setText("");
+        useridTF.setText("");
+        mailTF.setText("");
+        pwdTF.setText("");
+        confermaPwdTF.setText("");
+
         b.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
@@ -436,8 +444,9 @@ public class Registrazione {
 
                 if(sentinel == 0)
                 {
-                    Cittadino c = new Cittadino(useridTF.getText(), pwdTF.getPassword().toString(), nomeTF.getText(), cognomeTF.getText(), codiceFiscaleTF.getText(), mailTF.getText(), null);
-
+                    String pwd = new String(pwdTF.getPassword());
+                    Cittadino c = new Cittadino(useridTF.getText(), pwd, nomeTF.getText(), cognomeTF.getText(), codiceFiscaleTF.getText(), mailTF.getText(), null);
+                    System.out.println(pwd);
 
                     try {
                         new Homepage(true, c, true);
@@ -737,32 +746,30 @@ public class Registrazione {
         {
             public void mouseClicked(MouseEvent e)
             {
-                if(!((new String(pwdTF.getPassword())).equals("PASSWORD")))
+
+                if(chkVisibilityPwdA == 1)
                 {
-                    if(chkVisibilityPwdA == 1)
-                    {
 
-                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
-                        Image imgButton1 = imgButton.getImage();
-                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-                        imgOcchio.setIcon(new ImageIcon(imgButton2));
-                        occhio.add(imgOcchio);
-                        pwdTF.setEchoChar((char) 0);
+                    ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
+                    Image imgButton1 = imgButton.getImage();
+                    Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                    imgOcchio.setIcon(new ImageIcon(imgButton2));
+                    occhio.add(imgOcchio);
+                    pwdTF.setEchoChar((char) 0);
 
-                        chkVisibilityPwdA = 0;
-                    }
-                    else if (chkVisibilityPwdA == 0)
-                    {
+                    chkVisibilityPwdA = 0;
+                }
+                else if (chkVisibilityPwdA == 0)
+                {
 
-                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
-                        Image imgButton1 = imgButton.getImage();
-                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-                        imgOcchio.setIcon(new ImageIcon(imgButton2));
-                        occhio.add(imgOcchio);
-                        pwdTF.setEchoChar('•');
+                    ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
+                    Image imgButton1 = imgButton.getImage();
+                    Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                    imgOcchio.setIcon(new ImageIcon(imgButton2));
+                    occhio.add(imgOcchio);
+                    pwdTF.setEchoChar('•');
 
-                        chkVisibilityPwdA = 1;
-                    }
+                    chkVisibilityPwdA = 1;
                 }
             }
         });
@@ -809,35 +816,30 @@ public class Registrazione {
 
         occhio1.addMouseListener(new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent e)
-            {
-                if(!((new String(pwdTF.getPassword())).equals("PASSWORD")))
-                {
-                    if(chkVisibilityPwdB == 1)
-                    {
+            public void mouseClicked(MouseEvent e) {
 
-                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
-                        Image imgButton1 = imgButton.getImage();
-                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-                        imgOcchio1.setIcon(new ImageIcon(imgButton2));
-                        occhio1.add(imgOcchio1);
-                        pwdTF.setEchoChar((char) 0);
+                if (chkVisibilityPwdB == 1) {
 
-                        chkVisibilityPwdB = 0;
-                    }
-                    else if (chkVisibilityPwdB == 0)
-                    {
+                    ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioChiuso.jpeg"));
+                    Image imgButton1 = imgButton.getImage();
+                    Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                    imgOcchio1.setIcon(new ImageIcon(imgButton2));
+                    occhio1.add(imgOcchio1);
+                    confermaPwdTF.setEchoChar((char) 0);
 
-                        ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
-                        Image imgButton1 = imgButton.getImage();
-                        Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
-                        imgOcchio1.setIcon(new ImageIcon(imgButton2));
-                        occhio1.add(imgOcchio1);
-                        pwdTF.setEchoChar('•');
+                    chkVisibilityPwdB = 0;
+                } else if (chkVisibilityPwdB == 0) {
 
-                        chkVisibilityPwdB = 1;
-                    }
+                    ImageIcon imgButton = new ImageIcon(Cittadini.class.getResource("/occhioAperto.jpeg"));
+                    Image imgButton1 = imgButton.getImage();
+                    Image imgButton2 = imgButton1.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
+                    imgOcchio1.setIcon(new ImageIcon(imgButton2));
+                    occhio1.add(imgOcchio1);
+                    confermaPwdTF.setEchoChar('•');
+
+                    chkVisibilityPwdB = 1;
                 }
+
             }
         });
 

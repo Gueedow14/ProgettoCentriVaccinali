@@ -392,7 +392,7 @@ public class Cittadini {
         BTEventoAvverso.setFont(new Font("Arial", Font.ITALIC, 15));
         BTEventoAvverso.setHorizontalAlignment(SwingConstants.CENTER);
 
-        if(checkLogin) {
+        if(checkLogin && (account.getIdvaccinazione() != 0)) {
             BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
             BTEventoAvverso.setForeground(Color.decode("#000000"));
             BTEventoAvverso.setEnabled(true);

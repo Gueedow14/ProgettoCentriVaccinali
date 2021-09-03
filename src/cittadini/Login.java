@@ -2,6 +2,7 @@ package cittadini;
 
 import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
+import common.Cittadino;
 import common.ClientCV;
 
 import java.awt.*;
@@ -265,8 +266,10 @@ public class Login {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    if(/*stub.loginCittadino(tx.getText(), tx1.getPassword().toString())*/true) {  //***********************************************************************************************************************************************************************************************************************************
-                        new Cittadini(true, null);
+                    String pwd = new String(tx1.getPassword());
+                    Cittadino c = stub.loginCittadino(tx.getText(), pwd);
+                    if(c != null) {
+                        new Cittadini(true, c);
 
                         //chiusura finestra login
                         f.setVisible(false);
