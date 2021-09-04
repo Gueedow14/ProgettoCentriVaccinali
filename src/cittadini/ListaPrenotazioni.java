@@ -152,13 +152,13 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         pren1.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         pren1.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-        data1L.setBounds(130,140,200,25);
+        data1L.setBounds(160,140,200,25);
         data1L.setForeground(hex2Rgb("#1E90FF"));
         data1L.setBackground(hex2Rgb("#FFFFFF"));
         data1L.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         data1L.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-        orario1L.setBounds(132,170,200,25);
+        orario1L.setBounds(162,170,200,25);
         orario1L.setForeground(hex2Rgb("#1E90FF"));
         orario1L.setBackground(hex2Rgb("#FFFFFF"));
         orario1L.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -170,13 +170,13 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         pren2.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         pren2.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-        data2L.setBounds(130,240,200,25);
+        data2L.setBounds(160,240,200,25);
         data2L.setForeground(hex2Rgb("#1E90FF"));
         data2L.setBackground(hex2Rgb("#FFFFFF"));
         data2L.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
         data2L.setFont(new Font("Comic Sans",Font.ITALIC,sizeL));
 
-        orario2L.setBounds(132,270,200,25);
+        orario2L.setBounds(162,270,200,25);
         orario2L.setForeground(hex2Rgb("#1E90FF"));
         orario2L.setBackground(hex2Rgb("#FFFFFF"));
         orario2L.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));

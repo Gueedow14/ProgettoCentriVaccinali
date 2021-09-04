@@ -72,7 +72,7 @@ public class Homepage extends UnicastRemoteObject {
      */
     public static Object[][] PopolaTabella(List<CentroVaccinale> l)
     {
-        String[][] matrix = new String[5][3];
+        String[][] matrix = new String[l.size()][3];
 
         int i = 0;
         if(l.size() != 0)

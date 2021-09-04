@@ -203,10 +203,10 @@ public class PrenotazioneVaccino {
         });
 
         b.setBounds(200,325,200,40);
-        b.setBackground(hex2Rgb("#FFFFFF"));
-        b.setForeground(hex2Rgb("#1E90FF"));
-        b.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
-        b.setFont(new Font("Comic Sans",Font.BOLD,15));
+        b.setFont(new Font("Arial", Font.ITALIC, 15));
+        b.setBackground(Color.decode("#F0F8FF"));
+        b.setForeground(Color.decode("#000000"));
+        b.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
         b.setFocusTraversalKeysEnabled(false);
         b.setFocusable(false);
         java.util.List<Prenotazione> pren = stub.getPrenotazioni(account);

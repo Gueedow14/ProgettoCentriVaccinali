@@ -145,7 +145,7 @@ public class RegistraCittadini extends UnicastRemoteObject {
      * Bottone per inviare i campi ed iscriversi
      */
 
-    JButton b = new JButton("ISCRIVITI");
+    JButton b = new JButton("REGISTRA");
 
     /**
      * Metodo utlizzato per la conversione dei codici RGB.

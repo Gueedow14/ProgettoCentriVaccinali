@@ -411,7 +411,7 @@ public class Cittadini {
         if(checkLogin)
              lista = stub.getPrenotazioni(account);
 
-        if(checkLogin && (lista.size() > 0)) {
+        if(checkLogin && account.getIdvaccinazione() != 0) {
             BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
             BTEventoAvverso.setForeground(Color.decode("#000000"));
             BTEventoAvverso.setEnabled(true);
