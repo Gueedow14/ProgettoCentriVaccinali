@@ -25,6 +25,9 @@ import javax.swing.*;
 
 public class Login {
 
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
     public static ClientCV stub;
 
     /**
@@ -112,7 +115,7 @@ public class Login {
      */
     public Login() throws IOException, NotBoundException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         f.addMouseListener(new MouseAdapter()
@@ -381,7 +384,7 @@ public class Login {
             {
                 try {
                     new Cittadini(false, null);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);

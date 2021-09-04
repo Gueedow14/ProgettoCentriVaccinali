@@ -53,6 +53,7 @@ public class Homepage extends UnicastRemoteObject {
 
     public static boolean check;
     public static boolean checkReg;
+    public static Cittadino c;
 
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
@@ -74,14 +75,15 @@ public class Homepage extends UnicastRemoteObject {
         String[][] matrix = new String[5][3];
 
         int i = 0;
-        for(CentroVaccinale c1 : l)
-        {
-            matrix[i][0] = c1.getNome();
-            matrix[i][1] = c1.getTipologia();
-            String indirizzo[] = c1.getIndirizzo().split("|");
-            matrix[i][2] = indirizzo[0]+" "+indirizzo[1]+" "+indirizzo[2]+" "+indirizzo[3]+" "+indirizzo[4]+" "+indirizzo[5];
-            i++;
-        }
+        if(l.size() != 0)
+            for(CentroVaccinale c1 : l)
+            {
+                matrix[i][0] = c1.getNome().replaceAll("_"," ");
+                matrix[i][1] = c1.getTipologia();
+                String indirizzo = c1.getIndirizzo().replaceAll("§"," ");
+                matrix[i][2] = indirizzo;
+                i++;
+            }
 
         return matrix;
     }
@@ -98,10 +100,10 @@ public class Homepage extends UnicastRemoteObject {
      */
     public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-
+        c = account;
         check = checkLogin;
         checkReg = checkR;
         JTextField tmpFocus = new JTextField();
@@ -141,10 +143,10 @@ public class Homepage extends UnicastRemoteObject {
         info.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
-                if(!tab.getSelectionModel().isSelectionEmpty())
+                if(!tab.getSelectionModel().isSelectionEmpty() && !(tab.getValueAt(tab.getSelectedRow(), 0) == null))
                 {
                     try {
-                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
+                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, c, checkReg);
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -162,7 +164,7 @@ public class Homepage extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new CercaCentro(check, account, checkReg);
+                    new CercaCentro(check, c, checkReg);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -236,7 +238,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!checkReg) {
                     try {
                         new Cittadini(checkLogin, account);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -424,7 +426,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!checkReg) {
                     try {
                         new Cittadini(checkLogin, account);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -612,7 +614,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!checkReg) {
                     try {
                         new Cittadini(checkLogin, account);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
