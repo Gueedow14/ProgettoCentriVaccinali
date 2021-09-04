@@ -677,11 +677,8 @@ public class RegistraCittadini extends UnicastRemoteObject {
      */
 
     private boolean controlloCampi () {
-            return checkNome(nomeTF.getText()) & checkCognome(cognomeTF.getText()) & checkCF(cfTF.getText()) & checkData(dataTF.getText()) & checkCentro(centroTF.getText());
-        }
-
-
-        public static void main (String[]args) throws Exception {
-            new RegistraCittadini("localhost");
-        }
+        return checkNome(nomeTF.getText()) & checkCognome(cognomeTF.getText()) & checkCF(cfTF.getText()) & checkData(dataTF.getText()) & checkCentro(centroTF.getText());
     }
+
+
+}

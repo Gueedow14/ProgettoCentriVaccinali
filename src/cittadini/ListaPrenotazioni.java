@@ -241,8 +241,4 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         f.setIconImage(img2);
     }
 
-
-    public static void main (String[]args) throws IOException, NotBoundException, SQLException {
-        new ListaPrenotazioni(false,null, "localhost");
-    }
 }

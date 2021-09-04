@@ -355,9 +355,4 @@ public class CercaCentro {
             return false;
     }
 
-
-    public static void main(String[] args) throws IOException {
-        new CercaCentro(false, null, false, "localhost");
-    }
-
 }

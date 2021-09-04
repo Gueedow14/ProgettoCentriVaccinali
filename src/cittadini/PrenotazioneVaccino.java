@@ -339,7 +339,5 @@ public class PrenotazioneVaccino {
         return checkOrario(orarioTF.getText()) & checkData(dataTF.getText());
     }
 
-    public static void main (String[]args) throws IOException, NotBoundException, SQLException {
-        new PrenotazioneVaccino(false,null, "localhost");
-    }
+
 }

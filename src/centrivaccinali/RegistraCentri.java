@@ -786,8 +786,4 @@ public class RegistraCentri extends UnicastRemoteObject {
         return checkCAP(CAPTF.getText()) & checkCiv(numeroCivicoTF.getText()) & checkComune(comuneTF.getText()) & checkProvincia(provinciaTF.getText()) & checkNomeCentro(nomeCentroTF.getText()) & checkVia(nomeViaTF.getText()) & checkUnique(nomeCentroTF.getText());
     }
 
-    public static void main (String[]args) throws IOException, NotBoundException {
-
-        new RegistraCentri("localhost");
-    }
 }

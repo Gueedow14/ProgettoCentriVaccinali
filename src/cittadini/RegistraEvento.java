@@ -1234,24 +1234,4 @@ public class RegistraEvento {
         f.add(tipoEvento);
     }
 
-
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-
-            @Override
-            public void run()
-            {
-                try
-                {
-                    new RegistraEvento(true,null, "localhost");
-                }
-                catch (IOException | NotBoundException | SQLException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }

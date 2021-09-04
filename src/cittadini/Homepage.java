@@ -708,9 +708,5 @@ public class Homepage extends UnicastRemoteObject {
         f.add(panel);
     }
 
-    public static void main(String[] args) throws IOException, NotBoundException, SQLException {
-        // TODO Auto-generated method stub
-        new Homepage(false, null, false, ip);
-    }
 
 }

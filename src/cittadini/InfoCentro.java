@@ -357,13 +357,6 @@ public class InfoCentro extends UnicastRemoteObject {
         f.setIconImage(img2);
     }
 
-    public static void main(String[] args) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
-        stub = (common.ClientCV) registro.lookup("SERVERCV");
-
-        new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false, "localhost");
-
-    }
 
 }
