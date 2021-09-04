@@ -25,6 +25,7 @@ import javax.swing.*;
 
 public class Cittadini {
 
+    public static final String porta = "localhost";
     /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
@@ -98,7 +99,7 @@ public class Cittadini {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      */
     public Cittadini(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        Registry registro = LocateRegistry.getRegistry(porta, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         BTLista.addMouseListener(new MouseAdapter()
@@ -348,7 +349,6 @@ public class Cittadini {
         BTLista.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
         BTLista.setFont(new Font("Arial", Font.ITALIC, 15));
 
-
         //bottone registrazione
         BTRegistrazione.setBounds(300,350,200,60);
         BTRegistrazione.setFont(new Font("Arial", Font.ITALIC, 15));
@@ -372,6 +372,8 @@ public class Cittadini {
         BTPrenota.setHorizontalAlignment(SwingConstants.CENTER);
         BTPrenota.setBackground(Color.decode("#F0F8FF"));
         BTPrenota.setForeground(Color.decode("#000000"));
+        BTPrenota.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
+
         if(checkLogin) {
             BTPrenota.setEnabled(true);
             BTPrenota.setVisible(true);
@@ -387,6 +389,7 @@ public class Cittadini {
         BTListaPrenotazioni.setHorizontalAlignment(SwingConstants.CENTER);
         BTListaPrenotazioni.setBackground(Color.decode("#F0F8FF"));
         BTListaPrenotazioni.setForeground(Color.decode("#000000"));
+        BTListaPrenotazioni.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
         if(checkLogin) {
             BTListaPrenotazioni.setEnabled(true);
             BTListaPrenotazioni.setVisible(true);
@@ -401,6 +404,9 @@ public class Cittadini {
         BTEventoAvverso.setBounds(550,350,200,60);
         BTEventoAvverso.setFont(new Font("Arial", Font.ITALIC, 15));
         BTEventoAvverso.setHorizontalAlignment(SwingConstants.CENTER);
+        BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
+        BTEventoAvverso.setForeground(Color.decode("#000000"));
+        BTEventoAvverso.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
         java.util.List<Prenotazione> lista = null;
         if(checkLogin)
              lista = stub.getPrenotazioni(account);

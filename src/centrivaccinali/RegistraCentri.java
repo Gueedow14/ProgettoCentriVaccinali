@@ -18,6 +18,8 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import static cittadini.Cittadini.porta;
+
 /**
  * La classe RegistraCentri serve per registrare un nuovo centro vaccinale nel DB.
  * @author Davide Feldkircher
@@ -185,7 +187,8 @@ public class RegistraCentri extends UnicastRemoteObject {
      */
     public RegistraCentri() throws IOException, NotBoundException {
 
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+
+        Registry registro = LocateRegistry.getRegistry(porta, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         int sizeL = 17;

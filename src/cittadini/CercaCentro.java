@@ -283,11 +283,12 @@ public class CercaCentro {
 
 
         ricerca.setBounds(175,350,250,50);
-        ricerca.setBackground(hex2Rgb("#FFFFFF"));
-        ricerca.setForeground(hex2Rgb("#1E90FF"));
-        ricerca.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        ricerca.setFont(new Font("Arial", Font.ITALIC, 15));
+        ricerca.setHorizontalAlignment(SwingConstants.CENTER);
+        ricerca.setBackground(Color.decode("#F0F8FF"));
+        ricerca.setForeground(Color.decode("#000000"));
+        ricerca.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
+
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(CercaCentro.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;

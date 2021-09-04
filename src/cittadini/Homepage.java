@@ -100,7 +100,7 @@ public class Homepage extends UnicastRemoteObject {
      */
     public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         c = account;
@@ -199,19 +199,18 @@ public class Homepage extends UnicastRemoteObject {
         });
 
         info.setBounds(550,450,250,50);
-        info.setBackground(hex2Rgb("#FFFFFF"));
-        info.setForeground(hex2Rgb("#1E90FF"));
-
-        info.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        info.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        info.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        info.setFont(new Font("Arial", Font.ITALIC, 15));
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+        info.setBackground(Color.decode("#F0F8FF"));
+        info.setForeground(Color.decode("#000000"));
+        info.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
 
         ricerca.setBounds(100,450,250,50);
-        ricerca.setBackground(hex2Rgb("#FFFFFF"));
-        ricerca.setForeground(hex2Rgb("#1E90FF"));
-        ricerca.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        ricerca.setFont(new Font("Arial", Font.ITALIC, 15));
+        ricerca.setHorizontalAlignment(SwingConstants.CENTER);
+        ricerca.setBackground(Color.decode("#F0F8FF"));
+        ricerca.setForeground(Color.decode("#000000"));
+        ricerca.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
 
         panel.add(scrollPane,BorderLayout.CENTER);
 
@@ -310,7 +309,6 @@ public class Homepage extends UnicastRemoteObject {
         JTable tab = new JTable(data,colonneTab);
         JTableHeader header = tab.getTableHeader();
         header.setEnabled(false);
-
         JPanel panel = new JPanel();
 
         JScrollPane scrollPane;
@@ -387,19 +385,18 @@ public class Homepage extends UnicastRemoteObject {
         });
 
         info.setBounds(550,450,250,50);
-        info.setBackground(hex2Rgb("#FFFFFF"));
-        info.setForeground(hex2Rgb("#1E90FF"));
-
-        info.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        info.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        info.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        info.setFont(new Font("Arial", Font.ITALIC, 15));
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+        info.setBackground(Color.decode("#F0F8FF"));
+        info.setForeground(Color.decode("#000000"));
+        info.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));;
 
         ricerca.setBounds(100,450,250,50);
-        ricerca.setBackground(hex2Rgb("#FFFFFF"));
-        ricerca.setForeground(hex2Rgb("#1E90FF"));
-        ricerca.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        ricerca.setFont(new Font("Arial", Font.ITALIC, 15));
+        ricerca.setHorizontalAlignment(SwingConstants.CENTER);
+        ricerca.setBackground(Color.decode("#F0F8FF"));
+        ricerca.setForeground(Color.decode("#000000"));
+        ricerca.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
 
         panel.add(scrollPane,BorderLayout.CENTER);
 
@@ -575,19 +572,18 @@ public class Homepage extends UnicastRemoteObject {
         });
 
         info.setBounds(550,450,250,50);
-        info.setBackground(hex2Rgb("#FFFFFF"));
-        info.setForeground(hex2Rgb("#1E90FF"));
-
-        info.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        info.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        info.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        info.setFont(new Font("Arial", Font.ITALIC, 15));
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+        info.setBackground(Color.decode("#F0F8FF"));
+        info.setForeground(Color.decode("#000000"));
+        info.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
 
         ricerca.setBounds(100,450,250,50);
-        ricerca.setBackground(hex2Rgb("#FFFFFF"));
-        ricerca.setForeground(hex2Rgb("#1E90FF"));
-        ricerca.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, hex2Rgb("#FFFFFF")));
-        ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
-        ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
+        ricerca.setFont(new Font("Arial", Font.ITALIC, 15));
+        ricerca.setHorizontalAlignment(SwingConstants.CENTER);
+        ricerca.setBackground(Color.decode("#F0F8FF"));
+        ricerca.setForeground(Color.decode("#000000"));
+        ricerca.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, hex2Rgb("#1E90FF")));
 
         panel.add(scrollPane,BorderLayout.CENTER);
 

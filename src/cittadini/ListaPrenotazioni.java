@@ -104,7 +104,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
      */
     public ListaPrenotazioni(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         lista = stub.getPrenotazioni(account);

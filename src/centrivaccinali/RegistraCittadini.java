@@ -17,6 +17,7 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import static cittadini.Cittadini.porta;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -163,7 +164,7 @@ public class RegistraCittadini extends UnicastRemoteObject {
 
 
     public RegistraCittadini() throws IOException, NotBoundException {
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        Registry registro = LocateRegistry.getRegistry(porta, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         int sizeL = 17;

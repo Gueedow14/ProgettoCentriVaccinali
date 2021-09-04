@@ -109,7 +109,7 @@ public class PrenotazioneVaccino {
         int sizeL = 17;
         int sizeTF = 17;
 
-        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         errorData.setBounds(90,155,25,25);
