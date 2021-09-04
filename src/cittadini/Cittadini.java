@@ -112,7 +112,7 @@ public class Cittadini {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Homepage(checkLogin, account, false);
+                    new Homepage(checkLogin, account, false, ip);
                 }
                 catch(IOException | NotBoundException | SQLException er)
                 {
@@ -131,7 +131,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new Registrazione();
+                    new Registrazione(ip);
                 }
                 catch(Exception er)
                 {

@@ -482,7 +482,7 @@ public class Registrazione {
                     System.out.println(pwd);
 
                     try {
-                        new Homepage(true, c, true);
+                        new Homepage(true, c, true, ip);
                     } catch (IOException | NotBoundException | SQLException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();

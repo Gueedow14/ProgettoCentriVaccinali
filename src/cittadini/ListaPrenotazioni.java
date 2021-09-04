@@ -29,6 +29,11 @@ import java.util.Objects;
 public class ListaPrenotazioni extends UnicastRemoteObject {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
     private static ClientCV stub;
@@ -140,7 +145,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         int sizeL = 17;
         int sizeTF = 17;
 
-        titolo.setBounds(122 ,30,500,50);
+        titolo.setBounds(140 ,30,500,50);
         titolo.setForeground(hex2Rgb("#1E90FF"));
         titolo.setBackground(hex2Rgb("#FFFFFF"));
         titolo.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
