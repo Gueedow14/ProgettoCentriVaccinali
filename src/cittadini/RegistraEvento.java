@@ -1195,7 +1195,7 @@ public class RegistraEvento
             }
         });
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraEvento.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);

@@ -189,7 +189,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         */
 
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(ListaPrenotazioni.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -230,7 +230,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 100, 550, 400);
-        ImageIcon img = new ImageIcon(Objects.requireNonNull(PrenotazioneVaccino.class.getResource("/logo.jpg")));
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(ListaPrenotazioni.class.getResource("/logo.jpg")));
         Image img1 = img.getImage();
         Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         f.setIconImage(img2);

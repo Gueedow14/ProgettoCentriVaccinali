@@ -316,7 +316,7 @@ public class InfoCentro extends UnicastRemoteObject {
         registra.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         registra.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(InfoCentro.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);

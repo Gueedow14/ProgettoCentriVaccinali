@@ -291,7 +291,7 @@ public class CercaCentro {
         ricerca.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         ricerca.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(CercaCentro.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);

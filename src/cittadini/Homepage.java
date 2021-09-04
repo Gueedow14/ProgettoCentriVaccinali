@@ -220,7 +220,7 @@ public class Homepage extends UnicastRemoteObject {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -408,7 +408,7 @@ public class Homepage extends UnicastRemoteObject {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -596,7 +596,7 @@ public class Homepage extends UnicastRemoteObject {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
