@@ -150,7 +150,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new RegistraEvento(checkLogin, account);
+                    new RegistraEvento(checkLogin, account, ip);
                 } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
@@ -166,7 +166,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new PrenotazioneVaccino(checkLogin, account);
+                    new PrenotazioneVaccino(checkLogin, account, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -182,7 +182,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new ListaPrenotazioni(checkLogin, account);
+                    new ListaPrenotazioni(checkLogin, account, ip);
                 } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -199,7 +199,7 @@ public class Cittadini {
             public void actionPerformed(ActionEvent e) {
                 if(BTLogin.getText().equals("Accedi")) {
                     try {
-                        new Login();
+                        new Login(ip);
                     } catch (IOException | NotBoundException ex) {
                         ex.printStackTrace();
                     }
