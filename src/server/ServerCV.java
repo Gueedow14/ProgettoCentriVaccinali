@@ -83,12 +83,29 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         conn = DriverManager.getConnection(url, props);
     }
 
-    private synchronized Cittadino getCittadino(Statement s, String cf) throws SQLException {
+    /**
+     * Ritorna un cittadino specifico
+     * @param cf Codice fiscale del cittadino
+     * @return Cittadino cercato in base al cf
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    public synchronized Cittadino getCittadino(String cf) throws SQLException, RemoteException {
+        Statement s = conn.createStatement();
         ResultSet rst = s.executeQuery("SELECT * FROM cittadino WHERE cf = '" + cf + "'");
-        rst.next();
-        return new Cittadino(rst.getString("userid"), rst.getString("pwd"), rst.getString("nome"), rst.getString("cognome"), rst.getShort("idvaccinazione"), rst.getString("cf"), rst.getString("mail"), rst.getString("cv"));
+        if(rst.next())
+            return new Cittadino(rst.getString("userid"), rst.getString("pwd"), rst.getString("nome"), rst.getString("cognome"), rst.getShort("idvaccinazione"), rst.getString("cf"), rst.getString("mail"), rst.getString("cv"));
+        return null;
     }
 
+    /**
+     *
+     * @param s
+     * @param cv
+     * @param cf
+     * @return
+     * @throws SQLException
+     */
     private synchronized ArrayList<Vaccinazione> getVaccinazioni(Statement s, String cv, String cf) throws SQLException {
         ArrayList<Vaccinazione> l = new ArrayList<>();
         cv = cv.replaceAll(" ", "_");
@@ -190,11 +207,12 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     private synchronized boolean queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
-        if (getPrenotazioni(getCittadino(s, v.getCf())).size() > getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() && getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() < 2) {
+        if (getPrenotazioni(getCittadino(v.getCf())).size() > getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() && getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() < 2) {
             int i = (contaVaccinati() + 1);
+            String nomeCV = v.getNomeCV().replaceAll(" ", "_");
             s.executeUpdate(
-                    "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
-                            "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome() + "'," + i + ",'" + v.getData() + "','" + v.getTipo() + "')"
+                    "INSERT INTO " + nomeCV + "_VACCINATI " +
+                            "VALUES ('" + nomeCV + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome() + "'," + i + ",'" + v.getData() + "','" + v.getTipo() + "')"
             );
             s.executeUpdate("UPDATE cittadino SET idvaccinazione = " + i + " WHERE cf = '" + v.getCf() + "'");
             return true;

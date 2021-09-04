@@ -2,7 +2,9 @@ package common;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -144,4 +146,11 @@ public interface ClientCV extends Remote {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     List<String> getCF() throws SQLException, RemoteException;
+    /**
+     *
+     * @param cf
+     * @return
+     * @throws SQLException
+     */
+    Cittadino getCittadino(String cf) throws SQLException, RemoteException;
 }

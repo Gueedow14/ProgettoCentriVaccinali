@@ -508,24 +508,19 @@ public class RegistraCittadini extends UnicastRemoteObject {
 
         b.addMouseListener(new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent e)
-            {
-
-                if(controlloCampi()) {
-                    Vaccinazione v = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
-                    try {
-                        boolean chk = stub.registraVaccinato(v);
-                        if(chk) {
-                            JOptionPane.showMessageDialog(f, "Esito vaccinazione negativo", "Errore Vaccinazione", JOptionPane.ERROR_MESSAGE);
-                            new CentriVaccinali(ip);
-                            f.setVisible(false);
-                            f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                            f.dispose();
-                        }
-                    } catch (SQLException | RemoteException ex) {
-                        ex.printStackTrace();
-                    }
-
+            public void mouseClicked(MouseEvent e) {
+                Vaccinazione v = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
+                try {
+                    Cittadino c = stub.getCittadino(v.getCf());
+                    if(controlloCampi() && c != null && c.getCv().equals(centroTF.getText().replaceAll(" ", "_")) && stub.registraVaccinato(v)) {
+                        new CentriVaccinali(ip);
+                        f.setVisible(false);
+                        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        f.dispose();
+                    } else
+                        JOptionPane.showMessageDialog(f, "Esito vaccinazione negativo", "Errore Vaccinazione", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException | RemoteException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
