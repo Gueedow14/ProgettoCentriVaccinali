@@ -180,8 +180,9 @@ public class RegistraCentri extends UnicastRemoteObject {
 
     /**
      * Esecuzione principale della classe RegistraCentri
+     * @throws IOException perchè il costruttore lavora con delle immagini che posso essere caricate in modo errato.
+     * @throws NotBoundException perchè il costruttore contiene codice che si connette all'RMI register.
      */
-
     public RegistraCentri() throws IOException, NotBoundException {
 
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
@@ -745,10 +746,14 @@ public class RegistraCentri extends UnicastRemoteObject {
     }
 
     /**
+     *
      * Metodo
-     * @param nome
-     * @return
+     * @param nome che contiene il testo inserito nel TextField del nome del centro vaccinale.
+     * @return booleano che indica l'esito del check.
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query.
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo.
      */
+
 
     public boolean checkUnique(String nome) throws SQLException, RemoteException {
         nome = nome.replaceAll(" ", "_");
@@ -763,7 +768,10 @@ public class RegistraCentri extends UnicastRemoteObject {
     /**
      * Metodo che chiama tutti i check dei campi della schermata prima di eseguire l'inserimento nel DB.
      * @return booleano che indica l'esito del check.
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query.
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo.
      */
+
 
     public boolean checkCampiCentri() throws SQLException, RemoteException {
 

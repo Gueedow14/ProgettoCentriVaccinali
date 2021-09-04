@@ -157,7 +157,10 @@ public class RegistraCittadini extends UnicastRemoteObject {
 
     /**
      * Costruttore che crea l'interfaccia e ne gestisce lo stile, la dimensione, la posizione e i suoi listeners.
+     * @throws IOException perchè il costruttore lavora con delle immagini che posso essere caricate in modo errato.
+     * @throws NotBoundException perchè il costruttore contiene codice che si connette all'RMI register.
      */
+
 
     public RegistraCittadini() throws IOException, NotBoundException {
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
