@@ -139,7 +139,7 @@ public class RegistraCentri extends UnicastRemoteObject {
      * JLabels che indica il campo dove l'utente deve inserire il tipo di centro vaccinale e il tipo di via
      */
 
-    JLabel tipoL = new JLabel("Tipo Centro Vaccinale:");
+    JLabel tipoL = new JLabel("Tipo Centro:");
 
     JLabel vieL = new JLabel("Qualificatore:");
 

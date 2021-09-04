@@ -358,13 +358,7 @@ public class Registrazione {
         Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        nomeTF.setText("");
-        cognomeTF.setText("");
-        codiceFiscaleTF.setText("");
-        useridTF.setText("");
-        mailTF.setText("");
-        pwdTF.setText("");
-        confermaPwdTF.setText("");
+
 
         b.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
@@ -898,6 +892,13 @@ public class Registrazione {
         {
             public void mouseClicked(MouseEvent e)
             {
+                nomeTF.setText("");
+                cognomeTF.setText("");
+                codiceFiscaleTF.setText("");
+                useridTF.setText("");
+                mailTF.setText("");
+                pwdTF.setText("");
+                confermaPwdTF.setText("");
                 try {
                     new Cittadini(false, null, ip);
                 } catch (Exception ex) {

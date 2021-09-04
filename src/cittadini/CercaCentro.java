@@ -193,7 +193,7 @@ public class CercaCentro {
                     try {
                         if (tipoRicerca.getSelectedItem().toString().equals(PRIMA_RICERCA))
                             if(CheckNome(nomeTF.getText())) {
-                                new Homepage(true, account, checkR, nomeTF.getText());
+                                new Homepage(true, account, checkR, nomeTF.getText().replaceAll(" ","_"), ip);
                                 f.setVisible(false);
                                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                                 f.dispose();
@@ -204,7 +204,7 @@ public class CercaCentro {
                         else if (tipoRicerca.getSelectedItem().toString().equals(SECONDA_RICERCA))
                             if(!tipologiaCentro.getSelectedItem().toString().equals(DEFAULT_TIPOLOGIA))
                                 if(CheckComune(comuneTF.getText())) {
-                                    new Homepage(true, account, checkR, comuneTF.getText(), tipologiaCentro.getSelectedItem().toString());
+                                    new Homepage(true, account, checkR, comuneTF.getText(), tipologiaCentro.getSelectedItem().toString(), ip);
                                     f.setVisible(false);
                                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                                     f.dispose();

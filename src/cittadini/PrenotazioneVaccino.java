@@ -18,6 +18,8 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -225,19 +227,23 @@ public class PrenotazioneVaccino {
         {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(controlloCampi()) {
-                    try {
-                        Prenotazione p = new Prenotazione(stub.contaPrenotazioni(), account.getUserid(), account.getCv(), dataTF.getText()+" "+orarioTF.getText());
-                        stub.prenotaVaccino(p);
-                        new Cittadini(checkLogin, account, ip);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
-                } else
-                    JOptionPane.showMessageDialog(f, "- La data non puo' essere precedente o uguale al giorno odierno e deve\n corrisponedere al formato dd/mm/yyyy\n- L'orario deve corrispondere al formato hh:mm", "Errore registrazione", JOptionPane.ERROR_MESSAGE);
+                try {
+                    if(controlloCampi()) {
+                        try {
+                            Prenotazione p = new Prenotazione(stub.contaPrenotazioni(), account.getUserid(), account.getCv(), dataTF.getText()+" "+orarioTF.getText());
+                            stub.prenotaVaccino(p);
+                            new Cittadini(checkLogin, account, ip);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        f.setVisible(false);
+                        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        f.dispose();
+                    } else
+                        JOptionPane.showMessageDialog(f, "- La data non puo' essere precedente o uguale al giorno odierno e deve\n corrisponedere al formato dd/mm/yyyy\n- L'orario deve corrispondere al formato hh:mm", "Errore registrazione", JOptionPane.ERROR_MESSAGE);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -268,25 +274,31 @@ public class PrenotazioneVaccino {
      * @param data corrisponde alla data inserita
      * @return ritorna l'esito del controllo
      */
-    public static boolean checkData(String data)
-    {
+    public static boolean checkData(String data) throws ParseException {
         if(!data.equals("") && data.length() == 10){
 
             String giorno = data.substring(0,2);
             String mese = data.substring(3,5);
             String anno = data.substring(6,10);
 
+            if(data.substring(2,3).equals("/") && data.substring(5,6).equals("/")) {
+                if (parseInt(giorno) > 0 && parseInt(giorno) < 32 &&
+                        parseInt(mese) > 0 && parseInt(mese) < 13 &&
+                        parseInt(anno) >= LocalDateTime.now().getYear()) {
 
-            if(parseInt(giorno) > 0  && parseInt(giorno) < 32 &&
-                    parseInt(mese) > 0 &&  parseInt(mese) < 13  &&
-                    parseInt(anno) >= LocalDateTime.now().getYear()){
-                errorData.setVisible(false);
-                return true;
-            }
-            else {
+                    Date current = new Date();
+                    Date selezionata = null;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                    selezionata = sdf.parse(data);
+                    if(current.before(selezionata)) {
+                        errorData.setVisible(false);
+                        return true;
+                    }
+                } else {
 
-                errorData.setVisible(true);
-                return false;
+                    errorData.setVisible(true);
+                    return false;
+                }
             }
         }
         errorData.setVisible(true);
@@ -321,8 +333,9 @@ public class PrenotazioneVaccino {
     /**
      * Metodo che richiama i controlli sulle informazioni inserite
      * @return ritorna l'esito dei controlli
+     * @throws ParseException possibile errore di conversione tra data e stringa
      */
-    private boolean controlloCampi () {
+    private boolean controlloCampi () throws ParseException {
         return checkOrario(orarioTF.getText()) & checkData(dataTF.getText());
     }
 

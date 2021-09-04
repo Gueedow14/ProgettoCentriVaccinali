@@ -165,7 +165,7 @@ public class RegistraEvento {
      * Metodo con il codice per la creazione della finestra della registrazione di un evento avverso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public RegistraEvento(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException {
+    public RegistraEvento(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException, SQLException {
         ip = ind;
         Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
@@ -202,15 +202,11 @@ public class RegistraEvento {
             }
         });
 
-        //List<EventoAvverso> ev;
+        java.util.List<String> ev = stub.getTipiEventoAvverso();
 
         tipoEvento.addItem(DEFAULT_EVENTO);
-        tipoEvento.addItem("Febbre");
-        tipoEvento.addItem("Mal di testa");
-        tipoEvento.addItem("Male al braccio");
-        tipoEvento.addItem("Giramento di testa");
-        tipoEvento.addItem("Fastidio all'addome");
-        tipoEvento.addItem("Male alle gambe");
+        for(String evento : ev)
+            tipoEvento.addItem(evento);
 
         tipoEvento.setBounds(175,70,450,25);
         tipoEvento.setForeground(hex2Rgb("#1E90FF"));
@@ -1251,7 +1247,7 @@ public class RegistraEvento {
                 {
                     new RegistraEvento(true,null, "localhost");
                 }
-                catch (IOException | NotBoundException e)
+                catch (IOException | NotBoundException | SQLException e)
                 {
                     e.printStackTrace();
                 }

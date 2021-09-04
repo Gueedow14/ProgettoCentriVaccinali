@@ -84,6 +84,8 @@ public class Cittadini {
      */
     JLabel logo = new JLabel();
 
+    private static Cittadino c = null;
+
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
      * @param colorStr	stringa che traduce il codice esadecimale in RGB
@@ -107,12 +109,15 @@ public class Cittadini {
         Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
+        if(account != null)
+            c = stub.getCittadino(account.getCf());
+
         BTLista.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Homepage(checkLogin, account, false, ip);
+                    new Homepage(checkLogin, c, false, ip);
                 }
                 catch(IOException | NotBoundException | SQLException er)
                 {
@@ -150,8 +155,8 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new RegistraEvento(checkLogin, account, ip);
-                } catch (IOException | NotBoundException ex) {
+                    new RegistraEvento(checkLogin, c, ip);
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 //chiusura finestra login
@@ -166,7 +171,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new PrenotazioneVaccino(checkLogin, account, ip);
+                    new PrenotazioneVaccino(checkLogin, c, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -182,7 +187,7 @@ public class Cittadini {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new ListaPrenotazioni(checkLogin, account, ip);
+                    new ListaPrenotazioni(checkLogin, c, ip);
                 } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -416,7 +421,9 @@ public class Cittadini {
         if(checkLogin)
              lista = stub.getPrenotazioni(account);
 
-        if(checkLogin && account.getIdvaccinazione() != 0) {
+
+
+        if(checkLogin && c.getIdvaccinazione() != 0) {
             BTEventoAvverso.setBackground(Color.decode("#F0F8FF"));
             BTEventoAvverso.setForeground(Color.decode("#000000"));
             BTEventoAvverso.setEnabled(true);

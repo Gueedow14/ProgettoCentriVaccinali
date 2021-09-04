@@ -20,7 +20,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 
 /**
@@ -128,6 +131,9 @@ public class Homepage extends UnicastRemoteObject {
         JTable tab = new JTable(data,colonneTab);
         JTableHeader header = tab.getTableHeader();
         header.setEnabled(false);
+        header.setFont(new Font("Comic Sans",Font.ITALIC,15));
+        header.setBackground(hex2Rgb("#FFFFFF"));
+        header.setForeground(hex2Rgb("#1E90FF"));
 
         JPanel panel = new JPanel();
 
@@ -156,6 +162,10 @@ public class Homepage extends UnicastRemoteObject {
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
+
+                    DefaultTableModel dtm = (DefaultTableModel) tab.getModel();
+                    dtm.setRowCount(0);
+
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
@@ -174,6 +184,8 @@ public class Homepage extends UnicastRemoteObject {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+
+
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
@@ -220,12 +232,23 @@ public class Homepage extends UnicastRemoteObject {
 
         panel.add(scrollPane,BorderLayout.CENTER);
 
-        tab.setBounds(100,100,700,300);
+        tab.setBounds(100,100,600,300);
         tab.setForeground(hex2Rgb("#1E90FF"));
         tab.setBackground(hex2Rgb("#FFFFFF"));
         tab.setGridColor(hex2Rgb("#1E90FF"));;
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
+
+        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        tab.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -274,10 +297,11 @@ public class Homepage extends UnicastRemoteObject {
 
         f.add(ricerca);
         f.add(indietro);
+        f.add(panel);
         f.add(tmpFocus);
         f.add(info);
         f.add(exit);
-        f.add(panel);
+
     }
 
     /**
@@ -313,21 +337,25 @@ public class Homepage extends UnicastRemoteObject {
         Object[][] data = PopolaTabella(lista);
 
 
-        JTable tab = new JTable(data,colonneTab);
-        JTableHeader header = tab.getTableHeader();
+        JTable tab2 = new JTable(data,colonneTab);
+
+        JTableHeader header = tab2.getTableHeader();
         header.setEnabled(false);
+        header.setFont(new Font("Comic Sans",Font.ITALIC,15));
+        header.setBackground(hex2Rgb("#FFFFFF"));
+        header.setForeground(hex2Rgb("#1E90FF"));
         JPanel panel = new JPanel();
 
         JScrollPane scrollPane;
-        tab.getColumnModel().getColumn(0).setMinWidth(350);
-        tab.getColumnModel().getColumn(0).setMaxWidth(350);
-        tab.getColumnModel().getColumn(1).setMinWidth(100);
-        tab.getColumnModel().getColumn(1).setMaxWidth(100);
-        tab.getColumnModel().getColumn(2).setMinWidth(400);
-        tab.getColumnModel().getColumn(2).setMaxWidth(400);
-        tab.setRowHeight(30);
-        tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tab.setForeground(hex2Rgb("#1E90FF"));
+        tab2.getColumnModel().getColumn(0).setMinWidth(350);
+        tab2.getColumnModel().getColumn(0).setMaxWidth(350);
+        tab2.getColumnModel().getColumn(1).setMinWidth(100);
+        tab2.getColumnModel().getColumn(1).setMaxWidth(100);
+        tab2.getColumnModel().getColumn(2).setMinWidth(400);
+        tab2.getColumnModel().getColumn(2).setMaxWidth(400);
+        tab2.setRowHeight(30);
+        tab2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tab2.setForeground(hex2Rgb("#1E90FF"));
 
         //l1.setFont(new Font("Comic Sans",Font.ITALIC,20));
         //l1.setBounds(15,5,500,30);
@@ -336,10 +364,10 @@ public class Homepage extends UnicastRemoteObject {
         info.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
-                if(!tab.getSelectionModel().isSelectionEmpty())
+                if(!tab2.getSelectionModel().isSelectionEmpty())
                 {
                     try {
-                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg, ip);
+                        new InfoCentro(new CentroVaccinale((String)tab2.getValueAt(tab2.getSelectedRow(), 0), (String)tab2.getValueAt(tab2.getSelectedRow(), 1), (String)tab2.getValueAt(tab2.getSelectedRow(), 2)), check, account, checkReg, ip);
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -377,7 +405,7 @@ public class Homepage extends UnicastRemoteObject {
         panel.setLayout(new BorderLayout());
         panel.add(header, BorderLayout.NORTH);
 
-        scrollPane = new JScrollPane(tab);
+        scrollPane = new JScrollPane(tab2);
         scrollPane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#1E90FF")));
         scrollPane.getVerticalScrollBar().setBackground(hex2Rgb("#FFFFFF"));
         scrollPane.getVerticalScrollBar().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, hex2Rgb("#FFFFFF")));
@@ -407,12 +435,23 @@ public class Homepage extends UnicastRemoteObject {
 
         panel.add(scrollPane,BorderLayout.CENTER);
 
-        tab.setBounds(100,100,700,300);
-        tab.setForeground(hex2Rgb("#1E90FF"));
-        tab.setBackground(hex2Rgb("#FFFFFF"));
-        tab.setGridColor(hex2Rgb("#1E90FF"));;
-        tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
-        tab.setDragEnabled(false);
+        tab2.setBounds(100,100,600,300);
+        tab2.setForeground(hex2Rgb("#1E90FF"));
+        tab2.setBackground(hex2Rgb("#FFFFFF"));
+        tab2.setGridColor(hex2Rgb("#1E90FF"));;
+        tab2.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
+        tab2.setDragEnabled(false);
+
+        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        tab2.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -503,6 +542,9 @@ public class Homepage extends UnicastRemoteObject {
         JTable tab = new JTable(data,colonneTab);
         JTableHeader header = tab.getTableHeader();
         header.setEnabled(false);
+        header.setFont(new Font("Comic Sans",Font.ITALIC,15));
+        header.setBackground(hex2Rgb("#FFFFFF"));
+        header.setForeground(hex2Rgb("#1E90FF"));
 
         JPanel panel = new JPanel();
 
@@ -595,12 +637,23 @@ public class Homepage extends UnicastRemoteObject {
 
         panel.add(scrollPane,BorderLayout.CENTER);
 
-        tab.setBounds(100,100,700,300);
+        tab.setBounds(100,100,600,300);
         tab.setForeground(hex2Rgb("#1E90FF"));
         tab.setBackground(hex2Rgb("#FFFFFF"));
         tab.setGridColor(hex2Rgb("#1E90FF"));;
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
+
+        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        tab.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;

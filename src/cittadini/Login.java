@@ -387,6 +387,8 @@ public class Login {
         {
             public void mouseClicked(MouseEvent e)
             {
+                tx.setText("");
+                tx1.setText("");
                 try {
                     new Cittadini(false, null, ip);
                 } catch (Exception ex) {

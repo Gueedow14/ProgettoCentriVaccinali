@@ -42,6 +42,8 @@ public class InfoCentro extends UnicastRemoteObject {
      */
     JButton indietro = new JButton();
 
+    public static Cittadino citt;
+
     /**
      * Il metodo hex2rgb traduce un codice esadecimale nel corrispondente valore rgb
      * @param colorStr	stringa che traduce il codice esadecimale in RGB
@@ -65,34 +67,24 @@ public class InfoCentro extends UnicastRemoteObject {
      */
     public InfoCentro(CentroVaccinale selezionato, boolean checkLogin, Cittadino account, boolean checkR, String ind) throws IOException, NotBoundException, SQLException {
         super();
-
+        citt = account;
         ip = ind;
         Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(selezionato); //Prendere lista eventi avversi registrati per il centro selezionato
+        CentroVaccinale cv = new CentroVaccinale(selezionato.getNome().replaceAll(" ","_"), selezionato.getIndirizzo(), selezionato.getTipologia());
+
+        ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(cv);
 
         JPanel panel = new JPanel();
         JLabel tmpImage = new JLabel();
+        JLabel eventiLista = new JLabel("   Eventi avversi");
 
         JButton registra = new JButton("Registrati al centro");
 
         JFrame f = new JFrame("Finestra Informazioni");
 
-		/*
-		ImageIcon img = new ImageIcon(Clienti.class.getResource("/eventiUtenti.jpeg"));
-        Image img1 = img.getImage();
-        Image img2 = img1.getScaledInstance(430, 200, Image.SCALE_SMOOTH);
 
-
-        tmpImage.setIcon(new ImageIcon(img2));
-        tmpImage.setBounds(0, 0, 430, 200);
-
-
-        panel.setBounds(160, 0, 430, 200);
-        panel.setBackground(hex2Rgb("#FFFFFF"));
-        panel.add(tmpImage);
-		*/
 
         registra.addMouseListener(new MouseAdapter()
         {
@@ -100,10 +92,10 @@ public class InfoCentro extends UnicastRemoteObject {
             {
 
                 try {
-                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome().replaceAll(" ","_"));
+                    Cittadino c = new Cittadino(citt.getUserid(), citt.getPwd(), citt.getNome(), citt.getCognome(), citt.getCf(), citt.getMail(), selezionato.getNome().replaceAll(" ","_"));
                     stub.registraCittadino(c);
 
-                    new Cittadini(checkLogin, account, ip);
+                    new Cittadini(checkLogin, c, ip);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -302,7 +294,11 @@ public class InfoCentro extends UnicastRemoteObject {
         tipologiaCentro.setForeground(hex2Rgb("#1E90FF"));
         tipologiaCentro.setFont(new Font("Arial", Font.ITALIC, 25));
 
-
+        eventiLista.setBounds(275, 200, 200, 30);
+        eventiLista.setBackground(hex2Rgb("#FFFFFF"));
+        eventiLista.setForeground(hex2Rgb("#1E90FF"));
+        eventiLista.setFont(new Font("Arial", Font.ITALIC, 20));
+        eventiLista.setHorizontalTextPosition(SwingConstants.CENTER);
 
         f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
         if(checkLogin)
@@ -346,6 +342,7 @@ public class InfoCentro extends UnicastRemoteObject {
         });
 
         f.add(noCommenti);
+        f.add(eventiLista);
         f.add(scroll);
         f.add(nomeCentro);
         f.add(indirizzoCentro);
