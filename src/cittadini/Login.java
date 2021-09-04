@@ -25,6 +25,9 @@ import javax.swing.*;
 
 public class Login {
 
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
     public static ClientCV stub;
 
     /**
@@ -112,7 +115,7 @@ public class Login {
      */
     public Login() throws IOException, NotBoundException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         f.addMouseListener(new MouseAdapter()
@@ -366,7 +369,7 @@ public class Login {
         b.setFont(new Font("Comic Sans",Font.ITALIC,20));
 
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(Login.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -381,7 +384,7 @@ public class Login {
             {
                 try {
                     new Cittadini(false, null);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);

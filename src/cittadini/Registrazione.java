@@ -606,7 +606,7 @@ public class Registrazione {
             public void keyReleased(KeyEvent e) {}
         });
 
-        codiceFiscaleL.setBounds(80,400,100,25);
+        codiceFiscaleL.setBounds(80,400,120,25);
         codiceFiscaleL.setForeground(hex2Rgb("#1E90FF"));
         codiceFiscaleL.setBackground(hex2Rgb("#FFFFFF"));
         codiceFiscaleL.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, hex2Rgb("#1E90FF")));
@@ -852,7 +852,7 @@ public class Registrazione {
         b.setFocusTraversalKeysEnabled(false);
 
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(Registrazione.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -867,7 +867,7 @@ public class Registrazione {
             {
                 try {
                     new Cittadini(false, null);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);

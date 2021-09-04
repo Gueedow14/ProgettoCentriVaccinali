@@ -104,7 +104,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
      */
     public ListaPrenotazioni(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         lista = stub.getPrenotazioni(account);
@@ -127,8 +127,8 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         else if(lista.size() == 2){
             orario1L.setVisible(true);
             orario2L.setVisible(true);
-            Prenotazione p1 = lista.get(0);
-            Prenotazione p2 = lista.get(1);
+            Prenotazione p1 = lista.get(1);
+            Prenotazione p2 = lista.get(0);
             String data1[] = p1.getData().split(" ");
             String data2[] = p2.getData().split(" ");
             data2L.setText("Data: "+data1[0]);
@@ -189,7 +189,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         */
 
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(ListaPrenotazioni.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -204,7 +204,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
             {
                 try {
                     new Cittadini(checkLogin, account);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -230,7 +230,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setResizable(false);  //lock size finestra
         f.setBounds(660, 100, 550, 400);
-        ImageIcon img = new ImageIcon(Objects.requireNonNull(PrenotazioneVaccino.class.getResource("/logo.jpg")));
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(ListaPrenotazioni.class.getResource("/logo.jpg")));
         Image img1 = img.getImage();
         Image img2 = img1.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         f.setIconImage(img2);

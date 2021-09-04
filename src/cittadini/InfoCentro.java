@@ -62,7 +62,7 @@ public class InfoCentro extends UnicastRemoteObject {
         super();
 
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(selezionato); //Prendere lista eventi avversi registrati per il centro selezionato
@@ -95,7 +95,7 @@ public class InfoCentro extends UnicastRemoteObject {
             {
 
                 try {
-                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome());
+                    Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome().replaceAll(" ","_"));
                     stub.registraCittadino(c);
 
                     new Cittadini(checkLogin, account);
@@ -274,7 +274,7 @@ public class InfoCentro extends UnicastRemoteObject {
 		}
 		else
 		{
-		    scroll.setBackground(hex2Rgb("FFFFFF"));
+		    scroll.setBackground(hex2Rgb("#FFFFFF"));
 			scroll.setVisible(false);
 			noCommenti.setVisible(true);
 		}
@@ -316,7 +316,7 @@ public class InfoCentro extends UnicastRemoteObject {
         registra.setBorder(BorderFactory.createMatteBorder(2, 0, 2, 0, hex2Rgb("#1E90FF")));
         registra.setFont(new Font("Comic Sans",Font.ITALIC + Font.BOLD,16));
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(InfoCentro.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -357,7 +357,7 @@ public class InfoCentro extends UnicastRemoteObject {
 
     public static void main(String[] args) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false);

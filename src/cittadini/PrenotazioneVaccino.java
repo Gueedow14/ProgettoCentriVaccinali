@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +31,9 @@ import static java.lang.Integer.parseInt;
 
 public class PrenotazioneVaccino {
 
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
     private static ClientCV stub;
 
     /**
@@ -96,12 +102,15 @@ public class PrenotazioneVaccino {
      * @param checkLogin controlla se è stato effettuato l'accesso
      * @param account fa riferimento al cittadino che ha effettuato l'accesso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
+     * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      */
-    public PrenotazioneVaccino(boolean checkLogin, Cittadino account) throws IOException {
+    public PrenotazioneVaccino(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
 
         int sizeL = 17;
         int sizeTF = 17;
 
+        Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         errorData.setBounds(90,155,25,25);
         errorData.setForeground(Color.RED);
@@ -169,7 +178,7 @@ public class PrenotazioneVaccino {
 
 
 
-        Image imageBack = ImageIO.read(Objects.requireNonNull(RegistraCentri.class.getResource("/indietro.jpeg")));
+        Image imageBack = ImageIO.read(Objects.requireNonNull(PrenotazioneVaccino.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
         indietro.setIcon(new ImageIcon(imageBack));
         indietro.setBounds(15,15,35,35);
@@ -184,7 +193,7 @@ public class PrenotazioneVaccino {
             {
                 try {
                     new Cittadini(checkLogin, account);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 f.setVisible(false);
@@ -200,6 +209,9 @@ public class PrenotazioneVaccino {
         b.setFont(new Font("Comic Sans",Font.BOLD,15));
         b.setFocusTraversalKeysEnabled(false);
         b.setFocusable(false);
+        java.util.List<Prenotazione> pren = stub.getPrenotazioni(account);
+        if(pren.size() == 2)
+            b.setEnabled(false);
 
         b.addMouseListener(new MouseAdapter()
         {
@@ -212,7 +224,7 @@ public class PrenotazioneVaccino {
                         Prenotazione p = new Prenotazione(stub.contaPrenotazioni(), account.getUserid(), account.getCv(), dataTF.getText()+" "+orarioTF.getText());
                         stub.prenotaVaccino(p);
                         new Cittadini(checkLogin, account);
-                    } catch (IOException | SQLException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
@@ -311,7 +323,7 @@ public class PrenotazioneVaccino {
         return checkOrario(orarioTF.getText()) & checkData(dataTF.getText());
     }
 
-    public static void main (String[]args) throws IOException {
+    public static void main (String[]args) throws IOException, NotBoundException, SQLException {
         new PrenotazioneVaccino(false,null);
     }
 }
