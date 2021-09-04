@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -30,6 +32,11 @@ import static java.lang.Integer.parseInt;
  */
 
 public class PrenotazioneVaccino {
+
+    /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
 
     /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
@@ -104,12 +111,13 @@ public class PrenotazioneVaccino {
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      */
-    public PrenotazioneVaccino(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
+    public PrenotazioneVaccino(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException, SQLException {
 
+        ip = ind;
         int sizeL = 17;
         int sizeTF = 17;
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         errorData.setBounds(90,155,25,25);
@@ -192,7 +200,7 @@ public class PrenotazioneVaccino {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(checkLogin, account);
+                    new Cittadini(checkLogin, account, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -213,28 +221,23 @@ public class PrenotazioneVaccino {
         if(pren.size() == 2)
             b.setEnabled(false);
 
-        b.addMouseListener(new MouseAdapter()
+        b.addActionListener(new ActionListener()
         {
-            public void mouseClicked(MouseEvent e)
-            {
-
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if(controlloCampi()) {
-
                     try {
                         Prenotazione p = new Prenotazione(stub.contaPrenotazioni(), account.getUserid(), account.getCv(), dataTF.getText()+" "+orarioTF.getText());
                         stub.prenotaVaccino(p);
-                        new Cittadini(checkLogin, account);
+                        new Cittadini(checkLogin, account, ip);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     f.dispose();
-                }
-                else
-                {
+                } else
                     JOptionPane.showMessageDialog(f, "- La data non puo' essere precedente o uguale al giorno odierno e deve\n corrisponedere al formato dd/mm/yyyy\n- L'orario deve corrispondere al formato hh:mm", "Errore registrazione", JOptionPane.ERROR_MESSAGE);
-                }
             }
         });
 
@@ -324,6 +327,6 @@ public class PrenotazioneVaccino {
     }
 
     public static void main (String[]args) throws IOException, NotBoundException, SQLException {
-        new PrenotazioneVaccino(false,null);
+        new PrenotazioneVaccino(false,null, "localhost");
     }
 }

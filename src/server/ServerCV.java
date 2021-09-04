@@ -83,6 +83,19 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         conn = DriverManager.getConnection(url, props);
     }
 
+    private synchronized Cittadino getCittadino(Statement s, String cf) throws SQLException {
+        ResultSet rst = s.executeQuery("SELECT * FROM cittadino WHERE cf = " + cf);
+        return new Cittadino(rst.getString("userid"), rst.getString("pwd"), rst.getString("nome"), rst.getString("cognome"), rst.getShort("idvaccinazione"), rst.getString("cf"), rst.getString("mail"), rst.getString("cv"));
+    }
+
+    private synchronized ArrayList<Vaccinazione> getVaccinazioni(Statement s, String cv, String cf) throws SQLException {
+        ArrayList<Vaccinazione> l = new ArrayList<>();
+        ResultSet rst = s.executeQuery("SELECT * FROM " + cv + "_vaccinati WHERE cf = " + cf);
+        while(rst.next())
+            l.add(new Vaccinazione(rst.getShort("idvaccinazione"), rst.getString("nomecv"), rst.getString("nomevaccinato"), rst.getString("cognomevaccinato"), rst.getString("cf"), rst.getString("data"), rst.getString("tipo")));
+        return l;
+    }
+
     /**
      * Metodo che esegue la query di registrazione di un centro vaccinale nel databse
      * @param s Statement per eseguire la query
@@ -175,10 +188,14 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     private synchronized void queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
-        s.executeUpdate(
-                "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
-                        "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome()  + "'," + (contaVaccinati() + 1) + ",'" + v.getData() + "','" + v.getTipo() + "')"
-        );
+        if (getPrenotazioni(getCittadino(s, v.getCf())).size() > getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() && getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() < 2) {
+            int i = (contaVaccinati() + 1);
+            s.executeUpdate(
+                    "INSERT INTO " + v.getNomeCV() + "_VACCINATI " +
+                            "VALUES ('" + v.getNomeCV() + "','" + v.getCf() + "','" + v.getNome() + "','" + v.getCognome() + "'," + i + ",'" + v.getData() + "','" + v.getTipo() + "')"
+            );
+            s.executeUpdate("UPDATE cittadino SET idvaccinazione = " + i + " WHERE cf = '" + v.getCf() + "'");
+        }
     }
 
     /**
@@ -372,6 +389,73 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
 
         return listEA;
+    }
+    /**
+     * Metodo che ritorna la lista di tutti gli indirizzi mail
+     * @return Lista con tutti gli indirizzi mail
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    @Override
+    public List<String> getEmail() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        List<String> list = new ArrayList<>();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT mail FROM cittadino");
+
+        while(rst.next())
+            list.add(rst.getString("mail"));
+
+
+        return list;
+    }
+    /**
+     * Metodo che ritorna la lista di tutti gli userid
+     * @return Lista con tutti gli userid
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    @Override
+    public List<String> getUsedId() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        List<String> list = new ArrayList<>();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT userid FROM cittadino");
+
+        while(rst.next())
+            list.add(rst.getString("userid"));
+
+
+        return list;
+    }
+
+    /**
+     * Metodo che ritorna la lista di tutti i codici fiscali
+     * @return Lista con tutti i codici fiscali
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    @Override
+    public List<String> getCF() throws SQLException, RemoteException {
+        if(!conn.isValid(100))
+            connessioneDB();
+
+        List<String> list = new ArrayList<>();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT cf FROM cittadino");
+
+        while(rst.next())
+            list.add(rst.getString("cf"));
+
+
+        return list;
     }
 
     /**

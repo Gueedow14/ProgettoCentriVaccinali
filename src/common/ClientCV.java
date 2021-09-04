@@ -115,5 +115,32 @@ public interface ClientCV extends Remote {
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     void registraEventoAvverso(EventoAvverso e) throws SQLException, RemoteException;
+    /**
+     * Metodo che ritorna la lista di tutti i tipi di eventi avversi possibili
+     * @return Lista con tutti i tipi di evento avverso
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
     List<String> getTipiEventoAvverso() throws SQLException, RemoteException;
+    /**
+     * Metodo che ritorna la lista di tutti gli indirizzi mail
+     * @return Lista con tutti gli indirizzi mail
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    List<String> getEmail() throws SQLException, RemoteException;
+    /**
+     * Metodo che ritorna la lista di tutti gli userid
+     * @return Lista con tutti gli userid
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    List<String> getUsedId() throws SQLException, RemoteException;
+    /**
+     * Metodo che ritorna la lista di tutti i codici fiscali
+     * @return Lista con tutti i codici fiscali
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    List<String> getCF() throws SQLException, RemoteException;
 }

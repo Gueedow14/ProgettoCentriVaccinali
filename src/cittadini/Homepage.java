@@ -32,6 +32,11 @@ import javax.swing.table.JTableHeader;
 public class Homepage extends UnicastRemoteObject {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
     private static ClientCV stub;
@@ -98,9 +103,10 @@ public class Homepage extends UnicastRemoteObject {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
      */
-    public Homepage(boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String ind) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         c = account;
@@ -164,7 +170,7 @@ public class Homepage extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new CercaCentro(check, c, checkReg);
+                    new CercaCentro(check, c, checkReg, ip);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -236,7 +242,7 @@ public class Homepage extends UnicastRemoteObject {
             {
                 if(!checkReg) {
                     try {
-                        new Cittadini(checkLogin, account);
+                        new Cittadini(checkLogin, account, ip);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -244,8 +250,8 @@ public class Homepage extends UnicastRemoteObject {
                 else
                 {
                     try {
-                        new Registrazione();
-                    } catch (IOException ex) {
+                        new Registrazione(ip);
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -285,9 +291,10 @@ public class Homepage extends UnicastRemoteObject {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
      */
-    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String nomeC) throws IOException, NotBoundException, SQLException {
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String nomeC, String ind) throws IOException, NotBoundException, SQLException {
 
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
 
@@ -350,7 +357,7 @@ public class Homepage extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new CercaCentro(check, account, checkReg);
+                    new CercaCentro(check, account, checkReg, ip);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -422,7 +429,7 @@ public class Homepage extends UnicastRemoteObject {
             {
                 if(!checkReg) {
                     try {
-                        new Cittadini(checkLogin, account);
+                        new Cittadini(checkLogin, account, ip);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -430,8 +437,8 @@ public class Homepage extends UnicastRemoteObject {
                 else
                 {
                     try {
-                        new Registrazione();
-                    } catch (IOException ex) {
+                        new Registrazione(ip);
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -473,7 +480,8 @@ public class Homepage extends UnicastRemoteObject {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
      */
-    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String comuneC, String tipoC) throws IOException, NotBoundException, SQLException {
+    public Homepage(boolean checkLogin, Cittadino account, boolean checkR, String comuneC, String tipoC, String ind) throws IOException, NotBoundException, SQLException {
+        ip = ind;
         Registry registro = LocateRegistry.getRegistry("localhost", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
@@ -537,7 +545,7 @@ public class Homepage extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new CercaCentro(check, account, checkReg);
+                    new CercaCentro(check, account, checkReg, ip);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -609,7 +617,7 @@ public class Homepage extends UnicastRemoteObject {
             {
                 if(!checkReg) {
                     try {
-                        new Cittadini(checkLogin, account);
+                        new Cittadini(checkLogin, account, ip);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -617,8 +625,8 @@ public class Homepage extends UnicastRemoteObject {
                 else
                 {
                     try {
-                        new Registrazione();
-                    } catch (IOException ex) {
+                        new Registrazione(ip);
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -649,7 +657,7 @@ public class Homepage extends UnicastRemoteObject {
 
     public static void main(String[] args) throws IOException, NotBoundException, SQLException {
         // TODO Auto-generated method stub
-        new Homepage(false, null, false);
+        new Homepage(false, null, false, ip);
     }
 
 }

@@ -28,6 +28,12 @@ import static cittadini.Cittadini.porta;
 public class RegistraCentri extends UnicastRemoteObject {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+
+    public static String ip = "";
+
+    /**
      * Oggetto stub utilizzato per interfacciarsi al ServerCV
      */
 
@@ -182,13 +188,13 @@ public class RegistraCentri extends UnicastRemoteObject {
 
     /**
      * Esecuzione principale della classe RegistraCentri
+     * @param ind Inidirizzo ip della macchina Server
      * @throws IOException perchè il costruttore lavora con delle immagini che posso essere caricate in modo errato.
      * @throws NotBoundException perchè il costruttore contiene codice che si connette all'RMI register.
      */
-    public RegistraCentri() throws IOException, NotBoundException {
-
-
-        Registry registro = LocateRegistry.getRegistry(porta, 1099);
+    public RegistraCentri(String ind) throws IOException, NotBoundException {
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         int sizeL = 17;
@@ -783,6 +789,6 @@ public class RegistraCentri extends UnicastRemoteObject {
 
     public static void main (String[]args) throws IOException, NotBoundException {
 
-        new RegistraCentri();
+        new RegistraCentri("localhost");
     }
 }

@@ -26,6 +26,11 @@ import javax.swing.*;
 public class Login {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
     public static ClientCV stub;
@@ -113,9 +118,9 @@ public class Login {
      * Il costruttore della classe Login contiene il codice per la creazione della schermata di accesso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public Login() throws IOException, NotBoundException {
-
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+    public Login(String ind) throws IOException, NotBoundException {
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         f.addMouseListener(new MouseAdapter()
@@ -272,7 +277,7 @@ public class Login {
                     String pwd = new String(tx1.getPassword());
                     Cittadino c = stub.loginCittadino(tx.getText(), pwd);
                     if(c != null) {
-                        new Cittadini(true, c);
+                        new Cittadini(true, c, ip);
 
                         //chiusura finestra login
                         f.setVisible(false);
@@ -383,7 +388,7 @@ public class Login {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(false, null);
+                    new Cittadini(false, null, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -3,12 +3,17 @@ package cittadini;
 import centrivaccinali.CentriVaccinali;
 import centrivaccinali.RegistraCentri;
 import common.Cittadino;
+import common.ClientCV;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,6 +25,17 @@ import javax.swing.*;
  */
 
 public class Registrazione {
+
+    /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
+     * Oggetto che fa riferimento al server disponibile sul rmiregistry
+     */
+    public static ClientCV stub;
+
 
     /**
      * Frame della schermata di registrazione di un nuovo cittadino
@@ -249,7 +265,12 @@ public class Registrazione {
      * @param CF valore inserito dal cittadino
      * @return ritorna l'esito del controllo
      */
-    public static boolean CheckCodFisc(String CF) {
+    public static boolean CheckCodFisc(String CF) throws SQLException, RemoteException {
+        java.util.List<String> lista = stub.getCF();
+        for(String uid : lista)
+            if (uid.equals(CF))
+                return false;
+
         if(CF.length() == 16) {
             String nome = CF.substring(0, 3);
             String cognome = CF.substring(3, 6);
@@ -272,11 +293,12 @@ public class Registrazione {
      * @param user valore inserito dal cittadino
      * @return ritorna l'esito del controllo
      */
-    private boolean CheckUserId(String user) {
-        if(user.length() >= 3)
-            return true;
-        else
-            return false;
+    private boolean CheckUserId(String user) throws SQLException, RemoteException {
+        java.util.List<String> lista = stub.getUsedId();
+        for(String uid : lista)
+            if (uid.equals(user))
+                return false;
+        return user.length() >= 3;
     }
 
     /**
@@ -284,19 +306,13 @@ public class Registrazione {
      * @param email valore inserito dal cittadino
      * @return ritorna l'esito del controllo
      */
-    public static boolean CheckEmail(String email)
-    {
-        String s[] = email.split("@");
-        if(s.length == 2)
-        {
-            //String s2[] = s[1].split(".");
-            //if(s2.length > 2)
-            return true;
-            //else
-            //    return false;
-        }
-        else
-            return false;
+    public static boolean CheckEmail(String email) throws SQLException, RemoteException {
+        java.util.List<String> lista = stub.getEmail();
+        for(String uid : lista)
+            if (uid.equals(email))
+                return false;
+        String[] s = email.split("@");
+        return s.length == 2;
     }
 
     /**
@@ -335,8 +351,13 @@ public class Registrazione {
      * allaregistrazione del cittadino
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public Registrazione() throws IOException
-    {
+    public Registrazione(String ind) throws Exception {
+
+        ip = ind;
+
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
+        stub = (common.ClientCV) registro.lookup("SERVERCV");
+
         nomeTF.setText("");
         cognomeTF.setText("");
         codiceFiscaleTF.setText("");
@@ -375,40 +396,52 @@ public class Registrazione {
                     errorCounter[1] = false;
                 }
 
-                if(!CheckCodFisc(codiceFiscaleTF.getText()))
-                {
-                    errorCodiceFiscale.setVisible(true);
-                    errorCounter[2] = true;
-                    sentinel++;
-                }
-                else
-                {
-                    errorCodiceFiscale.setVisible(false);
-                    errorCounter[2] = false;
-                }
-
-                if(!CheckUserId(useridTF.getText()))
-                {
-                    errorConfermaPwd.setVisible(true);
-                    errorCounter[3] = true;
-                    sentinel++;
-                }
-                else
-                {
-                    errorConfermaPwd.setVisible(false);
-                    errorCounter[3] = false;
+                try {
+                    if(!CheckCodFisc(codiceFiscaleTF.getText()))
+                    {
+                        errorCodiceFiscale.setVisible(true);
+                        errorCounter[2] = true;
+                        sentinel++;
+                    }
+                    else
+                    {
+                        errorCodiceFiscale.setVisible(false);
+                        errorCounter[2] = false;
+                    }
+                } catch (SQLException | RemoteException ex) {
+                    ex.printStackTrace();
                 }
 
-                if(!CheckEmail(mailTF.getText()))
-                {
-                    errorMail.setVisible(true);
-                    errorCounter[4] = true;
-                    sentinel++;
+                try {
+                    if(!CheckUserId(useridTF.getText()))
+                    {
+                        errorConfermaPwd.setVisible(true);
+                        errorCounter[3] = true;
+                        sentinel++;
+                    }
+                    else
+                    {
+                        errorConfermaPwd.setVisible(false);
+                        errorCounter[3] = false;
+                    }
+                } catch (SQLException | RemoteException ex) {
+                    ex.printStackTrace();
                 }
-                else
-                {
-                    errorMail.setVisible(false);
-                    errorCounter[4] = false;
+
+                try {
+                    if(!CheckEmail(mailTF.getText()))
+                    {
+                        errorMail.setVisible(true);
+                        errorCounter[4] = true;
+                        sentinel++;
+                    }
+                    else
+                    {
+                        errorMail.setVisible(false);
+                        errorCounter[4] = false;
+                    }
+                } catch (SQLException | RemoteException ex) {
+                    ex.printStackTrace();
                 }
 
                 if(!CheckPwd(pwdTF.getText()))
@@ -866,7 +899,7 @@ public class Registrazione {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(false, null);
+                    new Cittadini(false, null, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -910,8 +943,8 @@ public class Registrazione {
     public static void main(String[] args)
     {
         try {
-            new Registrazione();
-        } catch (IOException e) {
+            new Registrazione("localhost");
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

@@ -25,7 +25,10 @@ import javax.swing.*;
 
 public class Cittadini {
 
-    public static final String porta = "localhost";
+    /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
     /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
@@ -95,11 +98,13 @@ public class Cittadini {
      * Costruttore della schermata iniziale
      * @param checkLogin controlla se è avvenuto un accesso
      * @param account fa riferimento al cittadino che ha effettuato l'accesso
+     * @param ind Indirizzo ip della macchina server
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      */
-    public Cittadini(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
-        Registry registro = LocateRegistry.getRegistry(porta, 1099);
+    public Cittadini(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException, SQLException {
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         BTLista.addMouseListener(new MouseAdapter()
@@ -128,7 +133,7 @@ public class Cittadini {
                 try {
                     new Registrazione();
                 }
-                catch(IOException er)
+                catch(Exception er)
                 {
                     er.printStackTrace();
                 }
@@ -202,7 +207,7 @@ public class Cittadini {
                 else
                 {
                     try {
-                        new Cittadini(false,null);
+                        new Cittadini(false,null, ip);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -447,18 +452,20 @@ public class Cittadini {
 
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    new Cittadini(false, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (args.length == 1) {
+            ip = args[0];
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new Cittadini(false, null, ip);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        } else
+            System.out.print("ERRORE!! Numero di argomenti non valido");
     }
 
 }

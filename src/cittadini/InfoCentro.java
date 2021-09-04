@@ -28,6 +28,11 @@ import javax.swing.plaf.basic.*;
 public class InfoCentro extends UnicastRemoteObject {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
     private static ClientCV stub;
@@ -58,11 +63,11 @@ public class InfoCentro extends UnicastRemoteObject {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
      */
-    public InfoCentro(CentroVaccinale selezionato, boolean checkLogin, Cittadino account, boolean checkR) throws IOException, NotBoundException, SQLException {
+    public InfoCentro(CentroVaccinale selezionato, boolean checkLogin, Cittadino account, boolean checkR, String ind) throws IOException, NotBoundException, SQLException {
         super();
 
-
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         ArrayList<EventoAvverso> eventi = (ArrayList<EventoAvverso>) stub.getEventiAvversi(selezionato); //Prendere lista eventi avversi registrati per il centro selezionato
@@ -98,7 +103,7 @@ public class InfoCentro extends UnicastRemoteObject {
                     Cittadino c = new Cittadino(account.getUserid(), account.getPwd(), account.getNome(), account.getCognome(), account.getCf(), account.getMail(), selezionato.getNome().replaceAll(" ","_"));
                     stub.registraCittadino(c);
 
-                    new Cittadini(checkLogin, account);
+                    new Cittadini(checkLogin, account, ip);
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -330,7 +335,7 @@ public class InfoCentro extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Homepage(checkLogin, account, checkR);
+                    new Homepage(checkLogin, account, checkR, ip);
                 } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -360,7 +365,7 @@ public class InfoCentro extends UnicastRemoteObject {
         Registry registro = LocateRegistry.getRegistry("192.168.1.111", 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
-        new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false);
+        new InfoCentro(new CentroVaccinale("1", "2", "3"),true, null, false, "localhost");
 
     }
 

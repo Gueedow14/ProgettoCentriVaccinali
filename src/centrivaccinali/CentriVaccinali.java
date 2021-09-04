@@ -15,6 +15,12 @@ import java.util.Objects;
 
 public class CentriVaccinali {
 
+    /**
+     * Indirizzo ip della macchina server
+     */
+    public static String ip = "";
+
+
     /** Metodo utlizzato per la conversione dei codici RGB*/
 
     public static Color hex2Rgb(String colorStr) //conversione esadecimale in rgb per sfondo frame
@@ -102,7 +108,7 @@ public class CentriVaccinali {
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
                 try {
-                    RegistraCentri a = new RegistraCentri();
+                    RegistraCentri a = new RegistraCentri(ip);
                 } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
@@ -124,7 +130,7 @@ public class CentriVaccinali {
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
                 try {
-                    RegistraCittadini b = new RegistraCittadini();
+                    RegistraCittadini b = new RegistraCittadini(ip);
                 } catch (IOException | NotBoundException ex) {
                     ex.printStackTrace();
                 }
@@ -138,9 +144,13 @@ public class CentriVaccinali {
         f.add(titolo);
     }
 
-    public static void main (String[] args)
-    {
-        SwingUtilities.invokeLater(CentriVaccinali::new);
+    public static void main (String[] args) {
+        if (args.length == 1) {
+            ip = args[0];
+            SwingUtilities.invokeLater(CentriVaccinali::new);
+        } else {
+            System.out.print("ERRORE!! Numero di argomenti non valido");
+        }
     }
 
 

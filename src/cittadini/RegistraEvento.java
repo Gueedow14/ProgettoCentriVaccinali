@@ -22,8 +22,12 @@ import java.util.Objects;
  * @author Giulio Baricci
  */
 
-public class RegistraEvento
-{
+public class RegistraEvento {
+    /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
     /**
      * Oggetto che fa riferimento al server disponibile sul rmiregistry
      */
@@ -161,8 +165,9 @@ public class RegistraEvento
      * Metodo con il codice per la creazione della finestra della registrazione di un evento avverso
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public RegistraEvento(boolean checkLogin, Cittadino account) throws IOException, NotBoundException {
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+    public RegistraEvento(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException {
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         JFrame f = new JFrame("Finestra Recensione");
@@ -1179,7 +1184,7 @@ public class RegistraEvento
                     try {
                         stub.registraEventoAvverso(ev);
 
-                        new Cittadini(checkLogin, account);
+                        new Cittadini(checkLogin, account, ip);
                         //aggiungi recensione
                         f.setVisible(false);
                         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -1211,7 +1216,7 @@ public class RegistraEvento
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(checkLogin, account);
+                    new Cittadini(checkLogin, account, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -1244,7 +1249,7 @@ public class RegistraEvento
             {
                 try
                 {
-                    new RegistraEvento(true,null);
+                    new RegistraEvento(true,null, "localhost");
                 }
                 catch (IOException | NotBoundException e)
                 {

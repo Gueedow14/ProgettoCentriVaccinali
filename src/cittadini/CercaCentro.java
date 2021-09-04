@@ -25,6 +25,11 @@ import javax.swing.*;
 public class CercaCentro {
 
     /**
+     * Indirizzo ip della macchina Server
+     */
+    public static String ip = "";
+
+    /**
      * Valore di default per la selezione del tipo di ricerca
      */
     private static final String DEAFULT_RICERCA = "Seleziona il tipo di ricerca";
@@ -82,7 +87,9 @@ public class CercaCentro {
      * @param checkR controlla se la schermata viene creata durante una registrazione
      * @throws IOException il costruttore contiene del codice che legge delle immagini quindi può genererare IOException
      */
-    public CercaCentro(boolean checkLogin, Cittadino account, boolean checkR) throws IOException {
+    public CercaCentro(boolean checkLogin, Cittadino account, boolean checkR, String ind) throws IOException {
+
+        ip = ind;
 
         JFrame f = new JFrame("Cerca centro");
 
@@ -304,7 +311,7 @@ public class CercaCentro {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Homepage(checkLogin, account, checkR);
+                    new Homepage(checkLogin, account, checkR, ip);
                 } catch (IOException | NotBoundException | SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -350,7 +357,7 @@ public class CercaCentro {
 
 
     public static void main(String[] args) throws IOException {
-        new CercaCentro(false, null, false);
+        new CercaCentro(false, null, false, "localhost");
     }
 
 }

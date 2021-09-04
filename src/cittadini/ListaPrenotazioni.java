@@ -102,9 +102,9 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
      * @throws NotBoundException il costruttore contiene del codice che si conntte al rmiregistry quindi può genererare NotBoundException
      * @throws SQLException il costruttore contiene del codice che riceve dati dal database quindi può genererare SQLException
      */
-    public ListaPrenotazioni(boolean checkLogin, Cittadino account) throws IOException, NotBoundException, SQLException {
-
-        Registry registro = LocateRegistry.getRegistry("localhost", 1099);
+    public ListaPrenotazioni(boolean checkLogin, Cittadino account, String ind) throws IOException, NotBoundException, SQLException {
+        ip = ind;
+        Registry registro = LocateRegistry.getRegistry(ip, 1099);
         stub = (common.ClientCV) registro.lookup("SERVERCV");
 
         lista = stub.getPrenotazioni(account);
@@ -203,7 +203,7 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
             public void mouseClicked(MouseEvent e)
             {
                 try {
-                    new Cittadini(checkLogin, account);
+                    new Cittadini(checkLogin, account, ip);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -238,6 +238,6 @@ public class ListaPrenotazioni extends UnicastRemoteObject {
 
 
     public static void main (String[]args) throws IOException, NotBoundException, SQLException {
-        new ListaPrenotazioni(false,null);
+        new ListaPrenotazioni(false,null, "localhost");
     }
 }
