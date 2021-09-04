@@ -152,7 +152,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!tab.getSelectionModel().isSelectionEmpty() && !(tab.getValueAt(tab.getSelectedRow(), 0) == null))
                 {
                     try {
-                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, c, checkReg);
+                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, c, checkReg, ip);
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -339,7 +339,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!tab.getSelectionModel().isSelectionEmpty())
                 {
                     try {
-                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
+                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg, ip);
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -527,7 +527,7 @@ public class Homepage extends UnicastRemoteObject {
                 if(!tab.getSelectionModel().isSelectionEmpty())
                 {
                     try {
-                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg);
+                        new InfoCentro(new CentroVaccinale((String)tab.getValueAt(tab.getSelectedRow(), 0), (String)tab.getValueAt(tab.getSelectedRow(), 1), (String)tab.getValueAt(tab.getSelectedRow(), 2)), check, account, checkReg, ip);
                     } catch (IOException | NotBoundException | SQLException ex) {
                         ex.printStackTrace();
                     }

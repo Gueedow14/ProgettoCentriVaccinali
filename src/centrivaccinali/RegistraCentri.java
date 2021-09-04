@@ -18,7 +18,6 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import static cittadini.Cittadini.porta;
 
 /**
  * La classe RegistraCentri serve per registrare un nuovo centro vaccinale nel DB.
@@ -587,7 +586,7 @@ public class RegistraCentri extends UnicastRemoteObject {
         {
             public void mouseClicked(MouseEvent e)
             {
-                new CentriVaccinali();
+                new CentriVaccinali(ip);
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
@@ -604,7 +603,7 @@ public class RegistraCentri extends UnicastRemoteObject {
                             String indirizzo = vieTF.getSelectedItem() + "§" + nomeViaTF.getText() + "§" + numeroCivicoTF.getText() + "§" + comuneTF.getText() + "§" + provinciaTF.getText() + "§" + CAPTF.getText();
                             CentroVaccinale cv = new CentroVaccinale(nomeCentro, Objects.requireNonNull(tipoTF.getSelectedItem()).toString(), indirizzo);
                             stub.registraCentroVaccinale(cv);
-                            new CentriVaccinali();
+                            new CentriVaccinali(ip);
                             f.setVisible(false);
                             f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                             f.dispose();

@@ -17,7 +17,6 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import static cittadini.Cittadini.porta;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -492,7 +491,7 @@ public class RegistraCittadini extends UnicastRemoteObject {
         {
             public void mouseClicked(MouseEvent e)
             {
-                new CentriVaccinali();
+                new CentriVaccinali(ip);
                 f.setVisible(false);
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.dispose();
@@ -515,14 +514,18 @@ public class RegistraCittadini extends UnicastRemoteObject {
                 if(controlloCampi()) {
                     Vaccinazione v = new Vaccinazione(centroTF.getText(), nomeTF.getText(), cognomeTF.getText(), cfTF.getText(), dataTF.getText(), Objects.requireNonNull(tipoTF.getSelectedItem()).toString());
                     try {
-                        stub.registraVaccinato(v);
+                        boolean chk = stub.registraVaccinato(v);
+                        if(chk) {
+                            JOptionPane.showMessageDialog(f, "Esito vaccinazione negativo", "Errore Vaccinazione", JOptionPane.ERROR_MESSAGE);
+                            new CentriVaccinali(ip);
+                            f.setVisible(false);
+                            f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                            f.dispose();
+                        }
                     } catch (SQLException | RemoteException ex) {
                         ex.printStackTrace();
                     }
-                    new CentriVaccinali();
-                    f.setVisible(false);
-                    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    f.dispose();
+
                 }
             }
         });

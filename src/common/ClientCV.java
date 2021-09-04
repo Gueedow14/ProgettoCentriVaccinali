@@ -59,10 +59,11 @@ public interface ClientCV extends Remote {
     /**
      * Metodo per registrare una vaccinazione nel database
      * @param v Vaccinazione da inserire nel database
+     * @return Ritorna l'esito della registrazione della vaccinazione
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
-    void registraVaccinato(Vaccinazione v) throws SQLException, RemoteException;
+    boolean registraVaccinato(Vaccinazione v) throws SQLException, RemoteException;
     /**
      * Metodo per registrare una prenotazione nel database
      * @param p Prenotazione da inserire nel database

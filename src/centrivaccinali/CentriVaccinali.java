@@ -62,8 +62,8 @@ public class CentriVaccinali {
      * Costruttore che crea l'interfaccia gestendone stile, dimensione, posizione e listeners.
      */
 
-    public CentriVaccinali() {
-
+    public CentriVaccinali(String ind) {
+        ip = ind;
         titolo.setBounds(250 ,30,500,50);
         titolo.setForeground(hex2Rgb("#0000CD"));
         titolo.setBackground(hex2Rgb("#F0F8FF"));
@@ -147,7 +147,7 @@ public class CentriVaccinali {
     public static void main (String[] args) {
         if (args.length == 1) {
             ip = args[0];
-            SwingUtilities.invokeLater(CentriVaccinali::new);
+            new CentriVaccinali(ip);
         } else {
             System.out.print("ERRORE!! Numero di argomenti non valido");
         }
