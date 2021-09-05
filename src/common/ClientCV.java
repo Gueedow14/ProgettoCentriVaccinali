@@ -147,10 +147,19 @@ public interface ClientCV extends Remote {
      */
     List<String> getCF() throws SQLException, RemoteException;
     /**
-     *
-     * @param cf
-     * @return
-     * @throws SQLException
+     * Metodo che dato un codice fiscale ritorna il cittadino identificato da quel codice fiscale
+     * @param cf Codice fiscale del cittadino da trovare
+     * @return Ritorna il cittadino con il CF specificato
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
      */
     Cittadino getCittadino(String cf) throws SQLException, RemoteException;
+
+    /**
+     * Metodo che, dato un centro vaccinale, ritorna la media della severità degli eventi avversi segnalati in quel cv
+     * @param nomeCV Nome del centro vaccinale
+     * @return Ritorna la media della severità degli eventi avversi segnalati nel cv specificato
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
+    double getMediaSev(String nomeCV) throws SQLException, RemoteException;
 }

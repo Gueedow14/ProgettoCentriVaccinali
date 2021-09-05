@@ -84,10 +84,10 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
     }
 
     /**
-     * Ritorna un cittadino specifico
-     * @param cf Codice fiscale del cittadino
-     * @return Cittadino cercato in base al cf
-     * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
+     * Metodo che dato un codice fiscale ritorna il cittadino identificato da quel codice fiscale
+     * @param cf Codice fiscale del cittadino da trovare
+     * @return Ritorna il cittadino con il CF specificato
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */
     public synchronized Cittadino getCittadino(String cf) throws SQLException, RemoteException {
@@ -98,13 +98,24 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         return null;
     }
 
+    @Override
+    public double getMediaSev(String nomeCV) throws SQLException, RemoteException {
+        if (!conn.isValid(100))
+            connessioneDB();
+
+        Statement s = conn.createStatement();
+        ResultSet rst = s.executeQuery("SELECT AVG(severita) FROM presenta WHERE cv = '" + nomeCV + "'");
+        rst.next();
+        return rst.getDouble(1);
+    }
+
     /**
-     *
-     * @param s
-     * @param cv
-     * @param cf
-     * @return
-     * @throws SQLException
+     * Metodo che ritorna la lista con le vaccinazioni effettuate da un cittadino
+     * @param s Statement che permette di creare la query
+     * @param cv Nome del centro vaccinale
+     * @param cf Codice fiscale del cittadino
+     * @return Ritorna una lista con le vaccinazioni effettuate da un cittadino
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
      */
     private synchronized ArrayList<Vaccinazione> getVaccinazioni(Statement s, String cv, String cf) throws SQLException {
         ArrayList<Vaccinazione> l = new ArrayList<>();
@@ -267,10 +278,11 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
             listaCV = queryRicercaCV(s);
         }
 
-        for(CentroVaccinale centroVaccinale : listaCV)
-            if(centroVaccinale.getNome().contains(nomeCV))
+        for(CentroVaccinale centroVaccinale : listaCV) {
+            String nome = centroVaccinale.getNome().toLowerCase();
+            if (nome.contains(nomeCV))
                 ris.add(centroVaccinale);
-
+        }
         return ris;
     }
 
@@ -298,8 +310,9 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
             System.out.print("ciao");
         for(CentroVaccinale centroVaccinale : listaCV) {
             String[] tmp = centroVaccinale.getIndirizzo().split("§");
-            String com = tmp[3];
-            if(com.equals(comune) && centroVaccinale.getTipologia().equals(tipo))
+            String com = tmp[3].toLowerCase();
+            String tipologia = centroVaccinale.getTipologia().toLowerCase();
+            if(com.equals(comune) && tipologia.equals(tipo))
                 ris.add(centroVaccinale);
         }
 

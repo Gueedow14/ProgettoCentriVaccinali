@@ -152,6 +152,17 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setBounds(15,5,500,30);
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
+        tab.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boolean a = tab.isEditing();
+                if(!a)
+                {
+                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+                }
+            }
+        });
+
         info.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
@@ -163,8 +174,6 @@ public class Homepage extends UnicastRemoteObject {
                         ex.printStackTrace();
                     }
 
-                    DefaultTableModel dtm = (DefaultTableModel) tab.getModel();
-                    dtm.setRowCount(0);
 
                     f.setVisible(false);
                     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -239,16 +248,6 @@ public class Homepage extends UnicastRemoteObject {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-        };
-
-        tab.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -361,6 +360,17 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setBounds(15,5,500,30);
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
+        tab2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boolean a = tab2.isEditing();
+                if(!a)
+                {
+                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+                }
+            }
+        });
+
         info.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
@@ -442,16 +452,7 @@ public class Homepage extends UnicastRemoteObject {
         tab2.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab2.setDragEnabled(false);
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
 
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-        };
-
-        tab2.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
@@ -563,6 +564,17 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setBounds(15,5,500,30);
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
+        tab.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boolean a = tab.isEditing();
+                if(!a)
+                {
+                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+                }
+            }
+        });
+
         info.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
@@ -644,16 +656,6 @@ public class Homepage extends UnicastRemoteObject {
         tab.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, hex2Rgb("#1E90FF")), BorderFactory.createMatteBorder(0, 1, 1, 0, hex2Rgb("#FFFFFF"))));
         tab.setDragEnabled(false);
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, colonneTab) {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-        };
-
-        tab.setModel(tableModel);
 
         Image imageBack = ImageIO.read(Objects.requireNonNull(Homepage.class.getResource("/indietro.jpeg")));
         imageBack = imageBack.getScaledInstance( 35, 35,  java.awt.Image.SCALE_SMOOTH ) ;
