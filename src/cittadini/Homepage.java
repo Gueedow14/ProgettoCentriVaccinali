@@ -153,12 +153,10 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
         tab.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                boolean a = tab.isEditing();
-                if(!a)
-                {
-                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+            public void mousePressed(MouseEvent mouseEvent) {
+
+                if (mouseEvent.getClickCount() >= 2) {
+                    tab.getCellEditor().stopCellEditing();
                 }
             }
         });
@@ -361,12 +359,10 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
         tab2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                boolean a = tab2.isEditing();
-                if(!a)
-                {
-                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+            public void mousePressed(MouseEvent mouseEvent) {
+
+                if (mouseEvent.getClickCount() >= 2) {
+                    tab2.getCellEditor().stopCellEditing();
                 }
             }
         });
@@ -565,12 +561,10 @@ public class Homepage extends UnicastRemoteObject {
         //l1.setForeground(hex2Rgb("#1E90FF"));
 
         tab.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                boolean a = tab.isEditing();
-                if(!a)
-                {
-                    JOptionPane.showMessageDialog(f, "Non si possono modificare i campi");
+            public void mousePressed(MouseEvent mouseEvent) {
+
+                if (mouseEvent.getClickCount() >= 2) {
+                    tab.getCellEditor().stopCellEditing();
                 }
             }
         });
