@@ -86,6 +86,7 @@ public class InfoCentro extends UnicastRemoteObject {
 
 
 
+
         registra.addMouseListener(new MouseAdapter()
         {
             public void mouseClicked(MouseEvent e)
@@ -276,23 +277,30 @@ public class InfoCentro extends UnicastRemoteObject {
 			noCommenti.setVisible(true);
 		}
 
+
         JLabel nomeCentro = new JLabel("Nome: " + selezionato.getNome());
-        nomeCentro.setBounds(110, 50, 500, 30);
+        nomeCentro.setBounds(110, 10, 500, 30);
         nomeCentro.setBackground(hex2Rgb("#FFFFFF"));
         nomeCentro.setForeground(hex2Rgb("#1E90FF"));
-        nomeCentro.setFont(new Font("Arial", Font.ITALIC, 25));
+        nomeCentro.setFont(new Font("Arial", Font.ITALIC, 18));
 
         JLabel indirizzoCentro = new JLabel("Indirizzo: " + selezionato.getIndirizzo());
-        indirizzoCentro.setBounds(110, 100, 500, 30);
+        indirizzoCentro.setBounds(110, 60, 500, 30);
         indirizzoCentro.setBackground(hex2Rgb("#FFFFFF"));
         indirizzoCentro.setForeground(hex2Rgb("#1E90FF"));
-        indirizzoCentro.setFont(new Font("Arial", Font.ITALIC, 25));
+        indirizzoCentro.setFont(new Font("Arial", Font.ITALIC, 18));
 
         JLabel tipologiaCentro = new JLabel("Tipologia: " + selezionato.getTipologia());
-        tipologiaCentro.setBounds(110, 150, 500, 30);
+        tipologiaCentro.setBounds(110, 110, 500, 30);
         tipologiaCentro.setBackground(hex2Rgb("#FFFFFF"));
         tipologiaCentro.setForeground(hex2Rgb("#1E90FF"));
-        tipologiaCentro.setFont(new Font("Arial", Font.ITALIC, 25));
+        tipologiaCentro.setFont(new Font("Arial", Font.ITALIC, 18));
+
+        JLabel statistiche = new JLabel("Numero segnalazioni: " +stub.getEventiAvversi(cv).size()+ " con media severità pari a " /*+ (int) stub.getMediaSev(cv.getNome())*/);
+        statistiche.setBounds(110, 160, 500, 30);
+        statistiche.setBackground(hex2Rgb("#FFFFFF"));
+        statistiche.setForeground(hex2Rgb("#1E90FF"));
+        statistiche.setFont(new Font("Arial", Font.ITALIC, 18));
 
         eventiLista.setBounds(275, 200, 200, 30);
         eventiLista.setBackground(hex2Rgb("#FFFFFF"));
@@ -301,7 +309,7 @@ public class InfoCentro extends UnicastRemoteObject {
         eventiLista.setHorizontalTextPosition(SwingConstants.CENTER);
 
         f.getContentPane().setBackground(hex2Rgb("#FFFFFF"));
-        if(checkLogin)
+        if(checkLogin && account.getCv()==null)
             f.setBounds(560,100,750, 730);
         else
             f.setBounds(560,100,750, 630);
@@ -347,6 +355,7 @@ public class InfoCentro extends UnicastRemoteObject {
         f.add(nomeCentro);
         f.add(indirizzoCentro);
         f.add(tipologiaCentro);
+        f.add(statistiche);
         if(checkLogin)
             f.add(registra);
         f.add(panel);

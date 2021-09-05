@@ -1176,7 +1176,11 @@ public class RegistraEvento {
 
                 if(severita>0 && severita<6 && !tipoEvento.getSelectedItem().toString().equals(DEFAULT_EVENTO))
                 {
-                    EventoAvverso ev = new EventoAvverso(tipoEvento.getSelectedItem().toString(), severita, testo.getText(), account.getCv(), account.getUserid());
+                    String text = "";
+                    if(!Objects.equals(testo.getText(), "Inserisci note aggiuntive qui...")){
+                        text = testo.getText();
+                    }
+                    EventoAvverso ev = new EventoAvverso(tipoEvento.getSelectedItem().toString(), severita, text, account.getCv(), account.getUserid());
                     try {
                         stub.registraEventoAvverso(ev);
 
