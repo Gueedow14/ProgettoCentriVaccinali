@@ -227,6 +227,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che esegue la query che inserisce una vaccinazione nel database
      * @param s Statement per eseguire la query
      * @param v Vaccinazione da registrare
+     * @return Ritorna l'esito della registrazione di un vaccinato
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
      * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
      */

@@ -44,7 +44,7 @@ public class Vaccinazione implements Serializable {
     private String cognome;
 
     /**
-     * Tipologia di vaccino inoculato (Pfizer, J&J, Moderna o Astrazeneca)
+     * Tipologia di vaccino inoculato
      */
     private String tipo;
 
@@ -108,7 +108,7 @@ public class Vaccinazione implements Serializable {
      * @param cognome Cognome del cittadino vaccinato
      * @param cf Codice fiscale del cittadino vaccinato
      * @param data Data della vaccinazione
-     * @param tipo Tipo del vaccino inoculato (Pfizer, Astrazeneca, Moderna, J&J)
+     * @param tipo Tipo del vaccino inoculato
      */
     public Vaccinazione(String nomeCV, String nome, String cognome, String cf, String data, String tipo){
         this.nomeCV = nomeCV;
@@ -140,7 +140,7 @@ public class Vaccinazione implements Serializable {
      * @param cognome Cognome del cittadino vaccinato
      * @param cf Codice fiscale del cittadino vaccinato
      * @param data Data della vaccinazione
-     * @param tipo Tipo del vaccino inoculato (Pfizer, Astrazeneca, Moderna, J&J)
+     * @param tipo Tipo del vaccino inoculato
      */
     public Vaccinazione(short idv, String nomeCV, String nome, String cognome, String cf, String data, String tipo){
         idVaccinazione = idv;
