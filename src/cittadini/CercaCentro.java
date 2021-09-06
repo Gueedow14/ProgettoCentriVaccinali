@@ -31,7 +31,7 @@ import javax.swing.*;
 public class CercaCentro {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 

@@ -42,7 +42,7 @@ import static java.lang.Integer.parseInt;
 public class PrenotazioneVaccino {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 

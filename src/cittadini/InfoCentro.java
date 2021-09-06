@@ -28,7 +28,7 @@ import javax.swing.plaf.basic.*;
 public class InfoCentro extends UnicastRemoteObject {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 

@@ -41,7 +41,7 @@ import javax.swing.table.TableModel;
 public class Homepage extends UnicastRemoteObject {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 

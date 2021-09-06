@@ -48,7 +48,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
     /**
      * Costruttore della classe server
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     protected ServerCV() throws RemoteException {
         super();
@@ -74,7 +74,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
 
         Registry registro = LocateRegistry.createRegistry(1099);
         registro.rebind("SERVERCV", obj);
-        System.out.println("Server registrato correttamente");
+        System.out.println("Server.MF registrato correttamente");
     }
 
     /**
@@ -94,7 +94,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param cf Codice fiscale del cittadino da trovare
      * @return Ritorna il cittadino con il CF specificato
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     public synchronized Cittadino getCittadino(String cf) throws SQLException, RemoteException {
         Statement s = conn.createStatement();
@@ -109,7 +109,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param nomeCV Nome del centro vaccinale
      * @return Ritorna la severità media degli eventi segnalati presso un centro vaccinale
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public double getMediaSev(String nomeCV) throws SQLException, RemoteException {
@@ -214,7 +214,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param s Statement per eseguire la query
      * @param p Prenotazione da registrare
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     private synchronized void queryPrenotazioneVaccino(Statement s, Prenotazione p) throws SQLException, RemoteException {
         s.executeUpdate(
@@ -229,7 +229,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param v Vaccinazione da registrare
      * @return Ritorna l'esito della registrazione di un vaccinato
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     private synchronized boolean queryRegistrazioneVaccinato(Statement s, Vaccinazione v) throws SQLException, RemoteException {
         if (getPrenotazioni(getCittadino(v.getCf())).size() > getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() && getVaccinazioni(s, v.getNomeCV(), v.getCf()).size() < 2) {
@@ -264,7 +264,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param s Statement per eseguire la query
      * @param e Eccezione da registrare
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     private synchronized void queryRegistrazioneEventiAvversi(Statement s, EventoAvverso e) throws SQLException, RemoteException {
         s.executeUpdate(
@@ -306,7 +306,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param tipo Tipologia del centro vaccinale
      * @return Tutti i centri vaccinali che sono del tipo indicato e sono localizzati nel comune specificato
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws SQLException, RemoteException {
@@ -337,7 +337,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che ritorna tutti i centri vaccinali memorizzati nel databse
      * @return Tutti i centri vaccinali registrati nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<CentroVaccinale> centriRegistrati() throws SQLException, RemoteException {
@@ -360,7 +360,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param c Cittadino registrato al sistema
      * @return Una lista contenente le prenotazioni effettuate da un cittadino
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<Prenotazione> getPrenotazioni(Cittadino c) throws SQLException, RemoteException {
@@ -403,7 +403,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per la registrazione di un evento avverso
      * @param e Evento avverso da registrare
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public void registraEventoAvverso(EventoAvverso e) throws SQLException, RemoteException {
@@ -421,7 +421,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che ritorna tutti i tipi di eventi avversi registrati
      * @return Lista contenente i tipi di eventi avversi
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<String> getTipiEventoAvverso() throws SQLException, RemoteException {
@@ -443,7 +443,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che ritorna la lista di tutti gli indirizzi mail
      * @return Lista con tutti gli indirizzi mail
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<String> getEmail() throws SQLException, RemoteException {
@@ -465,7 +465,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che ritorna la lista di tutti gli userid
      * @return Lista con tutti gli userid
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<String> getUsedId() throws SQLException, RemoteException {
@@ -488,7 +488,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che ritorna la lista di tutti i codici fiscali
      * @return Lista con tutti i codici fiscali
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<String> getCF() throws SQLException, RemoteException {
@@ -528,7 +528,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per registrare una vaccinazione nel database
      * @param v Vaccinazione da inserire nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public boolean registraVaccinato(Vaccinazione v)  throws SQLException, RemoteException {
@@ -547,7 +547,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param cv Centro Vaccinale di cui interessa conoscere gli eventi avversi
      * @return Una lista contenente tutti gli eventi avversi registrati presso un centro
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public List<EventoAvverso> getEventiAvversi(CentroVaccinale cv) throws SQLException, RemoteException {
@@ -574,7 +574,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per registrare una prenotazione nel database
      * @param p Prenotazione da inserire nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public void prenotaVaccino(Prenotazione p)  throws SQLException, RemoteException {
@@ -594,7 +594,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * @param password Password inserita dall'utente che cerca di effettuare l'accesso al sistema
      * @return true se le credednziali di accesso sono corrette, altrimenti false
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public synchronized Cittadino loginCittadino(String userid, String password)  throws SQLException, RemoteException {
@@ -614,7 +614,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che conta tutti gli eventi avversi segnalati
      * @return Il numero di eventi avversi segnalati e registrati nel database
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public synchronized int contaEventiAvversi() throws SQLException, RemoteException {
@@ -631,7 +631,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo che conta il nuemero di prenotazioni effettuate
      * @return Il numero di prenotazioni effettuate e registrate
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public synchronized int contaPrenotazioni() throws SQLException, RemoteException {
@@ -648,7 +648,7 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
      * Metodo per contare il numero di vaccinazioni effettuate in tutti i centri vaccinali registrati nel sistema
      * @return Il numero totale di vaccinazioni effettuate
      * @throws SQLException Questo metodo può lanciare questa eccezione perchè al suo interno c'è una query
-     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server.MF perciò può lanciare un'eccezione di questo tipo
      */
     @Override
     public synchronized int contaVaccinati() throws SQLException, RemoteException {

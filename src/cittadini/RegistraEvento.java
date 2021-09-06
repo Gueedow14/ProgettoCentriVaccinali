@@ -30,7 +30,7 @@ import java.util.Objects;
 
 public class RegistraEvento {
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 

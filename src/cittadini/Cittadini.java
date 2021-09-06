@@ -32,7 +32,7 @@ import javax.swing.*;
 public class Cittadini {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
     /**

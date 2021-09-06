@@ -35,7 +35,7 @@ import java.util.Objects;
 public class ListaPrenotazioni extends UnicastRemoteObject {
 
     /**
-     * Indirizzo ip della macchina Server
+     * Indirizzo ip della macchina Server.MF
      */
     public static String ip = "";
 
