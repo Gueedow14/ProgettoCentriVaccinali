@@ -1,3 +1,9 @@
+/*
+Giulio Baricci 740285 Varese
+Guido Bernasconi 740539 Varese
+Davide Feldkircher 740956 Varese
+ */
+
 package server;
 
 import common.*;
@@ -98,6 +104,13 @@ public class ServerCV extends UnicastRemoteObject implements ClientCV {
         return null;
     }
 
+    /**
+     * Metodo che ritorna la severità media degli eventi segnalati presso un centro vaccinale
+     * @param nomeCV Nome del centro vaccinale
+     * @return Ritorna la severità media degli eventi segnalati presso un centro vaccinale
+     * @throws SQLException Questo metodo può lanciare questa eccezione perchè chiama un altro metodo al cui interno c'è una query
+     * @throws RemoteException Questo metodo è coinvolto in una comunicazione Client Server perciò può lanciare un'eccezione di questo tipo
+     */
     @Override
     public double getMediaSev(String nomeCV) throws SQLException, RemoteException {
         if (!conn.isValid(100))

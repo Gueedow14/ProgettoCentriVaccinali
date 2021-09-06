@@ -1,3 +1,9 @@
+/*
+Giulio Baricci 740285 Varese
+Guido Bernasconi 740539 Varese
+Davide Feldkircher 740956 Varese
+ */
+
 package cittadini;
 
 import centrivaccinali.RegistraCentri;
