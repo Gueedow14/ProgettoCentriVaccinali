@@ -1,12 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Cittadini">
-    <output-path>$PROJECT_DIR$/out/artifacts/Cittadini</output-path>
-    <root id="archive" name="untitled104.jar">
+  <artifact type="jar" name="Cittadini">
+    <output-path>$PROJECT_DIR$/bin</output-path>
+    <root id="archive" name="Cittadini.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MAN-CITTADINI/Cittadini.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="untitled104" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/postgresql-42.2.23.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/postgresql/postgresql/42.2.23/postgresql-42.2.23.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
