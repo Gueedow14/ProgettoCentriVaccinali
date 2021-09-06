@@ -296,7 +296,7 @@ public class InfoCentro extends UnicastRemoteObject {
         tipologiaCentro.setForeground(hex2Rgb("#1E90FF"));
         tipologiaCentro.setFont(new Font("Arial", Font.ITALIC, 18));
 
-        JLabel statistiche = new JLabel("Numero segnalazioni: " +stub.getEventiAvversi(cv).size()+ " con media severità pari a " /*+ (int) stub.getMediaSev(cv.getNome())*/);
+        JLabel statistiche = new JLabel("Numero segnalazioni: " +stub.getEventiAvversi(cv).size()+ " con media severità pari a " + stub.getMediaSev(cv.getNome()));
         statistiche.setBounds(110, 160, 500, 30);
         statistiche.setBackground(hex2Rgb("#FFFFFF"));
         statistiche.setForeground(hex2Rgb("#1E90FF"));
